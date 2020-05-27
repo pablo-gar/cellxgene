@@ -259,36 +259,6 @@ class HistogramBrush extends React.PureComponent {
     };
   }
 
-  handleSetGeneAsScatterplotX = () => {
-    const { dispatch, field } = this.props;
-    dispatch({
-      type: "set scatterplot x",
-      data: field,
-    });
-  };
-
-  handleSetGeneAsScatterplotY = () => {
-    const { dispatch, field } = this.props;
-    dispatch({
-      type: "set scatterplot y",
-      data: field,
-    });
-  };
-
-  handleColorAction = () => {
-    const { dispatch, field, world, ranges } = this.props;
-
-    if (world.obsAnnotations.hasCol(field)) {
-      dispatch({
-        type: "color by continuous metadata",
-        colorAccessor: field,
-        rangeForColorAccessor: ranges,
-      });
-    } else if (world.varData.hasCol(field)) {
-      dispatch(actions.requestSingleGeneExpressionCountsForColoringPOST(field));
-    }
-  };
-
   maybeScientific = (x) => {
     let format = ",";
     const _ticks = x.ticks(4);
@@ -304,37 +274,6 @@ class HistogramBrush extends React.PureComponent {
     }
 
     return format;
-  };
-
-  removeHistogram = () => {
-    const {
-      dispatch,
-      field,
-      isColorAccessor,
-      isScatterplotXXaccessor,
-      isScatterplotYYaccessor,
-    } = this.props;
-    dispatch({
-      type: "clear user defined gene",
-      data: field,
-    });
-    if (isColorAccessor) {
-      dispatch({
-        type: "reset colorscale",
-      });
-    }
-    if (isScatterplotXXaccessor) {
-      dispatch({
-        type: "set scatterplot x",
-        data: null,
-      });
-    }
-    if (isScatterplotYYaccessor) {
-      dispatch({
-        type: "set scatterplot y",
-        data: null,
-      });
-    }
   };
 
   drawHistogram(svgRef) {
@@ -457,14 +396,10 @@ class HistogramBrush extends React.PureComponent {
     const {
       field,
       world,
-      isColorAccessor,
       isUserDefined,
       isDiffExp,
       logFoldChange,
       pvalAdj,
-      isScatterplotXXaccessor,
-      isScatterplotYYaccessor,
-      zebra,
     } = this.props;
     const fieldForId = field.replace(/\s/g, "_");
     const {
@@ -487,72 +422,7 @@ class HistogramBrush extends React.PureComponent {
             ? "histogram-user-gene"
             : "histogram-continuous-metadata"
         }
-        style={{
-          padding: globals.leftSidebarSectionPadding,
-          backgroundColor: zebra ? globals.lightestGrey : "white",
-        }}
       >
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            paddingBottom: "8px",
-          }}
-        >
-          {isDiffExp || isUserDefined ? (
-            <span>
-              <span
-                style={{ marginRight: 7 }}
-                className="bp3-icon-standard bp3-icon-scatter-plot"
-              />
-              <ButtonGroup style={{ marginRight: 7 }}>
-                <Button
-                  data-testid={`plot-x-${field}`}
-                  onClick={this.handleSetGeneAsScatterplotX}
-                  active={isScatterplotXXaccessor}
-                  intent={isScatterplotXXaccessor ? "primary" : "none"}
-                >
-                  plot x
-                </Button>
-                <Button
-                  data-testid={`plot-y-${field}`}
-                  onClick={this.handleSetGeneAsScatterplotY}
-                  active={isScatterplotYYaccessor}
-                  intent={isScatterplotYYaccessor ? "primary" : "none"}
-                >
-                  plot y
-                </Button>
-              </ButtonGroup>
-            </span>
-          ) : null}
-          {isUserDefined ? (
-            <Button
-              minimal
-              onClick={this.removeHistogram}
-              style={{
-                color: globals.blue,
-                cursor: "pointer",
-                marginLeft: 7,
-              }}
-            >
-              remove
-            </Button>
-          ) : null}
-          <Tooltip
-            content="Use as color scale"
-            position="bottom"
-            hoverOpenDelay={globals.tooltipHoverOpenDelay}
-          >
-            <Button
-              onClick={this.handleColorAction}
-              active={isColorAccessor}
-              intent={isColorAccessor ? "primary" : "none"}
-              data-testclass="colorby"
-              data-testid={`colorby-${field}`}
-              icon="tint"
-            />
-          </Tooltip>
-        </div>
         <svg
           width={this.width}
           height={this.height}

@@ -4,7 +4,7 @@
 import React from "react";
 import _ from "lodash";
 import { connect } from "react-redux";
-import HistogramBrush from "../brushableHistogram";
+import Gene from "./gene";
 import * as globals from "../../globals";
 import AddGenes from "./addGenes";
 
@@ -43,7 +43,7 @@ class GeneExpression extends React.Component {
                 }
                 const summary = values.summarize();
                 return (
-                  <HistogramBrush
+                  <Gene
                     key={geneName}
                     field={geneName}
                     zebra={index % 2 === 0}
@@ -64,7 +64,7 @@ class GeneExpression extends React.Component {
                 }
                 const summary = values.summarize();
                 return (
-                  <HistogramBrush
+                  <Gene
                     key={name}
                     field={name}
                     zebra={index % 2 === 0}
