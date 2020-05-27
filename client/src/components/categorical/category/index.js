@@ -2,13 +2,7 @@ import React from "react";
 import _ from "lodash";
 import { connect } from "react-redux";
 import { FaChevronRight, FaChevronDown } from "react-icons/fa";
-import {
-  AnchorButton,
-  Button,
-  Tooltip,
-  Icon,
-  Position,
-} from "@blueprintjs/core";
+import { AnchorButton, Button, Tooltip, Position } from "@blueprintjs/core";
 import CategoryFlipperLayout from "./categoryFlipperLayout";
 import AnnoMenu from "./annoMenuCategory";
 import AnnoDialogEditCategoryName from "./annoDialogEditCategoryName";
@@ -278,9 +272,6 @@ class Category extends React.Component {
               }}
               onClick={this.handleCategoryClick}
             >
-              {isUserAnno ? (
-                <Icon style={{ marginRight: 5 }} icon="tag" iconSize={16} />
-              ) : null}
               {truncatedString || metadataField}
               {isExpanded ? (
                 <FaChevronDown
