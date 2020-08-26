@@ -25,7 +25,7 @@ build:
 # Development convenience methods
 .PHONY: start-frontend
 start-frontend:
-	node server/development.js
+	ts-node server/development.ts
 
 # start an instance of cellxgene and run the end-to-end tests
 .PHONY: smoke-test
