@@ -1,15 +1,12 @@
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'path'.
-const path = require("path");
-const historyApiFallback = require("connect-history-api-fallback");
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'chalk'.
-const chalk = require("chalk");
-const express = require("express");
-const favicon = require("serve-favicon");
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'webpack'.
-const webpack = require("webpack");
-const devMiddleware = require("webpack-dev-middleware");
-const config = require("../configuration/webpack/webpack.config.dev");
-const utils = require("./utils");
+import path from "path";
+import historyApiFallback from "connect-history-api-fallback";
+import chalk from "chalk";
+import express from "express";
+import favicon from "serve-favicon";
+import webpack from "webpack";
+import devMiddleware from "webpack-dev-middleware";
+import config from "../configuration/webpack/webpack.config.dev";
+import utils from "./utils";
 
 process.env.NODE_ENV = "development";
 

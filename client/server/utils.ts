@@ -1,7 +1,4 @@
-/* eslint-disable */
-// jshint esversion: 6
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'chalk'.
-var chalk = require("chalk");
+import chalk from "chalk";
 
 var friendlySyntaxErrorLabel = "Syntax error:";
 
@@ -78,4 +75,4 @@ var formatStats = (stats: any, port: any) => {
   }
 };
 
-module.exports = { formatStats: formatStats, clearConsole: clearConsole };
+export default { formatStats: formatStats, clearConsole: clearConsole };
