@@ -16,6 +16,7 @@ import PromiseLimit from "../util/promiseLimit";
 const promiseThrottle = new PromiseLimit(5);
 
 export default class AnnoMatrixLoader extends AnnoMatrix {
+  baseURL: any;
   /*
   AnnoMatrix implementation which proxies to HTTP server using the CXG REST API.
   Used as the base (non-view) instance.
@@ -26,7 +27,7 @@ export default class AnnoMatrixLoader extends AnnoMatrix {
     new AnnoMatrixLoader(serverBaseURL, schema) -> instance
 
   */
-  constructor(baseURL, schema) {
+  constructor(baseURL: any, schema: any) {
     const { nObs, nVar } = schema.dataframe;
     super(schema, nObs, nVar);
 
@@ -41,7 +42,7 @@ export default class AnnoMatrixLoader extends AnnoMatrix {
   /**
    ** Public.  API described in base class.
    **/
-  addObsAnnoCategory(col, category) {
+  addObsAnnoCategory(col: any, category: any) {
     /*
     Add a new category (aka label) to the schema for an obs column.
     */
@@ -53,7 +54,7 @@ export default class AnnoMatrixLoader extends AnnoMatrix {
     return newAnnoMatrix;
   }
 
-  async removeObsAnnoCategory(col, category, unassignedCategory) {
+  async removeObsAnnoCategory(col: any, category: any, unassignedCategory: any) {
     /*
     Remove a single "category" (aka "label") from the data & schema of an obs column.
     */
@@ -73,7 +74,7 @@ export default class AnnoMatrixLoader extends AnnoMatrix {
     return newAnnoMatrix;
   }
 
-  dropObsColumn(col) {
+  dropObsColumn(col: any) {
     /*
 		drop column from field
 		*/
@@ -81,11 +82,13 @@ export default class AnnoMatrixLoader extends AnnoMatrix {
     _writableCheck(colSchema); // throws on error
 
     const newAnnoMatrix = this._clone();
+    // @ts-expect-error ts-migrate(2339) FIXME: Property '_cache' does not exist on type 'AnnoMatr... Remove this comment to see the full error message
     newAnnoMatrix._cache.obs = this._cache.obs.dropCol(col);
     newAnnoMatrix.schema = removeObsAnnoColumn(this.schema, col);
     return newAnnoMatrix;
   }
 
+  // @ts-expect-error ts-migrate(7006) FIXME: Parameter 'colSchema' implicitly has an 'any' type... Remove this comment to see the full error message
   addObsColumn(colSchema, Ctor, value) {
     /*
 		add a column to field, initializing with value.  Value may 
@@ -98,6 +101,7 @@ export default class AnnoMatrixLoader extends AnnoMatrix {
     const colName = colSchema.name;
     if (
       _getColumnSchema(this.schema, "obs", colName) ||
+      // @ts-expect-error ts-migrate(2339) FIXME: Property '_cache' does not exist on type 'AnnoMatr... Remove this comment to see the full error message
       this._cache.obs.hasCol(colName)
     ) {
       throw new Error("column already exists");
@@ -114,6 +118,7 @@ export default class AnnoMatrixLoader extends AnnoMatrix {
     } else {
       data = new Ctor(this.nObs).fill(value);
     }
+    // @ts-expect-error ts-migrate(2339) FIXME: Property '_cache' does not exist on type 'AnnoMatr... Remove this comment to see the full error message
     newAnnoMatrix._cache.obs = this._cache.obs.withCol(colName, data);
     _normalizeCategoricalSchema(
       colSchema,
@@ -123,6 +128,7 @@ export default class AnnoMatrixLoader extends AnnoMatrix {
     return newAnnoMatrix;
   }
 
+  // @ts-expect-error ts-migrate(7006) FIXME: Parameter 'oldCol' implicitly has an 'any' type.
   renameObsColumn(oldCol, newCol) {
     /*
     Rename the obs oldColName to newColName.  oldCol must be writable.
@@ -130,8 +136,10 @@ export default class AnnoMatrixLoader extends AnnoMatrix {
     const oldColSchema = _getColumnSchema(this.schema, "obs", oldCol);
     _writableCheck(oldColSchema); // throws on error
 
+    // @ts-expect-error ts-migrate(2339) FIXME: Property '_cache' does not exist on type 'AnnoMatr... Remove this comment to see the full error message
     const value = this._cache.obs.hasCol(oldCol)
-      ? this._cache.obs.col(oldCol).asArray()
+      ? // @ts-expect-error ts-migrate(2339) FIXME: Property '_cache' does not exist on type 'AnnoMatr... Remove this comment to see the full error message
+        this._cache.obs.col(oldCol).asArray()
       : undefined;
     return this.dropObsColumn(oldCol).addObsColumn(
       {
@@ -143,6 +151,7 @@ export default class AnnoMatrixLoader extends AnnoMatrix {
     );
   }
 
+  // @ts-expect-error ts-migrate(7006) FIXME: Parameter 'col' implicitly has an 'any' type.
   async setObsColumnValues(col, rowLabels, value) {
     /*
 		Set all rows identified by rowLabels to value.
@@ -152,10 +161,12 @@ export default class AnnoMatrixLoader extends AnnoMatrix {
 
     // ensure that we have the data in cache before we manipulate it
     await this.fetch("obs", col);
+    // @ts-expect-error ts-migrate(2339) FIXME: Property '_cache' does not exist on type 'AnnoMatr... Remove this comment to see the full error message
     if (!this._cache.obs.hasCol(col))
       throw new Error("Internal error - user annotation data missing");
 
     const rowIndices = this.rowIndex.getOffsets(rowLabels);
+    // @ts-expect-error ts-migrate(2339) FIXME: Property '_cache' does not exist on type 'AnnoMatr... Remove this comment to see the full error message
     const data = this._cache.obs.col(col).asArray().slice();
     for (let i = 0, len = rowIndices.length; i < len; i += 1) {
       const idx = rowIndices[i];
@@ -164,6 +175,7 @@ export default class AnnoMatrixLoader extends AnnoMatrix {
     }
 
     const newAnnoMatrix = this._clone();
+    // @ts-expect-error ts-migrate(2339) FIXME: Property '_cache' does not exist on type 'AnnoMatr... Remove this comment to see the full error message
     newAnnoMatrix._cache.obs = this._cache.obs.replaceColData(col, data);
     const { categories } = colSchema;
     if (!categories?.includes(value)) {
@@ -172,6 +184,7 @@ export default class AnnoMatrixLoader extends AnnoMatrix {
     return newAnnoMatrix;
   }
 
+  // @ts-expect-error ts-migrate(7006) FIXME: Parameter 'col' implicitly has an 'any' type.
   async resetObsColumnValues(col, oldValue, newValue) {
     /*
     Set all rows with value 'oldValue' to 'newValue'.
@@ -185,15 +198,18 @@ export default class AnnoMatrixLoader extends AnnoMatrix {
 
     // ensure that we have the data in cache before we manipulate it
     await this.fetch("obs", col);
+    // @ts-expect-error ts-migrate(2339) FIXME: Property '_cache' does not exist on type 'AnnoMatr... Remove this comment to see the full error message
     if (!this._cache.obs.hasCol(col))
       throw new Error("Internal error - user annotation data missing");
 
+    // @ts-expect-error ts-migrate(2339) FIXME: Property '_cache' does not exist on type 'AnnoMatr... Remove this comment to see the full error message
     const data = this._cache.obs.col(col).asArray().slice();
     for (let i = 0, l = data.length; i < l; i += 1) {
       if (data[i] === oldValue) data[i] = newValue;
     }
 
     const newAnnoMatrix = this._clone();
+    // @ts-expect-error ts-migrate(2339) FIXME: Property '_cache' does not exist on type 'AnnoMatr... Remove this comment to see the full error message
     newAnnoMatrix._cache.obs = this._cache.obs.replaceColData(col, data);
     const { categories } = colSchema;
     if (!categories?.includes(newValue)) {
@@ -202,6 +218,7 @@ export default class AnnoMatrixLoader extends AnnoMatrix {
     return newAnnoMatrix;
   }
 
+  // @ts-expect-error ts-migrate(7006) FIXME: Parameter 'colSchema' implicitly has an 'any' type... Remove this comment to see the full error message
   addEmbedding(colSchema) {
     /*
     add new layout to the obs embeddings
@@ -219,6 +236,7 @@ export default class AnnoMatrixLoader extends AnnoMatrix {
   /**
    ** Private below
    **/
+  // @ts-expect-error ts-migrate(2416) FIXME: Type '(field: any, query: any) => Promise<any[]>' ... Remove this comment to see the full error message
   async _doLoad(field, query) {
     /*
     _doLoad - evaluates the query against the field. Returns:
@@ -282,6 +300,7 @@ export default class AnnoMatrixLoader extends AnnoMatrix {
 Utility functions below
 */
 
+// @ts-expect-error ts-migrate(7006) FIXME: Parameter 'colKey' implicitly has an 'any' type.
 function _encodeQuery(colKey, q) {
   if (typeof q === "object") {
     const { field: queryField, column: queryColumn, value: queryValue } = q;
@@ -293,12 +312,14 @@ function _encodeQuery(colKey, q) {
   return `${colKey}=${encodeURIComponent(q)}`;
 }
 
+// @ts-expect-error ts-migrate(7006) FIXME: Parameter 'colSchema' implicitly has an 'any' type... Remove this comment to see the full error message
 function _writableCheck(colSchema) {
   if (!colSchema?.writable) {
     throw new Error("Unknown or readonly obs column");
   }
 }
 
+// @ts-expect-error ts-migrate(7006) FIXME: Parameter 'colSchema' implicitly has an 'any' type... Remove this comment to see the full error message
 function _writableCategoryTypeCheck(colSchema) {
   _writableCheck(colSchema);
   if (colSchema.type !== "categorical") {

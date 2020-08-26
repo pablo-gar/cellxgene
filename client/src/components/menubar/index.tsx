@@ -1,19 +1,32 @@
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/react` if it exists or add... Remove this comment to see the full error message
 import React from "react";
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/react-redux` if it exists ... Remove this comment to see the full error message
 import { connect } from "react-redux";
 import { ButtonGroup, AnchorButton, Tooltip } from "@blueprintjs/core";
 
 import * as globals from "../../globals";
+// @ts-expect-error ts-migrate(2307) FIXME: Cannot find module './menubar.css' or its correspo... Remove this comment to see the full error message
 import styles from "./menubar.css";
 import actions from "../../actions";
+// @ts-expect-error ts-migrate(6142) FIXME: Module './clip' was resolved to '/Users/sbadajoz/d... Remove this comment to see the full error message
 import Clip from "./clip";
+// @ts-expect-error ts-migrate(6142) FIXME: Module './authButtons' was resolved to '/Users/sba... Remove this comment to see the full error message
 import AuthButtons from "./authButtons";
+// @ts-expect-error ts-migrate(6142) FIXME: Module './infoMenu' was resolved to '/Users/sbadaj... Remove this comment to see the full error message
 import InformationMenu from "./infoMenu";
+// @ts-expect-error ts-migrate(6142) FIXME: Module './subset' was resolved to '/Users/sbadajoz... Remove this comment to see the full error message
 import Subset from "./subset";
+// @ts-expect-error ts-migrate(6142) FIXME: Module './undoRedo' was resolved to '/Users/sbadaj... Remove this comment to see the full error message
 import UndoRedoReset from "./undoRedo";
+// @ts-expect-error ts-migrate(6142) FIXME: Module './diffexpButtons' was resolved to '/Users/... Remove this comment to see the full error message
 import DiffexpButtons from "./diffexpButtons";
+// @ts-expect-error ts-migrate(6142) FIXME: Module './reembedding' was resolved to '/Users/sba... Remove this comment to see the full error message
 import Reembedding from "./reembedding";
 import { getEmbSubsetView } from "../../util/stateManager/viewStackHelpers";
 
+type State = any;
+
+// @ts-expect-error ts-migrate(7006) FIXME: Parameter 'state' implicitly has an 'any' type.
 @connect((state) => {
   const { annoMatrix } = state;
   const crossfilter = state.obsCrossfilter;
@@ -57,8 +70,12 @@ import { getEmbSubsetView } from "../../util/stateManager/viewStackHelpers";
       state.config?.parameters?.["enable-reembedding"] ?? false,
   };
 })
-class MenuBar extends React.PureComponent {
-  static isValidDigitKeyEvent(e) {
+// @ts-expect-error ts-migrate(1219) FIXME: Experimental support for decorators is a feature t... Remove this comment to see the full error message
+class MenuBar extends React.PureComponent<{}, State> {
+  props: any;
+  setState: any;
+  state: any;
+  static isValidDigitKeyEvent(e: any) {
     /*
     Return true if this event is necessary to enter a percent number input.
     Return false if not.
@@ -82,7 +99,7 @@ class MenuBar extends React.PureComponent {
     return key >= 0 && key <= 9;
   }
 
-  constructor(props) {
+  constructor(props: {}) {
     super(props);
     this.state = {
       pendingClipPercentiles: null,
@@ -111,7 +128,7 @@ class MenuBar extends React.PureComponent {
     return isDisabled;
   };
 
-  handleClipOnKeyPress = (e) => {
+  handleClipOnKeyPress = (e: any) => {
     /*
     allow only numbers, plus other critical keys which
     may be required to make a number
@@ -121,7 +138,7 @@ class MenuBar extends React.PureComponent {
     }
   };
 
-  handleClipPercentileMinValueChange = (v) => {
+  handleClipPercentileMinValueChange = (v: any) => {
     /*
     Ignore anything that isn't a legit number
     */
@@ -141,7 +158,7 @@ class MenuBar extends React.PureComponent {
     });
   };
 
-  handleClipPercentileMaxValueChange = (v) => {
+  handleClipPercentileMaxValueChange = (v: any) => {
     /*
     Ignore anything that isn't a legit number
     */
@@ -235,6 +252,7 @@ class MenuBar extends React.PureComponent {
         : ["select", "polygon-filter"];
 
     return (
+      // @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message
       <div
         style={{
           position: "absolute",
@@ -248,18 +266,22 @@ class MenuBar extends React.PureComponent {
           zIndex: 3,
         }}
       >
+        {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
         <AuthButtons auth={auth} userinfo={userinfo} />
+        {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
         <InformationMenu
           libraryVersions={libraryVersions}
           aboutLink={aboutLink}
           tosURL={tosURL}
           privacyURL={privacyURL}
         />
+        {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
         <UndoRedoReset
           dispatch={dispatch}
           undoDisabled={undoDisabled}
           redoDisabled={redoDisabled}
         />
+        {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
         <Clip
           pendingClipPercentiles={pendingClipPercentiles}
           clipPercentileMin={clipPercentileMin}
@@ -276,12 +298,15 @@ class MenuBar extends React.PureComponent {
             this.handleClipPercentileMinValueChange
           }
         />
+        {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
         {enableReembedding ? <Reembedding /> : null}
+        {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
         <Tooltip
           content="When a category is colored by, show labels on the graph"
           position="bottom"
           disabled={graphInteractionMode === "zoom"}
         >
+          {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
           <AnchorButton
             className={styles.menubarButton}
             type="button"
@@ -293,12 +318,15 @@ class MenuBar extends React.PureComponent {
             disabled={!isColoredByCategorical}
           />
         </Tooltip>
+        {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
         <ButtonGroup className={styles.menubarButton}>
+          {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
           <Tooltip
             content={selectionTooltip}
             position="bottom"
             hoverOpenDelay={globals.tooltipHoverOpenDelay}
           >
+            {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
             <AnchorButton
               type="button"
               data-testid="mode-lasso"
@@ -312,11 +340,13 @@ class MenuBar extends React.PureComponent {
               }}
             />
           </Tooltip>
+          {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
           <Tooltip
             content="Drag to pan, scroll to zoom"
             position="bottom"
             hoverOpenDelay={globals.tooltipHoverOpenDelay}
           >
+            {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
             <AnchorButton
               type="button"
               data-testid="mode-pan-zoom"
@@ -331,13 +361,16 @@ class MenuBar extends React.PureComponent {
             />
           </Tooltip>
         </ButtonGroup>
+        {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
         <Subset
           subsetPossible={subsetPossible}
           subsetResetPossible={subsetResetPossible}
           handleSubset={this.handleSubset}
           handleSubsetReset={this.handleSubsetReset}
         />
+        {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
         {disableDiffexp ? null : <DiffexpButtons />}
+      {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
       </div>
     );
   }

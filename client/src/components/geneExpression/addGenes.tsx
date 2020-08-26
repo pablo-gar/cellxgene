@@ -1,8 +1,11 @@
 /* rc slider https://www.npmjs.com/package/rc-slider */
 
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/react` if it exists or add... Remove this comment to see the full error message
 import React from "react";
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/lodash` if it exists or ad... Remove this comment to see the full error message
 import _ from "lodash";
 import fuzzysort from "fuzzysort";
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/react-redux` if it exists ... Remove this comment to see the full error message
 import { connect } from "react-redux";
 import { Suggest } from "@blueprintjs/select";
 import {
@@ -21,7 +24,10 @@ import {
 
 import { memoize } from "../../util/dataframe/util";
 
-const renderGene = (fuzzySortResult, { handleClick, modifiers }) => {
+const renderGene = (fuzzySortResult: any, {
+  handleClick,
+  modifiers
+}: any) => {
   if (!modifiers.matchesPredicate) {
     return null;
   }
@@ -29,27 +35,30 @@ const renderGene = (fuzzySortResult, { handleClick, modifiers }) => {
   const geneName = fuzzySortResult.target;
 
   return (
+    // @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
     <MenuItem
       active={modifiers.active}
       disabled={modifiers.disabled}
       data-testid={`suggest-menu-item-${geneName}`}
       key={geneName}
-      onClick={(g) =>
-        /* this fires when user clicks a menu item */
-        handleClick(g)
+      onClick={(g: any) => /* this fires when user clicks a menu item */
+      handleClick(g)
       }
       text={geneName}
     />
   );
 };
 
-const filterGenes = (query, genes) =>
+const filterGenes = (query: any, genes: any) =>
   /* fires on load, once, and then for each character typed into the input */
   fuzzysort.go(query, genes, {
     limit: 5,
     threshold: -10000, // don't return bad results
   });
 
+type State = any;
+
+// @ts-expect-error ts-migrate(7006) FIXME: Parameter 'state' implicitly has an 'any' type.
 @connect((state) => {
   return {
     annoMatrix: state.annoMatrix,
@@ -58,8 +67,12 @@ const filterGenes = (query, genes) =>
     differential: state.differential,
   };
 })
-class AddGenes extends React.Component {
-  constructor(props) {
+// @ts-expect-error ts-migrate(1219) FIXME: Experimental support for decorators is a feature t... Remove this comment to see the full error message
+class AddGenes extends React.Component<{}, State> {
+  props: any;
+  setState: any;
+  state: any;
+  constructor(props: {}) {
     super(props);
     this.state = {
       bulkAdd: "",
@@ -71,14 +84,15 @@ class AddGenes extends React.Component {
   }
 
   componentDidMount() {
+    // @ts-expect-error ts-migrate(2554) FIXME: Expected 1 arguments, but got 0.
     this.updateState();
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: {}) {
     this.updateState(prevProps);
   }
 
-  _genesToUpper = (listGenes) => {
+  _genesToUpper = (listGenes: any) => {
     // Has to be a Map to preserve index
     const upperGenes = new Map();
     for (let i = 0, { length } = listGenes; i < length; i += 1) {
@@ -89,7 +103,7 @@ class AddGenes extends React.Component {
   };
 
   // eslint-disable-next-line react/sort-comp -- memo requires a defined _genesToUpper
-  _memoGenesToUpper = memoize(this._genesToUpper, (arr) => arr);
+  _memoGenesToUpper = memoize(this._genesToUpper, (arr: any) => arr);
 
   handleBulkAddClick = () => {
     const { dispatch, userDefinedGenes } = this.props;
@@ -113,6 +127,7 @@ class AddGenes extends React.Component {
       dispatch({ type: "bulk user defined gene start" });
 
       Promise.all(
+        // @ts-expect-error ts-migrate(2569) FIXME: Type 'IterableIterator<any>' is not an array type ... Remove this comment to see the full error message
         [...upperGenes.keys()].map((upperGene) => {
           if (upperUserDefinedGenes.get(upperGene) !== undefined) {
             return keepAroundErrorToast("That gene already exists");
@@ -141,7 +156,7 @@ class AddGenes extends React.Component {
     return undefined;
   };
 
-  async updateState(prevProps) {
+  async updateState(prevProps: any) {
     const { annoMatrix } = this.props;
     if (!annoMatrix) return;
     if (annoMatrix !== prevProps?.annoMatrix) {
@@ -191,7 +206,7 @@ class AddGenes extends React.Component {
     return "Apod, Cd74, ...";
   }
 
-  handleClick(g) {
+  handleClick(g: any) {
     const { dispatch, userDefinedGenes } = this.props;
     const { geneNames } = this.state;
     if (!g) return;
@@ -219,12 +234,15 @@ class AddGenes extends React.Component {
     if (status !== "success") return null;
 
     return (
+      // @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message
       <div>
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         <div
           style={{
             padding: globals.leftSidebarSectionPadding,
           }}
         >
+          {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
           <Button
             active={tab === "autosuggest"}
             style={{ marginRight: 5 }}
@@ -237,6 +255,7 @@ class AddGenes extends React.Component {
           >
             Autosuggest genes
           </Button>
+          {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
           <Button
             active={tab === "bulkadd"}
             minimal
@@ -248,35 +267,42 @@ class AddGenes extends React.Component {
           >
             Bulk add genes
           </Button>
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         </div>
         {tab === "autosuggest" ? (
+          // @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
           <ControlGroup
+            // @ts-expect-error ts-migrate(2322) FIXME: Property 'style' does not exist on type 'IControlG... Remove this comment to see the full error message
             style={{
               paddingLeft: globals.leftSidebarSectionPadding,
               paddingBottom: globals.leftSidebarSectionPadding,
             }}
           >
+            {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
             <Suggest
               resetOnSelect
               closeOnSelect
               resetOnClose
               itemDisabled={userDefinedGenesLoading ? () => true : () => false}
+              // @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
               noResults={<MenuItem disabled text="No matching genes." />}
-              onItemSelect={(g) => {
+              onItemSelect={(g: any) => {
                 /* this happens on 'enter' */
                 this.handleClick(g);
               }}
+              // @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
               initialContent={<MenuItem disabled text="Enter a gene…" />}
               inputProps={{ "data-testid": "gene-search" }}
               inputValueRenderer={() => {
                 return "";
               }}
               itemListPredicate={filterGenes}
-              onActiveItemChange={(item) => this.setState({ activeItem: item })}
+              onActiveItemChange={(item: any) => this.setState({ activeItem: item })}
               itemRenderer={renderGene}
               items={geneNames || ["No genes"]}
               popoverProps={{ minimal: true }}
             />
+            {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
             <Button
               className="bp3-button bp3-intent-primary"
               data-testid="add-gene"
@@ -288,20 +314,25 @@ class AddGenes extends React.Component {
           </ControlGroup>
         ) : null}
         {tab === "bulkadd" ? (
+          // @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message
           <div style={{ paddingLeft: globals.leftSidebarSectionPadding }}>
+            {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
             <form
-              onSubmit={(e) => {
+              onSubmit={(e: any) => {
                 e.preventDefault();
                 this.handleBulkAddClick();
               }}
             >
+              {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
               <FormGroup
                 helperText="Add a list of genes (comma delimited)"
                 labelFor="text-input-bulk-add"
               >
+                {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
                 <ControlGroup>
+                  {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
                   <InputGroup
-                    onChange={(e) => {
+                    onChange={(e: any) => {
                       this.setState({ bulkAdd: e.target.value });
                     }}
                     id="text-input-bulk-add"
@@ -309,6 +340,7 @@ class AddGenes extends React.Component {
                     placeholder={this.placeholderGeneNames()}
                     value={bulkAdd}
                   />
+                  {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
                   <Button
                     intent="primary"
                     onClick={this.handleBulkAddClick}
@@ -318,9 +350,12 @@ class AddGenes extends React.Component {
                   </Button>
                 </ControlGroup>
               </FormGroup>
+            {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
             </form>
+          {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
           </div>
         ) : null}
+      {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
       </div>
     );
   }

@@ -1,5 +1,6 @@
 // jshint esversion: 6
 
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/lodash` if it exists or ad... Remove this comment to see the full error message
 import _ from "lodash";
 import { subsetAndResetGeneLists } from "../util/stateManager/controlsHelpers";
 
@@ -21,7 +22,7 @@ const Controls = (
     scatterplotYYaccessor: null,
     graphRenderCounter: 0 /* integer as <Component key={graphRenderCounter} - a change in key forces a remount */,
   },
-  action
+  action: any
 ) => {
   /*
   For now, log anything looking like an error to the console.
@@ -90,7 +91,7 @@ const Controls = (
       };
     }
     case "request differential expression success": {
-      const diffexpGenes = action.data.map((v) => v[0]);
+      const diffexpGenes = action.data.map((v: any) => v[0]);
       return {
         ...state,
         diffexpGenes,
@@ -106,7 +107,7 @@ const Controls = (
       const { userDefinedGenes } = state;
       const newUserDefinedGenes = _.filter(
         userDefinedGenes,
-        (d) => d !== action.data
+        (d: any) => d !== action.data
       );
       return {
         ...state,

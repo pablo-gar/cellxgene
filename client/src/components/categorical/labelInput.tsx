@@ -1,9 +1,12 @@
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/react` if it exists or add... Remove this comment to see the full error message
 import React from "react";
 import { InputGroup, MenuItem, Keys } from "@blueprintjs/core";
 import { Suggest } from "@blueprintjs/select";
 import fuzzysort from "fuzzysort";
 
-export default class LabelInput extends React.PureComponent {
+type State = any;
+
+export default class LabelInput extends React.PureComponent<{}, State> {
   /*
   Input widget for text labels, which acts like an InputGroup, but will also 
   accept a suggestion list (of labels), with sublime-like suggest search.
@@ -26,9 +29,14 @@ export default class LabelInput extends React.PureComponent {
   /* maxinum number of suggestions */
   static QueryResultLimit = 100;
 
-  constructor(props) {
+  props: any;
+  setState: any;
+  state: any;
+
+  constructor(props: {}) {
     super(props);
 
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'label' does not exist on type '{}'.
     const { label } = props;
     const query = label || "";
     const queryResults = this.filterLabels(query);
@@ -38,7 +46,7 @@ export default class LabelInput extends React.PureComponent {
     };
   }
 
-  handleQueryChange = (query, event) => {
+  handleQueryChange = (query: any, event: any) => {
     // https://github.com/palantir/blueprint/issues/2983
     if (!event) return;
 
@@ -52,7 +60,7 @@ export default class LabelInput extends React.PureComponent {
     if (onChange) onChange(query, event);
   };
 
-  handleItemSelect = (item, event) => {
+  handleItemSelect = (item: any, event: any) => {
     /* only report the select if not already reported via onChange() */
     const { target } = item;
     const { query } = this.state;
@@ -60,7 +68,7 @@ export default class LabelInput extends React.PureComponent {
     if (target !== query && onSelect) onSelect(target, event);
   };
 
-  handleKeyDown = (e) => {
+  handleKeyDown = (e: any) => {
     /* 
     prevent these events from propagating to containing form/dialog
     and causing further side effects (eg, closing dialog, submitting
@@ -75,27 +83,33 @@ export default class LabelInput extends React.PureComponent {
     }
   };
 
-  handleChange = (e) => {
+  handleChange = (e: any) => {
     const { onChange } = this.props;
     if (onChange) onChange(e.target.value);
   };
 
-  renderLabelSuggestion = (queryResult, { handleClick, modifiers }) => {
+  renderLabelSuggestion = (queryResult: any, {
+    handleClick,
+    modifiers
+  }: any) => {
     if (queryResult.newLabel) {
       const { newLabelMessage } = this.props;
       return (
+        // @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
         <MenuItem
           icon="flag"
           active={modifiers.active}
           disabled={modifiers.disabled}
           key={queryResult.target}
           onClick={handleClick}
+          // @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message
           text={<em>{queryResult.target}</em>}
           label={newLabelMessage || "New label"}
         />
       );
     }
     return (
+      // @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
       <MenuItem
         active={modifiers.active}
         disabled={modifiers.disabled}
@@ -106,7 +120,7 @@ export default class LabelInput extends React.PureComponent {
     );
   };
 
-  filterLabels(query) {
+  filterLabels(query: any) {
     const { labelSuggestions } = this.props;
     if (!labelSuggestions) return [];
 
@@ -114,10 +128,10 @@ export default class LabelInput extends React.PureComponent {
     if (query === "") {
       return labelSuggestions
         .slice(0, LabelInput.QueryResultLimit)
-        .map((l) => ({
-          target: l,
-          score: -10000,
-        }));
+        .map((l: any) => ({
+        target: l,
+        score: -10000
+      }));
     }
 
     /* else, do a fuzzy query */
@@ -128,6 +142,7 @@ export default class LabelInput extends React.PureComponent {
     let queryResults = fuzzysort.go(query, labelSuggestions, options);
     /* exact match will always be first in list */
     if (query !== "" && queryResults[0]?.target !== query)
+      // @ts-expect-error ts-migrate(2322) FIXME: Object literal may only specify known properties, ... Remove this comment to see the full error message
       queryResults = [{ target: query, newLabel: true }, ...queryResults];
 
     return queryResults;
@@ -140,6 +155,7 @@ export default class LabelInput extends React.PureComponent {
 
     if (!suggestEnabled) {
       return (
+        // @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
         <InputGroup
           autoFocus={autoFocus}
           {...props.inputProps} // eslint-disable-line react/jsx-props-no-spreading --- Allows for modularity
@@ -158,21 +174,21 @@ export default class LabelInput extends React.PureComponent {
       autoFocus: false,
     };
     const { queryResults } = this.state;
-    return (
-      <>
-        <Suggest
-          fill
-          inputValueRenderer={(i) => i.target}
-          items={queryResults}
-          itemRenderer={this.renderLabelSuggestion}
-          onItemSelect={this.handleItemSelect}
-          query={label}
-          onQueryChange={this.handleQueryChange}
-          popoverProps={popoverProps}
-          inputProps={inputProps}
-          onKeyDown={this.handleKeyDown}
-        />
-      </>
-    );
+    // @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
+    return <>
+      {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
+      <Suggest
+        fill
+        inputValueRenderer={(i: any) => i.target}
+        items={queryResults}
+        itemRenderer={this.renderLabelSuggestion}
+        onItemSelect={this.handleItemSelect}
+        query={label}
+        onQueryChange={this.handleQueryChange}
+        popoverProps={popoverProps}
+        inputProps={inputProps}
+        onKeyDown={this.handleKeyDown}
+      />
+    </>;
   }
 }

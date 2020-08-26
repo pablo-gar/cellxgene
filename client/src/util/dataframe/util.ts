@@ -4,13 +4,14 @@ Private utility code for dataframe
 
 export { isTypedArray, isArrayOrTypedArray } from "../typeHelpers";
 
-export function callOnceLazy(f) {
+export function callOnceLazy(f: any) {
   /*
   call function once, and save the result, regardless of arguments (this is not
   the same as typical memoization).
   */
-  let value;
+  let value: any;
   let calledOnce = false;
+  // @ts-expect-error ts-migrate(7019) FIXME: Rest parameter 'args' implicitly has an 'any[]' ty... Remove this comment to see the full error message
   const result = function result(...args) {
     if (!calledOnce) {
       value = f(...args);
@@ -21,7 +22,7 @@ export function callOnceLazy(f) {
   return result;
 }
 
-export function memoize(fn, hashFn, maxResultsCached = -1) {
+export function memoize(fn: any, hashFn: any, maxResultsCached = -1) {
   /* 
   function memoization, with user-provided hash.  hashFn must return a
   key which will be unique as a Map key (ie, obeys "sameValueZero" algorithm
@@ -29,6 +30,7 @@ export function memoize(fn, hashFn, maxResultsCached = -1) {
   https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map#Key_equality
   */
   const cache = new Map();
+  // @ts-expect-error ts-migrate(7019) FIXME: Rest parameter 'args' implicitly has an 'any[]' ty... Remove this comment to see the full error message
   const wrap = function wrap(...args) {
     const key = hashFn(...args);
     if (cache.has(key)) {

@@ -1,26 +1,39 @@
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/react` if it exists or add... Remove this comment to see the full error message
 import React from "react";
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/react-redux` if it exists ... Remove this comment to see the full error message
 import { connect } from "react-redux";
+// @ts-expect-error ts-migrate(6142) FIXME: Module '../annoDialog' was resolved to '/Users/sba... Remove this comment to see the full error message
 import AnnoDialog from "../annoDialog";
+// @ts-expect-error ts-migrate(6142) FIXME: Module '../labelInput' was resolved to '/Users/sba... Remove this comment to see the full error message
 import LabelInput from "../labelInput";
+// @ts-expect-error ts-migrate(6142) FIXME: Module '../labelUtil' was resolved to '/Users/sbad... Remove this comment to see the full error message
 import { labelPrompt } from "../labelUtil";
 
 import { AnnotationsHelpers } from "../../../util/stateManager";
 import actions from "../../../actions";
 
+type State = any;
+
+// @ts-expect-error ts-migrate(7006) FIXME: Parameter 'state' implicitly has an 'any' type.
 @connect((state) => ({
   annotations: state.annotations,
   schema: state.annoMatrix?.schema,
   ontology: state.ontology,
 }))
-class AnnoDialogEditCategoryName extends React.PureComponent {
-  constructor(props) {
+// @ts-expect-error ts-migrate(1219) FIXME: Experimental support for decorators is a feature t... Remove this comment to see the full error message
+class AnnoDialogEditCategoryName extends React.PureComponent<{}, State> {
+  props: any;
+  setState: any;
+  state: any;
+  constructor(props: {}) {
     super(props);
     this.state = {
+      // @ts-expect-error ts-migrate(2339) FIXME: Property 'metadataField' does not exist on type '{... Remove this comment to see the full error message
       newCategoryText: props.metadataField,
     };
   }
 
-  handleChangeOrSelect = (name) => {
+  handleChangeOrSelect = (name: any) => {
     this.setState({
       newCategoryText: name,
     });
@@ -34,7 +47,7 @@ class AnnoDialogEditCategoryName extends React.PureComponent {
     this.setState({ newCategoryText: metadataField });
   };
 
-  handleEditCategory = (e) => {
+  handleEditCategory = (e: any) => {
     const { dispatch, metadataField } = this.props;
     const { newCategoryText } = this.state;
 
@@ -43,7 +56,7 @@ class AnnoDialogEditCategoryName extends React.PureComponent {
     we render as categorical.
     */
     const { schema } = this.props;
-    const allCategoryNames = schema.annotations.obs.columns.map((c) => c.name);
+    const allCategoryNames = schema.annotations.obs.columns.map((c: any) => c.name);
 
     if (
       (allCategoryNames.indexOf(newCategoryText) > -1 &&
@@ -62,7 +75,7 @@ class AnnoDialogEditCategoryName extends React.PureComponent {
     e.preventDefault();
   };
 
-  editedCategoryNameError = (name) => {
+  editedCategoryNameError = (name: any) => {
     const { metadataField } = this.props;
 
     /* check for syntax errors in category name */
@@ -78,7 +91,7 @@ class AnnoDialogEditCategoryName extends React.PureComponent {
     we render as categorical.
     */
     const { schema } = this.props;
-    const allCategoryNames = schema.annotations.obs.columns.map((c) => c.name);
+    const allCategoryNames = schema.annotations.obs.columns.map((c: any) => c.name);
 
     const categoryNameAlreadyExists = allCategoryNames.indexOf(name) > -1;
     const sameName = name === metadataField;
@@ -90,7 +103,7 @@ class AnnoDialogEditCategoryName extends React.PureComponent {
     return false;
   };
 
-  instruction = (name) => {
+  instruction = (name: any) => {
     return labelPrompt(
       this.editedCategoryNameError(name),
       "New, unique category name",
@@ -100,7 +113,7 @@ class AnnoDialogEditCategoryName extends React.PureComponent {
 
   allCategoryNames() {
     const { schema } = this.props;
-    return schema.annotations.obs.columns.map((c) => c.name);
+    return schema.annotations.obs.columns.map((c: any) => c.name);
   }
 
   render() {
@@ -109,7 +122,9 @@ class AnnoDialogEditCategoryName extends React.PureComponent {
     const ontologyEnabled = ontology?.enabled ?? false;
 
     return (
+      // @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
       <>
+        {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
         <AnnoDialog
           isActive={
             annotations.isEditingCategoryName &&
@@ -130,6 +145,7 @@ class AnnoDialogEditCategoryName extends React.PureComponent {
           handleSubmit={this.handleEditCategory}
           handleCancel={this.disableEditCategoryMode}
           annoInput={
+            // @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             <LabelInput
               label={newCategoryText}
               labelSuggestions={ontologyEnabled ? ontology.terms : null}

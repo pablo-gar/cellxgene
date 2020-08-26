@@ -1,4 +1,5 @@
 // jshint esversion: 6
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/d3` if it exists or add a ... Remove this comment to see the full error message
 import * as d3 from "d3";
 import Lasso from "./setupLasso";
 
@@ -9,12 +10,12 @@ import Lasso from "./setupLasso";
 ******************************************/
 
 export default (
-  selectionToolType,
-  handleStartAction,
-  handleDragAction,
-  handleEndAction,
-  handleCancelAction,
-  viewport
+  selectionToolType: any,
+  handleStartAction: any,
+  handleDragAction: any,
+  handleEndAction: any,
+  handleCancelAction: any,
+  viewport: any
 ) => {
   const svg = d3.select("#graph-wrapper").select("#lasso-layer");
   if (svg.empty()) return {};

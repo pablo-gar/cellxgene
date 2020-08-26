@@ -1,4 +1,6 @@
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/react` if it exists or add... Remove this comment to see the full error message
 import React, { PureComponent } from "react";
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/react-redux` if it exists ... Remove this comment to see the full error message
 import { connect, shallowEqual } from "react-redux";
 import Async from "react-async";
 
@@ -6,6 +8,7 @@ import { categoryLabelDisplayStringLongLength } from "../../../globals";
 import calcCentroid from "../../../util/centroid";
 import { createColorQuery } from "../../../util/stateManager/colorHelpers";
 
+// @ts-expect-error ts-migrate(7006) FIXME: Parameter 'state' implicitly has an 'any' type.
 @connect((state) => ({
   annoMatrix: state.annoMatrix,
   colors: state.colors,
@@ -14,12 +17,14 @@ import { createColorQuery } from "../../../util/stateManager/colorHelpers";
   categoricalSelection: state.categoricalSelection,
   showLabels: state.centroidLabels?.showLabels,
 }))
+// @ts-expect-error ts-migrate(1219) FIXME: Experimental support for decorators is a feature t... Remove this comment to see the full error message
 class CentroidLabels extends PureComponent {
-  static watchAsync(props, prevProps) {
+  props: any;
+  static watchAsync(props: any, prevProps: any) {
     return !shallowEqual(props.watchProps, prevProps.watchProps);
   }
 
-  fetchAsyncProps = async (props) => {
+  fetchAsyncProps = async (props: any) => {
     const {
       annoMatrix,
       colors,
@@ -54,7 +59,7 @@ class CentroidLabels extends PureComponent {
     };
   };
 
-  handleMouseEnter = (e, colorAccessor, label) => {
+  handleMouseEnter = (e: any, colorAccessor: any, label: any) => {
     const { dispatch } = this.props;
     dispatch({
       type: "category value mouse hover start",
@@ -63,7 +68,7 @@ class CentroidLabels extends PureComponent {
     });
   };
 
-  handleMouseOut = (e, colorAccessor, label) => {
+  handleMouseOut = (e: any, colorAccessor: any, label: any) => {
     const { dispatch } = this.props;
     dispatch({
       type: "category value mouse hover end",
@@ -108,6 +113,7 @@ class CentroidLabels extends PureComponent {
     } = this.props;
 
     return (
+      // @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
       <Async
         watchFn={CentroidLabels.watchAsync}
         promiseFn={this.fetchAsyncProps}
@@ -120,15 +126,16 @@ class CentroidLabels extends PureComponent {
           showLabels,
         }}
       >
+        {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
         <Async.Fulfilled>
-          {(asyncProps) => {
+          {(asyncProps: any) => {
             if (!showLabels) return null;
 
-            const labelSVGS = [];
+            const labelSVGS: any = [];
             const deselectOpacity = 0.375;
             const { category, colorAccessor, labels } = asyncProps;
 
-            labels.forEach((coords, label) => {
+            labels.forEach((coords: any, label: any) => {
               const selected = category.get(label) ?? true;
 
               // Mirror LSB middle truncation
@@ -141,6 +148,7 @@ class CentroidLabels extends PureComponent {
               }
 
               labelSVGS.push(
+                // @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                 // eslint-disable-next-line jsx-a11y/mouse-events-have-key-events -- the mouse actions for centroid labels do not have a screen reader alternative
                 <Label
                   key={label} // eslint-disable-line react/no-array-index-key --- label is not an index, eslint is confused
@@ -157,6 +165,7 @@ class CentroidLabels extends PureComponent {
               );
             });
 
+            // @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             return <>{labelSVGS}</>;
           }}
         </Async.Fulfilled>
@@ -174,8 +183,8 @@ const Label = ({
   colorAccessor,
   displayLabel,
   onMouseEnter,
-  onMouseOut,
-}) => {
+  onMouseOut
+}: any) => {
   /*
   Render a label at a given coordinate.
   */
@@ -187,6 +196,7 @@ const Label = ({
   }
 
   return (
+    // @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message
     <g
       key={label}
       className="centroid-label"
@@ -195,6 +205,7 @@ const Label = ({
       data-testid={`${label}-centroid-label`}
     >
       {/* eslint-disable-next-line jsx-a11y/mouse-events-have-key-events --- the mouse actions for centroid labels do not have a screen reader alternative*/}
+      {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
       <text
         transform={inverseTransform}
         textAnchor="middle"
@@ -205,12 +216,14 @@ const Label = ({
           userSelect: "none",
           opacity: { opacity },
         }}
-        onMouseEnter={(e) => onMouseEnter(e, colorAccessor, label)}
-        onMouseOut={(e) => onMouseOut(e, colorAccessor, label)}
+        onMouseEnter={(e: any) => onMouseEnter(e, colorAccessor, label)}
+        onMouseOut={(e: any) => onMouseOut(e, colorAccessor, label)}
         pointerEvents="visiblePainted"
       >
         {displayLabel}
+      {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
       </text>
+    {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
     </g>
   );
 };

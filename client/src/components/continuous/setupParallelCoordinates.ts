@@ -4,9 +4,10 @@
 ******************************************
 ******************************************/
 // jshint esversion: 6
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/d3` if it exists or add a ... Remove this comment to see the full error message
 import * as d3 from "d3";
 
-const setupParallelCoordinates = (width, height, margin) => {
+const setupParallelCoordinates = (width: any, height: any, margin: any) => {
   const container = d3.select("#parcoords");
 
   const svg = container

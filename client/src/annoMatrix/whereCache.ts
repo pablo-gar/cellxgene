@@ -23,6 +23,7 @@ the index.
 */
 import { _getColumnDimensionNames } from "./schema";
 
+// @ts-expect-error ts-migrate(7006) FIXME: Parameter 'whereCache' implicitly has an 'any' typ... Remove this comment to see the full error message
 export function _whereCacheGet(whereCache, schema, field, query) {
   /* 
 	query will either be an where query (object) or a column name (string).
@@ -47,6 +48,7 @@ export function _whereCacheGet(whereCache, schema, field, query) {
   return colDims === undefined ? [undefined] : colDims;
 }
 
+// @ts-expect-error ts-migrate(7006) FIXME: Parameter 'field' implicitly has an 'any' type.
 export function _whereCacheCreate(field, query, columnLabels) {
   /*
 	Create a new whereCache
@@ -64,6 +66,7 @@ export function _whereCacheCreate(field, query, columnLabels) {
   return whereCache;
 }
 
+// @ts-expect-error ts-migrate(7006) FIXME: Parameter 'dst' implicitly has an 'any' type.
 function __whereCacheMerge(dst, src) {
   /*
 	merge src into dst (modifies dst)
@@ -72,12 +75,15 @@ function __whereCacheMerge(dst, src) {
   if (!src || typeof src !== "object") return dst;
   Object.entries(src).forEach(([field, query]) => {
     if (!Object.prototype.hasOwnProperty.call(dst, field)) dst[field] = {};
+    // @ts-expect-error ts-migrate(2769) FIXME: Argument of type 'unknown' is not assignable to pa... Remove this comment to see the full error message
     Object.entries(query).forEach(([queryField, columnMap]) => {
       if (!Object.prototype.hasOwnProperty.call(dst[field], queryField))
         dst[field][queryField] = new Map();
+      // @ts-expect-error ts-migrate(2571) FIXME: Object is of type 'unknown'.
       columnMap.forEach((valueMap, queryColumn) => {
         if (!dst[field][queryField].has(queryColumn))
           dst[field][queryField].set(queryColumn, new Map());
+        // @ts-expect-error ts-migrate(7006) FIXME: Parameter 'columnLabels' implicitly has an 'any' t... Remove this comment to see the full error message
         valueMap.forEach((columnLabels, queryValue) => {
           dst[field][queryField].get(queryColumn).set(queryValue, columnLabels);
         });
@@ -87,6 +93,7 @@ function __whereCacheMerge(dst, src) {
   return dst;
 }
 
+// @ts-expect-error ts-migrate(7019) FIXME: Rest parameter 'caches' implicitly has an 'any[]' ... Remove this comment to see the full error message
 export function _whereCacheMerge(...caches) {
   return caches.reduce((dst, src) => __whereCacheMerge(dst, src), {});
 }

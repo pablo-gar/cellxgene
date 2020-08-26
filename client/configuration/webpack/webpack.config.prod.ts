@@ -1,4 +1,6 @@
+// @ts-expect-error ts-migrate(6200) FIXME: Definitions of the following identifiers conflict ... Remove this comment to see the full error message
 const path = require("path");
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'HtmlWebpac... Remove this comment to see the full error message
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const TerserJSPlugin = require("terser-webpack-plugin");
@@ -11,6 +13,7 @@ const { merge } = require("webpack-merge");
 
 const babelOptions = require("../babel/babel.prod");
 
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'CspHashPlu... Remove this comment to see the full error message
 const CspHashPlugin = require("./cspHashPlugin");
 const sharedConfig = require("./webpack.config.shared");
 

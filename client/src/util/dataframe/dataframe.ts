@@ -73,13 +73,19 @@ Dataframe
 **/
 
 class Dataframe {
+  __columnsAccessor: any;
+  __id: any;
+  colIndex: any;
+  dims: any;
+  length: any;
+  rowIndex: any;
   /**
   Constructors & factories
   **/
 
   constructor(
-    dims,
-    columnarData,
+    dims: any,
+    columnarData: any,
     rowIndex = null,
     colIndex = null,
     __columnsAccessor = [] // private interface
@@ -104,13 +110,16 @@ class Dataframe {
       throw new RangeError("Dataframe dimensions must be positive");
     }
     if (!rowIndex) {
+      // @ts-expect-error ts-migrate(2322) FIXME: Type 'IdentityInt32Index' is not assignable to typ... Remove this comment to see the full error message
       rowIndex = new IdentityInt32Index(nRows);
     }
     if (!colIndex) {
+      // @ts-expect-error ts-migrate(2322) FIXME: Type 'IdentityInt32Index' is not assignable to typ... Remove this comment to see the full error message
       colIndex = new IdentityInt32Index(nCols);
     }
     Dataframe.__errorChecks(dims, columnarData, rowIndex, colIndex);
 
+    // @ts-expect-error ts-migrate(2551) FIXME: Property '__columns' does not exist on type 'Dataf... Remove this comment to see the full error message
     this.__columns = Array.from(columnarData);
     this.dims = dims;
     this.length = nRows; // convenience accessor for row dimension
@@ -122,7 +131,7 @@ class Dataframe {
     Object.freeze(this);
   }
 
-  static __errorChecks(dims, columnarData, rowIndex, colIndex) {
+  static __errorChecks(dims: any, columnarData: any, rowIndex: any, colIndex: any) {
     const [nRows, nCols] = dims;
 
     /* check for expected types */
@@ -160,7 +169,7 @@ class Dataframe {
     }
   }
 
-  static __compileColumn(column, getRowByOffset, getRowByLabel) {
+  static __compileColumn(column: any, getRowByOffset: any, getRowByLabel: any) {
     /*
       Each column accessor is a function which will lookup data by
       index (ie, is equivalent to dataframe.get(row, col), where 'col'
@@ -195,12 +204,12 @@ class Dataframe {
     const __id = __getMemoId();
 
     /* get value by row label */
-    const get = function get(rlabel) {
+    const get = function get(rlabel: any) {
       return column[getRowByOffset(rlabel)];
     };
 
     /* get value by row offset */
-    const iget = function iget(roffset) {
+    const iget = function iget(roffset: any) {
       return column[roffset];
     };
 
@@ -210,12 +219,12 @@ class Dataframe {
     };
 
     /* test for row label inclusion in column */
-    const has = function has(rlabel) {
+    const has = function has(rlabel: any) {
       const offset = getRowByOffset(rlabel);
       return offset >= 0 && offset < length;
     };
 
-    const ihas = function ihas(offset) {
+    const ihas = function ihas(offset: any) {
       return offset >= 0 && offset < length;
     };
 
@@ -226,7 +235,7 @@ class Dataframe {
     NOTE: not found return is DIFFERENT than the default Array.indexOf as
     -1 is a plausible Dataframe row/col label.
     */
-    const indexOf = function indexOf(value) {
+    const indexOf = function indexOf(value: any) {
       const offset = column.indexOf(value);
       if (offset === -1) {
         return undefined;
@@ -250,11 +259,11 @@ class Dataframe {
     Create histogram bins for this column.  Memoized.
     */
     const _memoHistoCat = memoize(_histogramCategorical, hashCategorical);
-    const histogramCategorical = (by) => _memoHistoCat(get, by);
+    const histogramCategorical = (by: any) => _memoHistoCat(get, by);
     let histogram = null;
     if (isTypedArray(column)) {
       const mFn = memoize(histogramContinuous, hashContinuous);
-      histogram = (bins, domain, by) => mFn(get, bins, domain, by);
+      histogram = (bins: any, domain: any, by: any) => mFn(get, bins, domain, by);
     } else {
       histogram = histogramCategorical;
     }
@@ -274,7 +283,7 @@ class Dataframe {
     return get;
   }
 
-  __compile(accessors) {
+  __compile(accessors: any) {
     /*
     Compile data accessors for each column.
 
@@ -282,7 +291,8 @@ class Dataframe {
     */
     const getRowByOffset = this.rowIndex.getOffset.bind(this.rowIndex);
     const getRowByLabel = this.rowIndex.getLabel.bind(this.rowIndex);
-    this.__columnsAccessor = this.__columns.map((column, idx) => {
+    // @ts-expect-error ts-migrate(2551) FIXME: Property '__columns' does not exist on type 'Dataf... Remove this comment to see the full error message
+    this.__columnsAccessor = this.__columns.map((column: any, idx: any) => {
       if (accessors[idx]) {
         return accessors[idx];
       }
@@ -295,8 +305,10 @@ class Dataframe {
     /*
     Clone this dataframe
     */
+    // @ts-expect-error ts-migrate(2351) FIXME: Type 'Function' has no construct signatures.
     return new this.constructor(
       this.dims,
+      // @ts-expect-error ts-migrate(2551) FIXME: Property '__columns' does not exist on type 'Dataf... Remove this comment to see the full error message
       [...this.__columns],
       this.rowIndex,
       this.colIndex,
@@ -304,7 +316,7 @@ class Dataframe {
     );
   }
 
-  withCol(label, colData, withRowIndex = null) {
+  withCol(label: any, colData: any, withRowIndex = null) {
     /*
     Create a new DF, which is `this` plus the new column. Example:
     const newDf = df.withCol("foo", [1,2,3]);
@@ -333,10 +345,12 @@ class Dataframe {
       rowIndex = withRowIndex;
     }
 
+    // @ts-expect-error ts-migrate(2551) FIXME: Property '__columns' does not exist on type 'Dataf... Remove this comment to see the full error message
     const columns = [...this.__columns];
     columns.push(colData);
     const colIndex = this.colIndex.withLabel(label);
     const columnsAccessor = [...this.__columnsAccessor];
+    // @ts-expect-error ts-migrate(2351) FIXME: Type 'Function' has no construct signatures.
     return new this.constructor(
       dims,
       columns,
@@ -346,7 +360,7 @@ class Dataframe {
     );
   }
 
-  withColsFrom(dataframe, labels) {
+  withColsFrom(dataframe: any, labels: any) {
     /*
     return a new dataframe containing all columns from both `this` and the
     provided dataframe argument.
@@ -410,7 +424,7 @@ class Dataframe {
 
     // otherwise, bulid a new dataframe combining columns from both
 
-    const srcOffsets = srcLabels.map((l) => dataframe.colIndex.getOffset(l));
+    const srcOffsets = srcLabels.map((l: any) => dataframe.colIndex.getOffset(l));
 
     // check for label collisions
     if (dstLabels.some(this.hasCol, this)) {
@@ -421,15 +435,17 @@ class Dataframe {
     const dims = [this.dims[0], this.dims[1] + srcOffsets.length];
     const { rowIndex } = this;
     const columns = [
+      // @ts-expect-error ts-migrate(2551) FIXME: Property '__columns' does not exist on type 'Dataf... Remove this comment to see the full error message
       ...this.__columns,
-      ...srcOffsets.map((i) => dataframe.__columns[i]),
+      ...srcOffsets.map((i: any) => dataframe.__columns[i]),
     ];
     const colIndex = this.colIndex.withLabels(dstLabels);
     const columnsAccessor = [
       ...this.__columnsAccessor,
-      ...srcOffsets.map((i) => dataframe.__columnsAccessor[i]),
+      ...srcOffsets.map((i: any) => dataframe.__columnsAccessor[i]),
     ];
 
+    // @ts-expect-error ts-migrate(2351) FIXME: Type 'Function' has no construct signatures.
     return new this.constructor(
       dims,
       columns,
@@ -441,10 +457,11 @@ class Dataframe {
 
   withColsFromAll(dataframes = []) {
     dataframes = Array.isArray(dataframes) ? dataframes : [dataframes];
+    // @ts-expect-error ts-migrate(2554) FIXME: Expected 2 arguments, but got 1.
     return dataframes.reduce((acc, df) => acc.withColsFrom(df), this);
   }
 
-  dropCol(label) {
+  dropCol(label: any) {
     /*
     Create a new dataframe, omitting one columns.
 
@@ -465,11 +482,13 @@ class Dataframe {
 
     const dims = [this.dims[0], this.dims[1] - 1];
     const coffset = this.colIndex.getOffset(label);
+    // @ts-expect-error ts-migrate(2551) FIXME: Property '__columns' does not exist on type 'Dataf... Remove this comment to see the full error message
     const columns = [...this.__columns];
     columns.splice(coffset, 1);
     const colIndex = this.colIndex.dropLabel(label);
     const columnsAccessor = [...this.__columnsAccessor];
     columnsAccessor.splice(coffset, 1);
+    // @ts-expect-error ts-migrate(2351) FIXME: Type 'Function' has no construct signatures.
     return new this.constructor(
       dims,
       columns,
@@ -479,13 +498,14 @@ class Dataframe {
     );
   }
 
-  renameCol(oldLabel, newLabel) {
+  renameCol(oldLabel: any, newLabel: any) {
     /*
     Accelerator for dropping a column and then adding it again with a new label
     */
     const coffset = this.colIndex.getOffset(oldLabel);
     const colIndex = this.colIndex.dropLabel(oldLabel).withLabel(newLabel);
 
+    // @ts-expect-error ts-migrate(2551) FIXME: Property '__columns' does not exist on type 'Dataf... Remove this comment to see the full error message
     const columns = [...this.__columns];
     columns.push(columns[coffset]);
     columns.splice(coffset, 1);
@@ -494,6 +514,7 @@ class Dataframe {
     columnsAccessor.push(columnsAccessor[coffset]);
     columnsAccessor.splice(coffset, 1);
 
+    // @ts-expect-error ts-migrate(2351) FIXME: Type 'Function' has no construct signatures.
     return new this.constructor(
       this.dims,
       columns,
@@ -503,17 +524,19 @@ class Dataframe {
     );
   }
 
-  replaceColData(label, newColData) {
+  replaceColData(label: any, newColData: any) {
     /*
     Accelerator for dropping a column then adding it again with same
     label and different values.
     */
     const coffset = this.colIndex.getOffset(label);
+    // @ts-expect-error ts-migrate(2551) FIXME: Property '__columns' does not exist on type 'Dataf... Remove this comment to see the full error message
     const columns = [...this.__columns];
     columns[coffset] = newColData;
     const columnsAccessor = [...this.__columnsAccessor];
     columnsAccessor[coffset] = null;
 
+    // @ts-expect-error ts-migrate(2351) FIXME: Type 'Function' has no construct signatures.
     return new this.constructor(
       this.dims,
       columns,
@@ -525,14 +548,16 @@ class Dataframe {
 
   static empty(rowIndex = null, colIndex = null) {
     const dims = [
+      // @ts-expect-error ts-migrate(2531) FIXME: Object is possibly 'null'.
       rowIndex ? rowIndex.size() : 0,
+      // @ts-expect-error ts-migrate(2531) FIXME: Object is possibly 'null'.
       colIndex ? colIndex.size() : 0,
     ];
     if (dims[0] && dims[1]) throw new Error("not an empty dataframe");
     return new Dataframe(dims, new Array(dims[1]), rowIndex, colIndex);
   }
 
-  static create(dims, columnarData) {
+  static create(dims: any, columnarData: any) {
     /*
     Create a dataframe from raw columnar data.  All column arrays
     must have the same length.   Identity indexing will be used.
@@ -543,16 +568,18 @@ class Dataframe {
     return new Dataframe(dims, columnarData, null, null);
   }
 
-  __subset(newRowIndex, newColIndex) {
+  __subset(newRowIndex: any, newColIndex: any) {
     const dims = [...this.dims];
 
     /* subset columns */
+    // @ts-expect-error ts-migrate(2339) FIXME: Property '__columns' does not exist on type 'Dataf... Remove this comment to see the full error message
     let { __columns, colIndex, __columnsAccessor } = this;
     if (newColIndex) {
       const colOffsets = this.colIndex.getOffsets(newColIndex.labels());
       __columns = new Array(colOffsets.length);
       __columnsAccessor = new Array(colOffsets.length);
       for (let i = 0, l = colOffsets.length; i < l; i += 1) {
+        // @ts-expect-error ts-migrate(2551) FIXME: Property '__columns' does not exist on type 'Dataf... Remove this comment to see the full error message
         __columns[i] = this.__columns[colOffsets[i]];
         __columnsAccessor[i] = this.__columnsAccessor[colOffsets[i]];
       }
@@ -563,7 +590,7 @@ class Dataframe {
     let { rowIndex } = this;
     if (newRowIndex) {
       const rowOffsets = this.rowIndex.getOffsets(newRowIndex.labels());
-      __columns = __columns.map((col) => {
+      __columns = __columns.map((col: any) => {
         const newCol = new col.constructor(rowOffsets.length);
         for (let i = 0, l = rowOffsets.length; i < l; i += 1) {
           newCol[i] = col[rowOffsets[i]];
@@ -585,7 +612,7 @@ class Dataframe {
     );
   }
 
-  subset(rowLabels, colLabels = null, withRowIndex = null) {
+  subset(rowLabels: any, colLabels = null, withRowIndex = null) {
     /*
     Subset by row/col labels.
 
@@ -607,7 +634,7 @@ class Dataframe {
     return this.__subset(rowIndex, colIndex);
   }
 
-  isubset(rowOffsets, colOffsets = null, withRowIndex = null) {
+  isubset(rowOffsets: any, colOffsets = null, withRowIndex = null) {
     /*
     Subset by row/col offset.
 
@@ -631,7 +658,7 @@ class Dataframe {
     return this.__subset(rowIndex, colIndex);
   }
 
-  isubsetMask(rowMask, colMask = null, withRowIndex = null) {
+  isubsetMask(rowMask: any, colMask = null, withRowIndex = null) {
     /*
     Subset on row/column based upon a truthy/falsey array (a mask).
 
@@ -643,13 +670,14 @@ class Dataframe {
     const [nRows, nCols] = this.dims;
     if (
       (rowMask && rowMask.length !== nRows) ||
+      // @ts-expect-error ts-migrate(2531) FIXME: Object is possibly 'null'.
       (colMask && colMask.length !== nCols)
     ) {
       throw new RangeError("boolean arrays must match row/col dimensions");
     }
 
     /* convert masks to lists - method wastes space, but is fast */
-    const toList = (mask, maxSize) => {
+    const toList = (mask: any, maxSize: any) => {
       if (!mask) {
         return null;
       }
@@ -665,6 +693,7 @@ class Dataframe {
     };
     const rowOffsets = toList(rowMask, nRows);
     const colOffsets = toList(colMask, nCols);
+    // @ts-expect-error ts-migrate(2345) FIXME: Type 'Int32Array' is not assignable to type 'null'... Remove this comment to see the full error message
     return this.isubset(rowOffsets, colOffsets, withRowIndex);
   }
 
@@ -677,7 +706,7 @@ class Dataframe {
     return [...this.__columnsAccessor];
   }
 
-  col(columnLabel) {
+  col(columnLabel: any) {
     /*
     Return accessor bound to a column.  Allows random row access
     based upon the row indexing.  Returns undefined if the
@@ -697,7 +726,7 @@ class Dataframe {
     return this.__columnsAccessor[coff];
   }
 
-  icol(columnOffset) {
+  icol(columnOffset: any) {
     /*
     Return column accessor by offset.
     */
@@ -706,7 +735,7 @@ class Dataframe {
       : undefined;
   }
 
-  at(r, c) {
+  at(r: any, c: any) {
     /*
     Access a single value, for a row/col label pair.
 
@@ -720,10 +749,11 @@ class Dataframe {
     */
     const coff = this.colIndex.getOffset(c);
     const roff = this.rowIndex.getOffset(r);
+    // @ts-expect-error ts-migrate(2551) FIXME: Property '__columns' does not exist on type 'Dataf... Remove this comment to see the full error message
     return this.__columns[coff][roff];
   }
 
-  iat(r, c) {
+  iat(r: any, c: any) {
     /*
     Access a single value, for a row/col offset (integer) position.
 
@@ -733,10 +763,11 @@ class Dataframe {
 
     const myVal = df.ihas(r, c) ? df.iat(r, c) : undefined;
     */
+    // @ts-expect-error ts-migrate(2551) FIXME: Property '__columns' does not exist on type 'Dataf... Remove this comment to see the full error message
     return this.__columns[c][r];
   }
 
-  has(r, c) {
+  has(r: any, c: any) {
     /*
     Test if row/col labels exist in the dataframe - returns true/false
     */
@@ -746,7 +777,7 @@ class Dataframe {
     return coff >= 0 && coff < nCols && roff >= 0 && roff < nRows;
   }
 
-  ihas(r, c) {
+  ihas(r: any, c: any) {
     /*
     Test if row/col offset (integer) position exists in the
     dataframe - returns true/false
@@ -762,7 +793,7 @@ class Dataframe {
     );
   }
 
-  hasCol(c) {
+  hasCol(c: any) {
     /*
     Test if col label exists - return true/false
     */
@@ -784,19 +815,22 @@ class Dataframe {
   add these as useful.
   ****/
 
-  mapColumns(callback) {
+  mapColumns(callback: any) {
     /*
     map all columns in the dataframe, returning a new dataframe comprised of the
     return values, with the same index as the original dataframe.
 
     callback MUST not modify the column, but instead return a mutated copy.
     */
-    const columns = this.__columns.map((colData, colIdx) =>
+    // @ts-expect-error ts-migrate(2551) FIXME: Property '__columns' does not exist on type 'Dataf... Remove this comment to see the full error message
+    const columns = this.__columns.map((colData: any, colIdx: any) =>
       callback(colData, colIdx, this)
     );
-    const columnsAccessor = columns.map((c, idx) =>
+    const columnsAccessor = columns.map((c: any, idx: any) =>
+      // @ts-expect-error ts-migrate(2551) FIXME: Property '__columns' does not exist on type 'Dataf... Remove this comment to see the full error message
       this.__columns[idx] === c ? this.__columnsAccessor[idx] : undefined
     );
+    // @ts-expect-error ts-migrate(2351) FIXME: Type 'Function' has no construct signatures.
     return new this.constructor(
       this.dims,
       columns,

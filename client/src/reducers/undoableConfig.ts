@@ -103,9 +103,9 @@ See graph definition for the transitions that use each.
 
 Signature:  (fsm, transition, reducerState, reducerAction) => undoableAction
 */
-const stashPending = (fsm) => ({
+const stashPending = (fsm: any) => ({
   [actionKey]: "stashPending",
-  [stateKey]: { fsm },
+  [stateKey]: { fsm }
 });
 const cancelPending = () => ({
   [actionKey]: "cancelPending",
@@ -115,12 +115,12 @@ const applyPending = () => ({
   [actionKey]: "applyPending",
   [stateKey]: { fsm: null },
 });
-const skip = (fsm, transition) => ({
+const skip = (fsm: any, transition: any) => ({
   [actionKey]: "skip",
   [stateKey]: { fsm: transition.to !== "done" ? fsm : null },
 });
 const clear = () => ({ [actionKey]: "clear", [stateKey]: { fsm: null } });
-const save = (fsm, transition) => ({
+const save = (fsm: any, transition: any) => ({
   [actionKey]: "save",
   [stateKey]: { fsm: transition.to !== "done" ? fsm : null },
 });
@@ -131,7 +131,7 @@ StateMachine when it doesn't know what to do.
 
 Signature:  (fsm, event, from) => undoableAction
 */
-const onFsmError = (fsm, event, from) => {
+const onFsmError = (fsm: any, event: any, from: any) => {
   console.error(`FSM error [event: "${event}", state: "${from}"]`, fsm);
   // In production, try to recover gracefully if we have unexpected state
   return clear();
@@ -159,7 +159,7 @@ Basic approach:
   * only implement complex state machines where absolutely required (eg,
     multi-event seleciton and the like)
 */
-const actionFilter = (debug) => (state, action, prevFilterState) => {
+const actionFilter = (debug: any) => (state: any, action: any, prevFilterState: any) => {
   const actionType = action.type;
   const filterState = {
     ...prevFilterState,
@@ -169,6 +169,7 @@ const actionFilter = (debug) => (state, action, prevFilterState) => {
     return { [actionKey]: "skip", [stateKey]: filterState };
   }
   if (
+    // @ts-expect-error ts-migrate(2345) FIXME: Argument of type 'any' is not assignable to parame... Remove this comment to see the full error message
     debounceOnActions.has(actionType) &&
     shallowObjectEq(action, prevFilterState.prevAction)
   ) {
@@ -204,7 +205,7 @@ return true if objA and objB are ===, OR if:
   - have same own properties
   - all values are strict equal (===)
 */
-function shallowObjectEq(objA, objB) {
+function shallowObjectEq(objA: any, objB: any) {
   if (objA === objB) return true;
   if (!objA || !objB) return false;
   if (!shallowArrayEq(Object.keys(objA), Object.keys(objB))) return false;
@@ -216,7 +217,7 @@ function shallowObjectEq(objA, objB) {
 return true if arrA and arrB contain the same strict-equal values,
 in the same order.
 */
-function shallowArrayEq(arrA, arrB) {
+function shallowArrayEq(arrA: any, arrB: any) {
   if (arrA.length !== arrB.length) return false;
   for (let i = 0, l = arrA.length; i < l; i += 1) {
     if (arrA[i] !== arrB[i]) return false;
@@ -246,8 +247,11 @@ if (debug) {
   Confirm no intersection between the various trivial rejection action filters
   */
   if (
+    // @ts-expect-error ts-migrate(2569) FIXME: Type 'Set<string>' is not an array type or a strin... Remove this comment to see the full error message
     new Set([...skipOnActions].filter((x) => clearOnActions.has(x))).size > 0 ||
+    // @ts-expect-error ts-migrate(2569) FIXME: Type 'Set<string>' is not an array type or a strin... Remove this comment to see the full error message
     new Set([...skipOnActions].filter((x) => saveOnActions.has(x))).size > 0 ||
+    // @ts-expect-error ts-migrate(2569) FIXME: Type 'Set<string>' is not an array type or a strin... Remove this comment to see the full error message
     new Set([...clearOnActions].filter((x) => saveOnActions.has(x))).size > 0
   ) {
     console.error(
@@ -261,16 +265,21 @@ if (debug) {
   state transitions.
   */
   const trivialFilters = new Set([
+    // @ts-expect-error ts-migrate(2569) FIXME: Type 'Set<string>' is not an array type or a strin... Remove this comment to see the full error message
     ...skipOnActions,
+    // @ts-expect-error ts-migrate(2569) FIXME: Type 'Set<string>' is not an array type or a strin... Remove this comment to see the full error message
     ...clearOnActions,
+    // @ts-expect-error ts-migrate(2569) FIXME: Type 'Set<string>' is not an array type or a strin... Remove this comment to see the full error message
     ...saveOnActions,
   ]);
   const trivialOverlapWithFsm = new Set(
+    // @ts-expect-error ts-migrate(2569) FIXME: Type 'Set<any>' is not an array type or a string t... Remove this comment to see the full error message
     [...trivialFilters].filter((x) => seedFsm.events.has(x))
   );
   if (trivialOverlapWithFsm.size > 0) {
     console.error(
       "Undoable misconfiguration - trivival action filter blocking FSM filter",
+      // @ts-expect-error ts-migrate(2569) FIXME: Type 'Set<any>' is not an array type or a string t... Remove this comment to see the full error message
       [...trivialOverlapWithFsm]
     );
   }

@@ -1,4 +1,6 @@
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/react` if it exists or add... Remove this comment to see the full error message
 import React, { useRef, useEffect } from "react";
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/react-redux` if it exists ... Remove this comment to see the full error message
 import { connect, shallowEqual } from "react-redux";
 import { FaChevronRight, FaChevronDown } from "react-icons/fa";
 import { AnchorButton, Button, Tooltip, Position } from "@blueprintjs/core";
@@ -6,10 +8,15 @@ import { Flipper, Flipped } from "react-flip-toolkit";
 import Async from "react-async";
 import memoize from "memoize-one";
 
+// @ts-expect-error ts-migrate(6142) FIXME: Module '../value' was resolved to '/Users/sbadajoz... Remove this comment to see the full error message
 import Value from "../value";
+// @ts-expect-error ts-migrate(6142) FIXME: Module './annoMenuCategory' was resolved to '/User... Remove this comment to see the full error message
 import AnnoMenu from "./annoMenuCategory";
+// @ts-expect-error ts-migrate(6142) FIXME: Module './annoDialogEditCategoryName' was resolved... Remove this comment to see the full error message
 import AnnoDialogEditCategoryName from "./annoDialogEditCategoryName";
+// @ts-expect-error ts-migrate(6142) FIXME: Module './annoDialogAddLabel' was resolved to '/Us... Remove this comment to see the full error message
 import AnnoDialogAddLabel from "./annoDialogAddLabel";
+// @ts-expect-error ts-migrate(6142) FIXME: Module '../../util/truncate' was resolved to '/Use... Remove this comment to see the full error message
 import Truncate from "../../util/truncate";
 import { CategoryCrossfilterContext } from "../categoryContext";
 
@@ -25,6 +32,7 @@ const LABEL_WIDTH = globals.leftSidebarWidth - 100;
 const ANNO_BUTTON_WIDTH = 50;
 const LABEL_WIDTH_ANNO = LABEL_WIDTH - ANNO_BUTTON_WIDTH;
 
+// @ts-expect-error ts-migrate(7006) FIXME: Parameter 'state' implicitly has an 'any' type.
 @connect((state, ownProps) => {
   const schema = state.annoMatrix?.schema;
   const { metadataField } = ownProps;
@@ -40,17 +48,19 @@ const LABEL_WIDTH_ANNO = LABEL_WIDTH - ANNO_BUTTON_WIDTH;
     isUserAnno,
   };
 })
+// @ts-expect-error ts-migrate(1219) FIXME: Experimental support for decorators is a feature t... Remove this comment to see the full error message
 class Category extends React.PureComponent {
+  props: any;
   static getSelectionState(
-    categoricalSelection,
-    metadataField,
-    categorySummary
+    categoricalSelection: any,
+    metadataField: any,
+    categorySummary: any
   ) {
     // total number of categories in this dimension
     const totalCatCount = categorySummary.numCategoryValues;
     // number of selected options in this category
     const selectedCatCount = categorySummary.categoryValues.reduce(
-      (res, label) => (categoricalSelection.get(label) ?? true ? res + 1 : res),
+      (res: any, label: any) => (categoricalSelection.get(label) ?? true ? res + 1 : res),
       0
     );
     return selectedCatCount === totalCatCount
@@ -60,13 +70,13 @@ class Category extends React.PureComponent {
       : "some";
   }
 
-  static watchAsync(props, prevProps) {
+  static watchAsync(props: any, prevProps: any) {
     return !shallowEqual(props.watchProps, prevProps.watchProps);
   }
 
   createCategorySummaryFromDfCol = memoize(createCategorySummaryFromDfCol);
 
-  getSelectionState(categorySummary) {
+  getSelectionState(categorySummary: any) {
     const { categoricalSelection, metadataField } = this.props;
     return Category.getSelectionState(
       categoricalSelection,
@@ -93,13 +103,13 @@ class Category extends React.PureComponent {
     }
   };
 
-  handleCategoryKeyPress = (e) => {
+  handleCategoryKeyPress = (e: any) => {
     if (e.key === "Enter") {
       this.handleCategoryClick();
     }
   };
 
-  handleToggleAllClick = (categorySummary) => {
+  handleToggleAllClick = (categorySummary: any) => {
     const isChecked = this.getSelectionState(categorySummary);
     if (isChecked === "all") {
       this.toggleNone(categorySummary);
@@ -108,7 +118,7 @@ class Category extends React.PureComponent {
     }
   };
 
-  fetchAsyncProps = async (props) => {
+  fetchAsyncProps = async (props: any) => {
     const { annoMatrix, metadataField, colors } = props.watchProps;
     const { crossfilter } = this.props;
 
@@ -129,7 +139,7 @@ class Category extends React.PureComponent {
     };
   };
 
-  async fetchData(annoMatrix, metadataField, colors) {
+  async fetchData(annoMatrix: any, metadataField: any, colors: any) {
     /*
     fetch our data and the color-by data if appropriate, and then build a summary
     of our category and a color table for the color-by annotation.
@@ -156,7 +166,7 @@ class Category extends React.PureComponent {
     return [categoryData, categorySummary, colorData];
   }
 
-  updateColorTable(colorData) {
+  updateColorTable(colorData: any) {
     // color table, which may be null
     const { schema, colors, metadataField } = this.props;
     const { colorAccessor, userColors, colorMode } = colors;
@@ -174,7 +184,7 @@ class Category extends React.PureComponent {
     };
   }
 
-  toggleNone(categorySummary) {
+  toggleNone(categorySummary: any) {
     const { dispatch, metadataField } = this.props;
     dispatch(
       actions.selectCategoricalAllMetadataAction(
@@ -186,7 +196,7 @@ class Category extends React.PureComponent {
     );
   }
 
-  toggleAll(categorySummary) {
+  toggleAll(categorySummary: any) {
     const { dispatch, metadataField } = this.props;
     dispatch(
       actions.selectCategoricalAllMetadataAction(
@@ -212,7 +222,9 @@ class Category extends React.PureComponent {
     const checkboxID = `category-select-${metadataField}`;
 
     return (
+      // @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
       <CategoryCrossfilterContext.Provider value={crossfilter}>
+        {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
         <Async
           watchFn={Category.watchAsync}
           promiseFn={this.fetchAsyncProps}
@@ -223,19 +235,22 @@ class Category extends React.PureComponent {
             colors,
           }}
         >
+          {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
           <Async.Pending initial>
+            {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
             <StillLoading
               metadataField={metadataField}
               checkboxID={checkboxID}
             />
           </Async.Pending>
+          {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
           <Async.Rejected>
-            {(error) => (
-              <ErrorLoading metadataField={metadataField} error={error} />
-            )}
+            {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
+            {(error: any) => <ErrorLoading metadataField={metadataField} error={error} />}
           </Async.Rejected>
+          {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
           <Async.Fulfilled persist>
-            {(asyncProps) => {
+            {(asyncProps: any) => {
               const {
                 colorAccessor,
                 colorTable,
@@ -248,6 +263,7 @@ class Category extends React.PureComponent {
               const isTruncated = !!categorySummary?.isTruncated;
               const selectionState = this.getSelectionState(categorySummary);
               return (
+                // @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                 <CategoryRender
                   metadataField={metadataField}
                   checkboxID={checkboxID}
@@ -277,16 +293,21 @@ class Category extends React.PureComponent {
 
 export default Category;
 
-const StillLoading = ({ metadataField, checkboxID }) => {
+const StillLoading = ({
+  metadataField,
+  checkboxID
+}: any) => {
   /*
   We are still loading this category, so render a "busy" signal.
   */
   return (
+    // @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message
     <div
       style={{
         maxWidth: globals.maxControlsWidth,
       }}
     >
+      {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
       <div
         style={{
           display: "flex",
@@ -294,6 +315,7 @@ const StillLoading = ({ metadataField, checkboxID }) => {
           alignItems: "baseline",
         }}
       >
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         <div
           style={{
             display: "flex",
@@ -301,11 +323,17 @@ const StillLoading = ({ metadataField, checkboxID }) => {
             alignItems: "flex-start",
           }}
         >
+          {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
           <label htmlFor={checkboxID} className="bp3-control bp3-checkbox">
+            {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
             <input disabled id={checkboxID} checked type="checkbox" />
+            {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
             <span className="bp3-control-indicator" />
+          {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
           </label>
+          {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
           <Truncate>
+            {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
             <span
               style={{
                 cursor: "pointer",
@@ -314,21 +342,33 @@ const StillLoading = ({ metadataField, checkboxID }) => {
               }}
             >
               {metadataField}
+            {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
             </span>
           </Truncate>
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         </div>
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         <div>
+          {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
           <Button minimal loading intent="primary" />
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         </div>
+      {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
       </div>
+    {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
     </div>
   );
 };
 
-const ErrorLoading = ({ metadataField, error }) => {
+const ErrorLoading = ({
+  metadataField,
+  error
+}: any) => {
   console.error(error); // log error to console as it is unexpected.
   return (
+    // @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message
     <div style={{ marginBottom: 10, marginTop: 4 }}>
+      {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
       <span
         style={{
           cursor: "pointer",
@@ -338,7 +378,9 @@ const ErrorLoading = ({ metadataField, error }) => {
         }}
       >
         {`Failure loading ${metadataField}`}
+      {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
       </span>
+    {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
     </div>
   );
 };
@@ -355,8 +397,8 @@ const CategoryHeader = React.memo(
     onColorChangeClick,
     onCategoryMenuClick,
     onCategoryMenuKeyPress,
-    onCategoryToggleAllClick,
-  }) => {
+    onCategoryToggleAllClick
+  }: any) => {
     /*
     Render category name and controls (eg, color-by button).
     */
@@ -367,7 +409,9 @@ const CategoryHeader = React.memo(
     }, [checkboxRef.current, selectionState]);
 
     return (
+      // @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
       <>
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         <div
           style={{
             display: "flex",
@@ -375,7 +419,9 @@ const CategoryHeader = React.memo(
             alignItems: "flex-start",
           }}
         >
+          {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
           <label className="bp3-control bp3-checkbox" htmlFor={checkboxID}>
+            {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
             <input
               id={checkboxID}
               data-testclass="category-select"
@@ -385,8 +431,11 @@ const CategoryHeader = React.memo(
               checked={selectionState === "all"}
               type="checkbox"
             />
+            {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
             <span className="bp3-control-indicator" />
+          {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
           </label>
+          {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
           <span
             role="menuitem"
             tabIndex="0"
@@ -398,7 +447,9 @@ const CategoryHeader = React.memo(
             }}
             onClick={onCategoryMenuClick}
           >
+            {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
             <Truncate>
+              {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
               <span
                 style={{
                   maxWidth: isUserAnno ? LABEL_WIDTH_ANNO : LABEL_WIDTH,
@@ -406,24 +457,35 @@ const CategoryHeader = React.memo(
                 data-testid={`${metadataField}:category-label`}
               >
                 {metadataField}
+              {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
               </span>
             </Truncate>
             {isExpanded ? (
+              // @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
               <FaChevronDown
                 data-testclass="category-expand-is-expanded"
+                // @ts-expect-error ts-migrate(2322) FIXME: Property 'style' does not exist on type 'IconBaseP... Remove this comment to see the full error message
                 style={{ fontSize: 10, marginLeft: 5 }}
               />
             ) : (
+              // @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
               <FaChevronRight
                 data-testclass="category-expand-is-not-expanded"
+                // @ts-expect-error ts-migrate(2322) FIXME: Property 'style' does not exist on type 'IconBaseP... Remove this comment to see the full error message
                 style={{ fontSize: 10, marginLeft: 5 }}
               />
             )}
+          {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
           </span>
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         </div>
+        {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
         {<AnnoDialogEditCategoryName metadataField={metadataField} />}
+        {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
         {<AnnoDialogAddLabel metadataField={metadataField} />}
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         <div>
+          {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
           <AnnoMenu
             metadataField={metadataField}
             isUserAnno={isUserAnno}
@@ -432,6 +494,7 @@ const CategoryHeader = React.memo(
             deleteText="Delete this category, all associated labels, and remove all cell assignments"
           />
 
+          {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
           <Tooltip
             content={
               isTruncated
@@ -446,6 +509,7 @@ const CategoryHeader = React.memo(
               hide: { enabled: false },
             }}
           >
+            {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
             <AnchorButton
               data-testclass="colorby"
               data-testid={`colorby-${metadataField}`}
@@ -456,6 +520,7 @@ const CategoryHeader = React.memo(
               icon="tint"
             />
           </Tooltip>
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         </div>
       </>
     );
@@ -479,8 +544,8 @@ const CategoryRender = React.memo(
     onColorChangeClick,
     onCategoryMenuClick,
     onCategoryMenuKeyPress,
-    onCategoryToggleAllClick,
-  }) => {
+    onCategoryToggleAllClick
+  }: any) => {
     /*
     Render the core of the category, including checkboxes, controls, etc.
     */
@@ -493,15 +558,22 @@ const CategoryRender = React.memo(
       */
       const theOneValue = categorySummary.categoryValues[0];
       return (
+        // @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message
         <div style={{ marginBottom: 10, marginTop: 4 }}>
+          {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
           <Truncate>
+            {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
             <span style={{ maxWidth: 150, fontWeight: 700 }}>
               {metadataField}
+            {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
             </span>
           </Truncate>
+          {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
           <Truncate>
+            {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
             <span style={{ maxWidth: 150 }}>{`: ${theOneValue}`}</span>
           </Truncate>
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         </div>
       );
     }
@@ -510,6 +582,7 @@ const CategoryRender = React.memo(
     Otherwise, our normal multi-layout layout
     */
     return (
+      // @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message
       <div
         style={{
           maxWidth: globals.maxControlsWidth,
@@ -517,6 +590,7 @@ const CategoryRender = React.memo(
         data-testclass="category"
         data-testid={`category-${metadataField}`}
       >
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         <div
           style={{
             display: "flex",
@@ -524,6 +598,7 @@ const CategoryRender = React.memo(
             alignItems: "baseline",
           }}
         >
+          {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
           <CategoryHeader
             metadataField={metadataField}
             checkboxID={checkboxID}
@@ -537,11 +612,14 @@ const CategoryRender = React.memo(
             onCategoryMenuClick={onCategoryMenuClick}
             onCategoryMenuKeyPress={onCategoryMenuKeyPress}
           />
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         </div>
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         <div style={{ marginLeft: 26 }}>
           {
             /* values*/
             isExpanded ? (
+              // @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
               <CategoryValueList
                 isUserAnno={isUserAnno}
                 metadataField={metadataField}
@@ -553,12 +631,17 @@ const CategoryRender = React.memo(
               />
             ) : null
           }
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         </div>
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         <div>
           {isExpanded && isTruncated ? (
+            // @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message
             <p style={{ paddingLeft: 15 }}>... truncated list ...</p>
           ) : null}
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         </div>
+      {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
       </div>
     );
   }
@@ -572,8 +655,8 @@ const CategoryValueList = React.memo(
     categorySummary,
     colorAccessor,
     colorData,
-    colorTable,
-  }) => {
+    colorTable
+  }: any) => {
     const tuples = [...categorySummary.categoryValueIndices];
 
     /*
@@ -582,8 +665,10 @@ const CategoryValueList = React.memo(
     */
     if (!isUserAnno) {
       return (
+        // @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
         <>
           {tuples.map(([value, index]) => (
+            // @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             <Value
               key={value}
               isUserAnno={isUserAnno}
@@ -603,9 +688,12 @@ const CategoryValueList = React.memo(
     /* User annotation */
     const flipKey = tuples.map((t) => t[0]).join("");
     return (
+      // @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
       <Flipper flipKey={flipKey}>
         {tuples.map(([value, index]) => (
+          // @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
           <Flipped key={value} flipId={value}>
+            {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
             <Value
               isUserAnno={isUserAnno}
               metadataField={metadataField}

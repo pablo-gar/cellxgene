@@ -1,8 +1,14 @@
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/react` if it exists or add... Remove this comment to see the full error message
 import React from "react";
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/react-redux` if it exists ... Remove this comment to see the full error message
 import { connect } from "react-redux";
 import actions from "../../actions";
+// @ts-expect-error ts-migrate(6142) FIXME: Module './filenameDialog' was resolved to '/Users/... Remove this comment to see the full error message
 import FilenameDialog from "./filenameDialog";
 
+type State = any;
+
+// @ts-expect-error ts-migrate(7006) FIXME: Parameter 'state' implicitly has an 'any' type.
 @connect((state) => ({
   annotations: state.annotations,
   saveInProgress: state.autosave?.saveInProgress ?? false,
@@ -11,8 +17,13 @@ import FilenameDialog from "./filenameDialog";
   annoMatrix: state.annoMatrix,
   lastSavedAnnoMatrix: state.autosave?.lastSavedAnnoMatrix,
 }))
-class Autosave extends React.Component {
-  constructor(props) {
+// @ts-expect-error ts-migrate(1219) FIXME: Experimental support for decorators is a feature t... Remove this comment to see the full error message
+class Autosave extends React.Component<{}, State> {
+  clearInterval: any;
+  props: any;
+  setState: any;
+  state: any;
+  constructor(props: {}) {
     super(props);
     this.state = {
       timer: null,
@@ -69,6 +80,7 @@ class Autosave extends React.Component {
     if (!writableCategoriesEnabled) return null;
 
     return (
+      // @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message
       <div
         id="autosave"
         data-testclass={
@@ -87,7 +99,9 @@ class Autosave extends React.Component {
         }}
       >
         {this.statusMessage()}
+        {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
         <FilenameDialog />
+      {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
       </div>
     );
   }

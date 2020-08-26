@@ -1,8 +1,12 @@
 // jshint esversion: 6
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/react` if it exists or add... Remove this comment to see the full error message
 import React from "react";
 import * as globals from "../../globals";
 
 class Layout extends React.Component {
+  forceUpdate: any;
+  props: any;
+  viewportRef: any;
   /*
     Layout - this react component contains all the layout style and logic for the application once it has loaded.
 
@@ -26,6 +30,7 @@ class Layout extends React.Component {
     const { children } = this.props;
     const [leftSidebar, renderGraph, rightSidebar] = children;
     return (
+      // @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message
       <div
         style={{
           display: "grid",
@@ -49,6 +54,7 @@ class Layout extends React.Component {
           minWidth: "1240px",
         }}
       >
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         <div
           style={{
             gridArea: "top / left-sidebar-start / bottom / left-sidebar-end",
@@ -58,7 +64,9 @@ class Layout extends React.Component {
           }}
         >
           {leftSidebar}
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         </div>
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         <div
           style={{
             zIndex: 0,
@@ -66,12 +74,14 @@ class Layout extends React.Component {
             position: "relative",
             height: "inherit",
           }}
-          ref={(ref) => {
+          ref={(ref: any) => {
             this.viewportRef = ref;
           }}
         >
           {this.viewportRef ? renderGraph(this.viewportRef) : null}
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         </div>
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         <div
           style={{
             gridArea: "top / right-sidebar-start / bottom / right-sidebar-end",
@@ -81,7 +91,9 @@ class Layout extends React.Component {
           }}
         >
           {rightSidebar}
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         </div>
+      {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
       </div>
     );
   }

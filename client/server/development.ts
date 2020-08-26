@@ -1,8 +1,11 @@
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'path'.
 const path = require("path");
 const historyApiFallback = require("connect-history-api-fallback");
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'chalk'.
 const chalk = require("chalk");
 const express = require("express");
 const favicon = require("serve-favicon");
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'webpack'.
 const webpack = require("webpack");
 const devMiddleware = require("webpack-dev-middleware");
 const config = require("../configuration/webpack/webpack.config.dev");
@@ -20,7 +23,7 @@ compiler.plugin("invalid", () => {
   console.log("Compiling...");
 });
 
-compiler.plugin("done", (stats) => {
+compiler.plugin("done", (stats: any) => {
   utils.formatStats(stats, CLIENT_PORT);
 });
 
@@ -38,11 +41,11 @@ app.use(
 
 app.use(favicon("./favicon.png"));
 
-app.get("*", (req, res) => {
+app.get("*", (req: any, res: any) => {
   res.sendFile(path.resolve("index.html"));
 });
 
-app.listen(CLIENT_PORT, (err) => {
+app.listen(CLIENT_PORT, (err: any) => {
   if (err) {
     console.log(err);
     return;

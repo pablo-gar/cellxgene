@@ -61,12 +61,15 @@ const filterActionKey = `${historyKeyPrefix}filterAction`;
 const pendingKey = `${historyKeyPrefix}pending`;
 const defaultHistoryLimit = -100;
 
-const Undoable = (reducer, undoableKeys, options = {}) => {
+const Undoable = (reducer: any, undoableKeys: any, options = {}) => {
+  // @ts-expect-error ts-migrate(2339) FIXME: Property 'debug' does not exist on type '{}'.
   const { debug } = options;
+  // @ts-expect-error ts-migrate(2339) FIXME: Property 'historyLimit' does not exist on type '{}... Remove this comment to see the full error message
   let { historyLimit } = options;
   if (!historyLimit) historyLimit = defaultHistoryLimit;
   if (historyLimit > 0) historyLimit = -historyLimit;
   const actionFilter =
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'actionFilter' does not exist on type '{}... Remove this comment to see the full error message
     options.actionFilter || (() => ({ [filterActionKey]: "save" }));
 
   if (!Array.isArray(undoableKeys) || undoableKeys.length === 0)
@@ -76,7 +79,7 @@ const Undoable = (reducer, undoableKeys, options = {}) => {
   /*
   Undo the current to previous history
   */
-  function undo(currentState) {
+  function undo(currentState: any) {
     const past = currentState[pastKey];
     const future = currentState[futureKey];
     if (past.length === 0) return currentState;
@@ -99,7 +102,7 @@ const Undoable = (reducer, undoableKeys, options = {}) => {
   /*
   Replay future, previously undone.
   */
-  function redo(currentState) {
+  function redo(currentState: any) {
     const past = currentState[pastKey] || [];
     const future = currentState[futureKey] || [];
     if (future.length === 0) return currentState;
@@ -122,7 +125,7 @@ const Undoable = (reducer, undoableKeys, options = {}) => {
   /*
   Clear the history state.  No side-effects on current state.
   */
-  function clear(currentState) {
+  function clear(currentState: any) {
     return {
       ...currentState,
       [pastKey]: [],
@@ -135,7 +138,7 @@ const Undoable = (reducer, undoableKeys, options = {}) => {
   /*
   Reduce current action, with no history side-effects
   */
-  function skip(currentState, action, filterState) {
+  function skip(currentState: any, action: any, filterState: any) {
     const past = currentState[pastKey] || [];
     const future = currentState[futureKey] || [];
     const pending = currentState[pendingKey];
@@ -152,7 +155,7 @@ const Undoable = (reducer, undoableKeys, options = {}) => {
   /*
   Save current state in the history, then reduce action.
   */
-  function save(currentState, action, filterState) {
+  function save(currentState: any, action: any, filterState: any) {
     const past = currentState[pastKey] || [];
     const currentUndoableState = Object.entries(currentState).filter((kv) =>
       undoableKeysSet.has(kv[0])
@@ -172,7 +175,7 @@ const Undoable = (reducer, undoableKeys, options = {}) => {
   /*
   Save current state as pending history change.  No other side effects.
   */
-  function stashPending(currentState) {
+  function stashPending(currentState: any) {
     const currentUndoableState = Object.entries(currentState).filter((kv) =>
       undoableKeysSet.has(kv[0])
     );
@@ -185,7 +188,7 @@ const Undoable = (reducer, undoableKeys, options = {}) => {
   /*
   Cancel pending history state change.  No other side effects.
   */
-  function cancelPending(currentState) {
+  function cancelPending(currentState: any) {
     return {
       ...currentState,
       [pendingKey]: null,
@@ -195,7 +198,7 @@ const Undoable = (reducer, undoableKeys, options = {}) => {
   /*
   Push pending state onto the history stack
   */
-  function applyPending(currentState) {
+  function applyPending(currentState: any) {
     const past = currentState[pastKey] || [];
     const pendingState = currentState[pendingKey];
     const newPast = push(past, pendingState, historyLimit);
@@ -215,7 +218,7 @@ const Undoable = (reducer, undoableKeys, options = {}) => {
       [filterStateKey]: {},
       [pendingKey]: null,
     },
-    action
+    action: any
   ) => {
     if (debug > 1) console.log("---- ACTION", action.type);
     const aType = action.type;
@@ -275,7 +278,7 @@ const Undoable = (reducer, undoableKeys, options = {}) => {
   };
 };
 
-function push(arr, val, limit = undefined) {
+function push(arr: any, val: any, limit = undefined) {
   /*
   functional array push, with a max length limit to the new array.
   Like Array.push, except it returns new array and discards as needed

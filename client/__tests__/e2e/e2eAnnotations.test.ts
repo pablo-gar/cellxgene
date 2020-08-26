@@ -34,7 +34,7 @@ const data = datasets[DATASET];
 const perTestCategoryName = "TEST-CATEGORY";
 const perTestLabelName = "TEST-LABEL";
 
-async function setup(config) {
+async function setup(config: any) {
   await goToPage(appUrlBase);
 
   // setup the test fixtures
@@ -48,10 +48,12 @@ async function setup(config) {
   await waitByClass("autosave-complete");
 }
 
+// @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe.each([
   { withSubset: true, tag: "subset" },
   { withSubset: false, tag: "whole" },
-])("annotations", (config) => {
+])("annotations", (config: any) => {
+  // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
   test("create a category", async () => {
     await setup(config);
 
@@ -64,6 +66,7 @@ describe.each([
     await assertCategoryExists(categoryName);
   });
 
+  // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
   test("delete a category", async () => {
     await setup(config);
 
@@ -71,6 +74,7 @@ describe.each([
     await assertCategoryDoesNotExist(perTestCategoryName);
   });
 
+  // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
   test("rename a category", async () => {
     await setup(config);
 
@@ -81,6 +85,7 @@ describe.each([
     await assertCategoryExists(newCategoryName);
   });
 
+  // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
   test("create a label", async () => {
     await setup(config);
 
@@ -93,6 +98,7 @@ describe.each([
     await assertLabelExists(perTestCategoryName, labelName);
   });
 
+  // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
   test("delete a label", async () => {
     await setup(config);
 
@@ -100,6 +106,7 @@ describe.each([
     await assertLabelDoesNotExist(perTestCategoryName, perTestLabelName);
   });
 
+  // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
   test("rename a label", async () => {
     await setup(config);
 
@@ -111,20 +118,24 @@ describe.each([
     await assertLabelExists(perTestCategoryName, newLabelName);
   });
 
+  // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
   test("check cell count for a label loaded from file", async () => {
     await setup(config);
 
     const duplicateCategoryName = "duplicate";
     await duplicateCategory(duplicateCategoryName);
 
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'page'.
     await page.reload({ waitUntil: ["networkidle0", "domcontentloaded"] });
 
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     const firstCategoryExpandIcon = await expect(page).toMatchElement(
       getTestClass("category-expand")
     );
 
     await firstCategoryExpandIcon.click();
 
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     const expectedCategoryRow = await expect(page).toMatchElement(
       getTestClass("categorical-row")
     );
@@ -139,10 +150,12 @@ describe.each([
 
     await expandCategory(duplicateCategoryName);
 
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     const expectedCategory = await expect(page).toMatchElement(
       getTestClass("category")
     );
 
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     const actualCategoryRow = await expect(expectedCategory).toMatchElement(
       getTestClass("categorical-row")
     );
@@ -155,14 +168,17 @@ describe.each([
       "categorical-value-count"
     );
 
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(actualLabelName).toBe(expectedLabelName);
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(actualLabelCount).toBe(expectedLabelCount);
 
-    async function getInnerText(element, className) {
-      return element.$eval(getTestClass(className), (node) => node?.innerText);
+    async function getInnerText(element: any, className: any) {
+      return element.$eval(getTestClass(className), (node: any) => node?.innerText);
     }
   });
 
+  // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
   test("assign cells to a label", async () => {
     await setup(config);
 
@@ -184,11 +200,14 @@ describe.each([
       `categorical-value-count-${perTestCategoryName}-${perTestLabelName}`
     );
 
-    expect(await result.evaluate((node) => node.innerText)).toBe(
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
+    expect(await result.evaluate((node: any) => node.innerText)).toBe(
+      // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       data.categoryLabel.newCount.bySubsetConfig[config.withSubset]
     );
   });
 
+  // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
   test("undo/redo category creation", async () => {
     await setup(config);
 
@@ -203,6 +222,7 @@ describe.each([
     await assertCategoryExists(categoryName);
   });
 
+  // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
   test("undo/redo category deletion", async () => {
     await setup(config);
 
@@ -218,6 +238,7 @@ describe.each([
     await assertCategoryDoesNotExist(categoryName);
   });
 
+  // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
   test("undo/redo category rename", async () => {
     await setup(config);
 
@@ -235,6 +256,7 @@ describe.each([
     await assertCategoryDoesNotExist(perTestCategoryName);
   });
 
+  // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
   test("undo/redo label creation", async () => {
     await setup(config);
 
@@ -244,22 +266,27 @@ describe.each([
     await createLabel(perTestCategoryName, labelName);
     await assertLabelExists(perTestCategoryName, labelName);
     await clickOn("undo");
+    // @ts-expect-error ts-migrate(2554) FIXME: Expected 2 arguments, but got 1.
     await assertLabelDoesNotExist(perTestCategoryName);
     await clickOn("redo");
     await assertLabelExists(perTestCategoryName, labelName);
   });
 
+  // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
   test("undo/redo label deletion", async () => {
     await setup(config);
 
     await deleteLabel(perTestCategoryName, perTestLabelName);
+    // @ts-expect-error ts-migrate(2554) FIXME: Expected 2 arguments, but got 1.
     await assertLabelDoesNotExist(perTestCategoryName);
     await clickOn("undo");
     await assertLabelExists(perTestCategoryName, perTestLabelName);
     await clickOn("redo");
+    // @ts-expect-error ts-migrate(2554) FIXME: Expected 2 arguments, but got 1.
     await assertLabelDoesNotExist(perTestCategoryName);
   });
 
+  // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
   test("undo/redo label rename", async () => {
     await setup(config);
 
@@ -277,6 +304,7 @@ describe.each([
     await assertLabelDoesNotExist(perTestCategoryName, perTestLabelName);
   });
 
+  // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
   test("stacked bar graph renders", async () => {
     await setup(config);
 
@@ -287,16 +315,19 @@ describe.each([
     const labels = await getAllByClass("categorical-row");
 
     const result = await Promise.all(
-      labels.map((label) => {
-        return page.evaluate((element) => {
+      labels.map((label: any) => {
+        // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'page'.
+        return page.evaluate((element: any) => {
           return element.outerHTML;
         }, label);
       })
     );
 
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(result).toMatchSnapshot();
   });
 
+  // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
   test("truncate midpoint whitespace", async () => {
     await setup(config);
     const newLabelName = "123 456";
@@ -304,10 +335,13 @@ describe.each([
     const value = await waitByID(
       `categorical-value-${perTestCategoryName}-${newLabelName}`
     );
-    const result = await page.evaluate((elem) => elem.outerHTML, value);
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'page'.
+    const result = await page.evaluate((elem: any) => elem.outerHTML, value);
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(result).toMatchSnapshot();
   });
 
+  // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
   test("truncate single character", async () => {
     await setup(config);
     const newLabelName = "T";
@@ -315,21 +349,24 @@ describe.each([
     const value = await waitByID(
       `categorical-value-${perTestCategoryName}-${newLabelName}`
     );
-    const result = await page.evaluate((elem) => elem.outerHTML, value);
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'page'.
+    const result = await page.evaluate((elem: any) => elem.outerHTML, value);
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(result).toMatchSnapshot();
   });
 
-  async function assertCategoryExists(categoryName) {
+  async function assertCategoryExists(categoryName: any) {
     const handle = await waitByID(`${categoryName}:category-label`);
 
-    const result = await handle.evaluate((node) =>
-      node.getAttribute("aria-label")
+    const result = await handle.evaluate((node: any) => node.getAttribute("aria-label")
     );
 
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     return expect(result).toBe(categoryName);
   }
 
-  async function assertLabelExists(categoryName, labelName) {
+  async function assertLabelExists(categoryName: any, labelName: any) {
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     await expect(page).toMatchElement(
       getTestId(`${categoryName}:category-expand`)
     );
@@ -340,16 +377,19 @@ describe.each([
       `categorical-value-${categoryName}-${labelName}`
     );
 
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(
-      await previous.evaluate((node) => node.getAttribute("aria-label"))
+      await previous.evaluate((node: any) => node.getAttribute("aria-label"))
     ).toBe(labelName);
   }
 
-  async function assertLabelDoesNotExist(categoryName, labelName) {
+  async function assertLabelDoesNotExist(categoryName: any, labelName: any) {
     await expandCategory(categoryName);
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'page'.
     const result = await page.$(
       `[data-testid='categorical-value-${categoryName}-${labelName}']`
     );
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(result).toBeNull();
   }
 });

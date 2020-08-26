@@ -1,13 +1,17 @@
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/react` if it exists or add... Remove this comment to see the full error message
 import React, { useEffect, useRef } from "react";
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/react-redux` if it exists ... Remove this comment to see the full error message
 import { connect, shallowEqual } from "react-redux";
 import { Button, ButtonGroup } from "@blueprintjs/core";
 import _regl from "regl";
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/d3` if it exists or add a ... Remove this comment to see the full error message
 import * as d3 from "d3";
 import { mat3 } from "gl-matrix";
 import memoize from "memoize-one";
 import Async from "react-async";
 
 import * as globals from "../../globals";
+// @ts-expect-error ts-migrate(2307) FIXME: Cannot find module './scatterplot.css' or its corr... Remove this comment to see the full error message
 import styles from "./scatterplot.css";
 import _drawPoints from "./drawPointsRegl";
 import { margin, width, height } from "./util";
@@ -21,7 +25,7 @@ const flagSelected = 1;
 const flagNaN = 2;
 const flagHighlight = 4;
 
-function createProjectionTF(viewportWidth, viewportHeight) {
+function createProjectionTF(viewportWidth: any, viewportHeight: any) {
   /*
   the projection transform accounts for the screen size & other layout
   */
@@ -29,7 +33,7 @@ function createProjectionTF(viewportWidth, viewportHeight) {
   return mat3.projection(m, viewportWidth, viewportHeight);
 }
 
-function getScale(col, rangeMin, rangeMax) {
+function getScale(col: any, rangeMin: any, rangeMax: any) {
   if (!col) return null;
   const { min, max } = col.summarize();
   return d3.scaleLinear().domain([min, max]).range([rangeMin, rangeMax]);
@@ -37,6 +41,9 @@ function getScale(col, rangeMin, rangeMax) {
 const getXScale = memoize(getScale);
 const getYScale = memoize(getScale);
 
+type State = any;
+
+// @ts-expect-error ts-migrate(7006) FIXME: Parameter 'state' implicitly has an 'any' type.
 @connect((state) => {
   const { obsCrossfilter: crossfilter } = state;
   const { scatterplotXXaccessor, scatterplotYYaccessor } = state.controls;
@@ -54,8 +61,15 @@ const getYScale = memoize(getScale);
     crossfilter,
   };
 })
-class Scatterplot extends React.PureComponent {
-  static createReglState(canvas) {
+// @ts-expect-error ts-migrate(1219) FIXME: Experimental support for decorators is a feature t... Remove this comment to see the full error message
+class Scatterplot extends React.PureComponent<{}, State> {
+  axes: any;
+  props: any;
+  reglCanvas: any;
+  renderCache: any;
+  setState: any;
+  state: any;
+  static createReglState(canvas: any) {
     /*
     Must be created for each canvas
     */
@@ -69,8 +83,11 @@ class Scatterplot extends React.PureComponent {
     const drawPoints = _drawPoints(regl);
 
     // preallocate webgl buffers
+    // @ts-expect-error ts-migrate(2554) FIXME: Expected 1 arguments, but got 0.
     const pointBuffer = regl.buffer();
+    // @ts-expect-error ts-migrate(2554) FIXME: Expected 1 arguments, but got 0.
     const colorBuffer = regl.buffer();
+    // @ts-expect-error ts-migrate(2554) FIXME: Expected 1 arguments, but got 0.
     const flagBuffer = regl.buffer();
 
     return {
@@ -82,7 +99,7 @@ class Scatterplot extends React.PureComponent {
     };
   }
 
-  static watchAsync(props, prevProps) {
+  static watchAsync(props: any, prevProps: any) {
     return !shallowEqual(props.watchProps, prevProps.watchProps);
   }
 
@@ -181,7 +198,7 @@ class Scatterplot extends React.PureComponent {
     }
   );
 
-  constructor(props) {
+  constructor(props: {}) {
     super(props);
     const viewport = this.getViewportDimensions();
     this.axes = false;
@@ -205,7 +222,7 @@ class Scatterplot extends React.PureComponent {
     window.removeEventListener("resize", this.handleResize);
   }
 
-  setReglCanvas = (canvas) => {
+  setReglCanvas = (canvas: any) => {
     this.reglCanvas = canvas;
     if (canvas) {
       // no need to update this state if we are detaching.
@@ -231,7 +248,7 @@ class Scatterplot extends React.PureComponent {
     });
   };
 
-  fetchAsyncProps = async (props) => {
+  fetchAsyncProps = async (props: any) => {
     const {
       scatterplotXXaccessor,
       scatterplotYYaccessor,
@@ -293,7 +310,7 @@ class Scatterplot extends React.PureComponent {
     };
   };
 
-  createXQuery(geneName) {
+  createXQuery(geneName: any) {
     const { annoMatrix } = this.props;
     const { schema } = annoMatrix;
     const varIndex = schema?.annotations?.var?.index;
@@ -308,14 +325,14 @@ class Scatterplot extends React.PureComponent {
     ];
   }
 
-  createColorByQuery(colors) {
+  createColorByQuery(colors: any) {
     const { annoMatrix } = this.props;
     const { schema } = annoMatrix;
     const { colorMode, colorAccessor } = colors;
     return createColorQuery(colorMode, colorAccessor, schema);
   }
 
-  updateColorTable(colors, colorDf) {
+  updateColorTable(colors: any, colorDf: any) {
     /* update color table state */
     const { annoMatrix } = this.props;
     const { schema } = annoMatrix;
@@ -330,10 +347,10 @@ class Scatterplot extends React.PureComponent {
   }
 
   async fetchData(
-    scatterplotXXaccessor,
-    scatterplotYYaccessor,
-    colors,
-    pointDilation
+    scatterplotXXaccessor: any,
+    scatterplotYYaccessor: any,
+    colors: any,
+    pointDilation: any
   ) {
     const { annoMatrix } = this.props;
     const { metadataField: pointDilationAccessor } = pointDilation;
@@ -341,9 +358,11 @@ class Scatterplot extends React.PureComponent {
     const promises = [];
     // X and Y dimensions
     promises.push(
+      // @ts-expect-error ts-migrate(2569) FIXME: Type '(string | { field: string; column: any; valu... Remove this comment to see the full error message
       annoMatrix.fetch(...this.createXQuery(scatterplotXXaccessor))
     );
     promises.push(
+      // @ts-expect-error ts-migrate(2569) FIXME: Type '(string | { field: string; column: any; valu... Remove this comment to see the full error message
       annoMatrix.fetch(...this.createXQuery(scatterplotYYaccessor))
     );
 
@@ -384,7 +403,7 @@ class Scatterplot extends React.PureComponent {
     );
   });
 
-  updateReglAndRender(newRenderCache) {
+  updateReglAndRender(newRenderCache: any) {
     const { positions, colors, flags } = newRenderCache;
     this.renderCache = newRenderCache;
     const { pointBuffer, colorBuffer, flagBuffer } = this.state;
@@ -395,12 +414,12 @@ class Scatterplot extends React.PureComponent {
   }
 
   renderPoints(
-    regl,
-    drawPoints,
-    flagBuffer,
-    colorBuffer,
-    pointBuffer,
-    projectionTF
+    regl: any,
+    drawPoints: any,
+    flagBuffer: any,
+    colorBuffer: any,
+    pointBuffer: any,
+    projectionTF: any
   ) {
     const { annoMatrix } = this.props;
     if (!this.reglCanvas || !annoMatrix) return;
@@ -441,6 +460,7 @@ class Scatterplot extends React.PureComponent {
     const bottomToolbarGutter = 48; // gutter for bottom tool bar
 
     return (
+      // @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message
       <div
         style={{
           position: "fixed",
@@ -455,13 +475,16 @@ class Scatterplot extends React.PureComponent {
         }}
         id="scatterplot_wrapper"
       >
+        {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
         <ButtonGroup
+          // @ts-expect-error ts-migrate(2322) FIXME: Property 'style' does not exist on type 'IButtonGr... Remove this comment to see the full error message
           style={{
             position: "absolute",
             right: 5,
             top: 5,
           }}
         >
+          {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
           <Button
             type="button"
             minimal
@@ -471,6 +494,7 @@ class Scatterplot extends React.PureComponent {
           >
             {minimized ? "show scatterplot" : "hide"}
           </Button>
+          {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
           <Button
             type="button"
             minimal
@@ -484,6 +508,7 @@ class Scatterplot extends React.PureComponent {
             remove
           </Button>
         </ButtonGroup>
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         <div
           className={styles.scatterplot}
           id="scatterplot"
@@ -494,6 +519,7 @@ class Scatterplot extends React.PureComponent {
             }px`,
           }}
         >
+          {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
           <canvas
             width={width}
             height={height}
@@ -505,6 +531,7 @@ class Scatterplot extends React.PureComponent {
             }}
             ref={this.setReglCanvas}
           />
+          {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
           <Async
             watchFn={Scatterplot.watchAsync}
             promiseFn={this.fetchAsyncProps}
@@ -518,14 +545,18 @@ class Scatterplot extends React.PureComponent {
               viewport,
             }}
           >
+            {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
             <Async.Pending initial>Loading...</Async.Pending>
-            <Async.Rejected>{(error) => error.message}</Async.Rejected>
+            {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
+            <Async.Rejected>{(error: any) => error.message}</Async.Rejected>
+            {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
             <Async.Fulfilled>
-              {(asyncProps) => {
+              {(asyncProps: any) => {
                 if (regl && !shallowEqual(asyncProps, this.renderCache)) {
                   this.updateReglAndRender(asyncProps);
                 }
                 return (
+                  // @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                   <ScatterplotAxis
                     minimized={minimized}
                     scatterplotYYaccessor={scatterplotYYaccessor}
@@ -537,7 +568,9 @@ class Scatterplot extends React.PureComponent {
               }}
             </Async.Fulfilled>
           </Async>
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         </div>
+      {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
       </div>
     );
   }
@@ -551,8 +584,8 @@ const ScatterplotAxis = React.memo(
     scatterplotYYaccessor,
     scatterplotXXaccessor,
     xScale,
-    yScale,
-  }) => {
+    yScale
+  }: any) => {
     /*
     Axis for the scatterplot, rendered with SVG/D3.  Props:
       * scatterplotXXaccessor - name of X axis
@@ -612,6 +645,7 @@ const ScatterplotAxis = React.memo(
     }, [scatterplotXXaccessor, scatterplotYYaccessor, xScale, yScale]);
 
     return (
+      // @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message
       <svg
         width={width + margin.left + margin.right}
         height={height + margin.top + margin.bottom}
@@ -620,7 +654,9 @@ const ScatterplotAxis = React.memo(
           display: minimized ? "none" : null,
         }}
       >
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         <g ref={svgRef} transform={`translate(${margin.left},${margin.top})`} />
+      {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
       </svg>
     );
   }

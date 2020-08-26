@@ -1,8 +1,11 @@
 // jshint esversion: 6
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/react` if it exists or add... Remove this comment to see the full error message
 import React from "react";
 
 export default class MiniStackedBar extends React.PureComponent {
-  constructor(props) {
+  canvasRef: any;
+  props: any;
+  constructor(props: any) {
     super(props);
     this.canvasRef = React.createRef();
   }
@@ -43,7 +46,7 @@ export default class MiniStackedBar extends React.PureComponent {
     }
   };
 
-  componentDidUpdate = (prevProps) => {
+  componentDidUpdate = (prevProps: any) => {
     const { occupancy } = this.props;
     if (occupancy !== prevProps.occupancy) this.drawStacks();
   };
@@ -54,10 +57,12 @@ export default class MiniStackedBar extends React.PureComponent {
 
   render() {
     const { width, height } = this.props;
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'canvas' does not exist on type 'MiniStac... Remove this comment to see the full error message
     const { canvas } = this;
     if (canvas) canvas.getContext("2d").clearRect(0, 0, width, height);
 
     return (
+      // @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message
       <canvas
         className="bp3-popover-targer"
         style={{

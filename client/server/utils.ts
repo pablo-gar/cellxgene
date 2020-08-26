@@ -1,14 +1,15 @@
 /* eslint-disable */
 // jshint esversion: 6
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'chalk'.
 var chalk = require("chalk");
 
 var friendlySyntaxErrorLabel = "Syntax error:";
 
-function isLikelyASyntaxError(message) {
+function isLikelyASyntaxError(message: any) {
   return message.indexOf(friendlySyntaxErrorLabel) !== -1;
 }
 
-function formatMessage(message) {
+function formatMessage(message: any) {
   return message
     .replace("Module build failed: SyntaxError:", friendlySyntaxErrorLabel)
     .replace(
@@ -22,7 +23,7 @@ var clearConsole = () => {
   process.stdout.write("\x1bc");
 };
 
-var formatStats = (stats, port) => {
+var formatStats = (stats: any, port: any) => {
   clearConsole();
   var hasErrors = stats.hasErrors();
   var hasWarnings = stats.hasWarnings();
@@ -36,10 +37,10 @@ var formatStats = (stats, port) => {
 
   var json = stats.toJson();
   var formattedErrors = json.errors.map(
-    (message) => "Error in " + formatMessage(message)
+    (message: any) => "Error in " + formatMessage(message)
   );
   var formattedWarnings = json.warnings.map(
-    (message) => "Warning in " + formatMessage(message)
+    (message: any) => "Warning in " + formatMessage(message)
   );
 
   if (hasErrors) {
@@ -48,7 +49,7 @@ var formatStats = (stats, port) => {
     if (formattedErrors.some(isLikelyASyntaxError)) {
       formattedErrors = formattedErrors.filter(isLikelyASyntaxError);
     }
-    formattedErrors.forEach((message) => {
+    formattedErrors.forEach((message: any) => {
       console.log(message);
       console.log();
     });
@@ -58,7 +59,7 @@ var formatStats = (stats, port) => {
   if (hasWarnings) {
     console.log(chalk.yellow("Compiled with warnings."));
     console.log();
-    formattedWarnings.forEach((message) => {
+    formattedWarnings.forEach((message: any) => {
       console.log(message);
       console.log();
     });

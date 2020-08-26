@@ -1,3 +1,4 @@
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/lodash` if it exists or ad... Remove this comment to see the full error message
 import _ from "lodash";
 
 import Crossfilter from "../../../src/util/typedCrossfilter";
@@ -125,28 +126,41 @@ const someData = [
   },
 ];
 
-let payments = null;
+let payments: any = null;
+// @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'beforeEach'.
 beforeEach(() => {
   payments = new Crossfilter(someData);
 });
 
+// @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe("ImmutableTypedCrossfilter", () => {
+  // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
   test("create crossfilter", () => {
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(payments).toBeDefined();
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(payments.size()).toEqual(someData.length);
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(payments.all()).toEqual(someData);
 
     const p = payments
-      .addDimension("quantity", "scalar", (i, d) => d[i].quantity, Int32Array)
+      .addDimension("quantity", "scalar", (i: any, d: any) => d[i].quantity, Int32Array)
       .select("quantity", { mode: "all" });
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(p).toBeDefined();
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(p.all()).toEqual(someData);
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(p.size()).toEqual(someData.length);
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(p.isElementSelected(0)).toBeTruthy();
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(p.countSelected()).toEqual(someData.length);
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(p.allSelected()).toEqual(someData);
   });
 
+  // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
   test("immutability", () => {
     /*
     the following should return a new crossfilter:
@@ -157,197 +171,252 @@ describe("ImmutableTypedCrossfilter", () => {
     const p2 = payments.addDimension(
       "quantity",
       "scalar",
-      (i, data) => data[i].quantity,
+      (i: any, data: any) => data[i].quantity,
       Int32Array
     );
 
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(payments).not.toBe(p2);
     const p3 = p2.select("quantity", { mode: "all" });
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(p3).not.toBe(p2);
 
     const p4 = p3.delDimension("quantity");
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(p4).not.toBe(p3);
 
     const p5 = p2.renameDimension("quantity", "Quantity");
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(p5).not.toBe(p2);
   });
 
+  // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
   test("select all and none", () => {
     let p = payments
-      .addDimension("quantity", "scalar", (i, d) => d[i].quantity, Int32Array)
-      .addDimension("tip", "scalar", (i, d) => d[i].tip, Float32Array)
-      .addDimension("total", "scalar", (i, d) => d[i].total, Float32Array)
-      .addDimension("type", "enum", (i, d) => d[i].type);
+      .addDimension("quantity", "scalar", (i: any, d: any) => d[i].quantity, Int32Array)
+      .addDimension("tip", "scalar", (i: any, d: any) => d[i].tip, Float32Array)
+      .addDimension("total", "scalar", (i: any, d: any) => d[i].total, Float32Array)
+      .addDimension("type", "enum", (i: any, d: any) => d[i].type);
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(p).toBeDefined();
 
     /* expect all records to be selected - default init state */
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(p.allSelected()).toEqual(someData);
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(p.countSelected()).toEqual(someData.length);
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(p.allSelectedMask()).toEqual(
       new Uint8Array(someData.length).fill(1)
     );
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(p.fillByIsSelected(new Uint8Array(someData.length), 99, 0)).toEqual(
       new Uint8Array(someData.length).fill(99)
     );
     for (let i = 0; i < someData.length; i += 1) {
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect(p.isElementSelected(i)).toBeTruthy();
     }
 
     /* expect a selectAll on one dimension to change nothing */
     p = p.select("tip", { mode: "all" });
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(p.allSelected()).toEqual(someData);
 
     /* ditto */
     p = p.select("quantity", { mode: "all" });
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(p.allSelected()).toEqual(someData);
 
     /* select none on one dimension */
     p = p.select("type", { mode: "none" });
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(p.allSelected()).toEqual([]);
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(p.countSelected()).toEqual(0);
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(p.allSelectedMask()).toEqual(
       new Uint8Array(someData.length).fill(0)
     );
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(p.fillByIsSelected(new Uint8Array(someData.length), 99, 0)).toEqual(
       new Uint8Array(someData.length).fill(0)
     );
     for (let i = 0; i < someData.length; i += 1) {
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect(p.isElementSelected(i)).toBeFalsy();
     }
 
     p = p.select("quantity", { mode: "none" });
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(p.allSelected()).toEqual([]);
 
     // invert the first none; should have no effect because type is
     // still not filtered.
     p = p.select("quantity", { mode: "all" });
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(p.allSelected()).toEqual([]);
 
     /* select all of type; should select all records */
     p = p.select("type", { mode: "all" });
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(p.allSelected()).toEqual(someData);
   });
 
+  // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
   describe("scalar dimension", () => {
-    let p;
+    let p: any;
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'beforeEach'.
     beforeEach(() => {
       p = payments
-        .addDimension("quantity", "scalar", (i, d) => d[i].quantity, Int32Array)
-        .addDimension("tip", "scalar", (i, d) => d[i].tip, Float32Array)
+        .addDimension("quantity", "scalar", (i: any, d: any) => d[i].quantity, Int32Array)
+        .addDimension("tip", "scalar", (i: any, d: any) => d[i].tip, Float32Array)
         .select("tip", { mode: "all" });
     });
 
     /*
     select modes:  all, none, exact, range
     */
+    // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
     test("all", () => {
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect(p.select("quantity", { mode: "all" }).countSelected()).toEqual(
         someData.length
       );
     });
+    // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
     test("none", () => {
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect(p.select("quantity", { mode: "none" }).countSelected()).toEqual(0);
     });
-    test.each([[[]], [[2]], [[2, 1]], [[9, 82]], [[0, 1]]])("exact: %p", (v) =>
-      expect(
-        p.select("quantity", { mode: "exact", values: v }).countSelected()
-      ).toEqual(_.filter(someData, (d) => v.includes(d.quantity)).length)
+    // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
+    test.each([[[]], [[2]], [[2, 1]], [[9, 82]], [[0, 1]]])("exact: %p", (v: any) => expect(
+      p.select("quantity", { mode: "exact", values: v }).countSelected()
+    ).toEqual(_.filter(someData, (d: any) => v.includes(d.quantity)).length)
     );
+    // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
     test("single value exact", () => {
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect(
         p.select("quantity", { mode: "exact", values: 2 }).countSelected()
-      ).toEqual(_.filter(someData, (d) => d.quantity === 2).length);
+      ).toEqual(_.filter(someData, (d: any) => d.quantity === 2).length);
     });
+    // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
     test.each([
       [0, 1],
       [1, 2],
       [0, 99],
       [99, 100000],
-    ])("range %p", (lo, hi) =>
+    ])("range %p", (lo: any, hi: any) =>
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect(
         p.select("quantity", { mode: "range", lo, hi }).countSelected()
       ).toEqual(
-        _.filter(someData, (d) => d.quantity >= lo && d.quantity < hi).length
+        _.filter(someData, (d: any) => d.quantity >= lo && d.quantity < hi).length
       )
     );
+    // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
     test("bad mode", () => {
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect(() => p.select("type", { mode: "bad mode" })).toThrow(Error);
     });
   });
 
+  // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
   describe("enum dimension", () => {
-    let p;
+    let p: any;
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'beforeEach'.
     beforeEach(() => {
-      p = payments.addDimension("type", "enum", (i, d) => d[i].type);
+      p = payments.addDimension("type", "enum", (i: any, d: any) => d[i].type);
     });
 
+    // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
     test("all", () => {
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect(p.select("type", { mode: "all" }).countSelected()).toEqual(
         someData.length
       );
     });
+    // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
     test("none", () => {
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect(p.select("type", { mode: "none" }).countSelected()).toEqual(0);
     });
+    // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
     test.each([
       [[]],
       [["tab"]],
       [["visa"]],
       [["visa", "tab"]],
       [["cash", "tab", "visa"]],
-    ])("exact: %p", (v) =>
-      expect(
-        p.select("type", { mode: "exact", values: v }).countSelected()
-      ).toEqual(_.filter(someData, (d) => v.includes(d.type)).length)
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
+    ])("exact: %p", (v: any) => expect(
+      p.select("type", { mode: "exact", values: v }).countSelected()
+    ).toEqual(_.filter(someData, (d: any) => v.includes(d.type)).length)
     );
+    // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
     test("single value exact", () => {
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect(
         p.select("type", { mode: "exact", values: "tab" }).countSelected()
-      ).toEqual(_.filter(someData, (d) => d.type === "tab").length);
+      ).toEqual(_.filter(someData, (d: any) => d.type === "tab").length);
     });
+    // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
     test("range", () => {
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect(() => p.select("type", { mode: "range", lo: 0, hi: 9 })).toThrow(
         Error
       );
     });
+    // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
     test("bad mode", () => {
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect(() => p.select("type", { mode: "bad mode" })).toThrow(Error);
     });
   });
 
+  // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
   describe("spatial dimension", () => {
-    let p;
+    let p: any;
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'beforeEach'.
     beforeEach(() => {
       const X = someData.map((r) => r.coords[0]);
       const Y = someData.map((r) => r.coords[1]);
       p = payments.addDimension("coords", "spatial", X, Y);
     });
 
+    // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
     test("all", () => {
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect(p.select("coords", { mode: "all" }).countSelected()).toEqual(
         someData.length
       );
     });
+    // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
     test("none", () => {
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect(p.select("coords", { mode: "none" }).countSelected()).toEqual(0);
     });
+    // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
     test.each([
       [0, 0, 1, 1],
       [0, 0, 0.5, 0.5],
       [0.5, 0.5, 1, 1],
-    ])("within-rect %d %d %d %d", (minX, minY, maxX, maxY) => {
+    ])("within-rect %d %d %d %d", (minX: any, minY: any, maxX: any, maxY: any) => {
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect(
         p
           .select("coords", { mode: "within-rect", minX, minY, maxX, maxY })
           .allSelected()
       ).toEqual(
-        _.filter(someData, (d) => {
+        _.filter(someData, (d: any) => {
           const [x, y] = d.coords;
           return minX <= x && x < maxX && minY <= y && y < maxY;
         })
       );
     });
 
+    // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
     test.each([
       [
         [
@@ -393,47 +462,57 @@ describe("ImmutableTypedCrossfilter", () => {
           false,
         ],
       ],
-    ])("within-polygon %p", (polygon, expected) => {
+    ])("within-polygon %p", (polygon: any, expected: any) => {
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect(
         p.select("coords", { mode: "within-polygon", polygon }).allSelected()
       ).toEqual(
         _.zip(someData, expected)
-          .filter((x) => x[1])
-          .map((x) => x[0])
+          .filter((x: any) => x[1])
+          .map((x: any) => x[0])
       );
     });
   });
 
+  // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
   describe("non-finite scalars", () => {
-    let p;
+    let p: any;
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'beforeEach'.
     beforeEach(() => {
       p = payments
-        .addDimension("quantity", "scalar", (i, d) => d[i].quantity, Int32Array)
+        .addDimension("quantity", "scalar", (i: any, d: any) => d[i].quantity, Int32Array)
         .addDimension(
           "nonFinite",
           "scalar",
-          (i, d) => d[i].nonFinite,
+          (i: any, d: any) => d[i].nonFinite,
           Float32Array
         )
         .select("quantity", { mode: "all" });
     });
 
+    // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
     test("all or none", () => {
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect(p.select("nonFinite", { mode: "all" }).countSelected()).toEqual(
         someData.length
       );
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect(p.select("nonFinite", { mode: "none" }).countSelected()).toEqual(
         0
       );
     });
 
+    // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
     test("exact", () => {
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect(
         p.select("nonFinite", { mode: "exact", values: [0] }).countSelected()
       ).toEqual(3);
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect(
         p.select("nonFinite", { mode: "exact", values: [1] }).countSelected()
       ).toEqual(1);
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect(
         p
           .select("nonFinite", {
@@ -442,6 +521,7 @@ describe("ImmutableTypedCrossfilter", () => {
           })
           .countSelected()
       ).toEqual(1);
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect(
         p
           .select("nonFinite", {
@@ -450,11 +530,13 @@ describe("ImmutableTypedCrossfilter", () => {
           })
           .countSelected()
       ).toEqual(1);
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect(
         p
           .select("nonFinite", { mode: "exact", values: [Number.NaN] })
           .countSelected()
       ).toEqual(4);
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect(
         p
           .select("nonFinite", {
@@ -465,7 +547,9 @@ describe("ImmutableTypedCrossfilter", () => {
       ).toEqual(6);
     });
 
+    // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
     test("range", () => {
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect(
         p
           .select("nonFinite", {
@@ -475,6 +559,7 @@ describe("ImmutableTypedCrossfilter", () => {
           })
           .countSelected()
       ).toEqual(5);
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect(
         p
           .select("nonFinite", {
@@ -484,6 +569,7 @@ describe("ImmutableTypedCrossfilter", () => {
           })
           .countSelected()
       ).toEqual(6);
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect(
         p
           .select("nonFinite", {

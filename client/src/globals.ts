@@ -1,5 +1,6 @@
 import { Colors } from "@blueprintjs/core";
 import { dispatchNetworkErrorMessageToUser } from "./util/actionHelpers";
+// @ts-expect-error ts-migrate(2732) FIXME: Cannot find module '../../environment.default.json... Remove this comment to see the full error message
 import * as ENV_DEFAULT from "../../environment.default.json";
 
 /* if a categorical metadata field has more options than this, truncate */
@@ -88,7 +89,9 @@ const CXG_SERVER_PORT =
 
 let _API;
 
+// @ts-expect-error ts-migrate(2339) FIXME: Property 'CELLXGENE' does not exist on type 'Windo... Remove this comment to see the full error message
 if (window.CELLXGENE && window.CELLXGENE.API) {
+  // @ts-expect-error ts-migrate(2339) FIXME: Property 'CELLXGENE' does not exist on type 'Windo... Remove this comment to see the full error message
   _API = window.CELLXGENE.API;
 } else {
   if (CXG_SERVER_PORT === undefined) {

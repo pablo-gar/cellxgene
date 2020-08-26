@@ -4,10 +4,14 @@ https://bl.ocks.org/mbostock/34f08d5e11952a80609169b7917d4172
 https://bl.ocks.org/SpaceActuary/2f004899ea1b2bd78d6f1dbb2febf771
 https://bl.ocks.org/mbostock/3019563
 */
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/react` if it exists or add... Remove this comment to see the full error message
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import { Button, ButtonGroup, Tooltip } from "@blueprintjs/core";
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/react-redux` if it exists ... Remove this comment to see the full error message
 import { connect } from "react-redux";
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/d3` if it exists or add a ... Remove this comment to see the full error message
 import * as d3 from "d3";
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/d3-scale-chromatic` if it ... Remove this comment to see the full error message
 import { interpolateCool } from "d3-scale-chromatic";
 import Async from "react-async";
 import memoize from "memoize-one";
@@ -17,15 +21,15 @@ import { histogramContinuous } from "../../util/dataframe/histogram";
 import { makeContinuousDimensionName } from "../../util/nameCreators";
 import significantDigits from "../../util/significantDigits";
 
-function clamp(val, rng) {
+function clamp(val: any, rng: any) {
   return Math.max(Math.min(val, rng[1]), rng[0]);
 }
 
-function maybeScientific(x) {
+function maybeScientific(x: any) {
   let format = ",";
   const _ticks = x.ticks(4);
 
-  if (x.domain().some((n) => Math.abs(n) >= 10000)) {
+  if (x.domain().some((n: any) => Math.abs(n) >= 10000)) {
     /* 
       heuristic: if the last tick d3 wants to render has one significant
       digit ie., 2000, render 2e+3, but if it's anything else ie., 42000000 render
@@ -37,17 +41,22 @@ function maybeScientific(x) {
   return format;
 }
 
-const StillLoading = ({ zebra, displayName }) => {
+const StillLoading = ({
+  zebra,
+  displayName
+}: any) => {
   /*
   Render a loading indicator for the field.
   */
   return (
+    // @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message
     <div
       style={{
         padding: globals.leftSidebarSectionPadding,
         backgroundColor: zebra ? globals.lightestGrey : "white",
       }}
     >
+      {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
       <div
         style={{
           display: "flex",
@@ -56,33 +65,49 @@ const StillLoading = ({ zebra, displayName }) => {
           alignItems: "center",
         }}
       >
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         <div style={{ minWidth: 30 }} />
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         <div style={{ display: "flex", alignSelf: "center" }}>
+          {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
           <span style={{ fontStyle: "italic" }}>{displayName}</span>
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         </div>
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         <div
           style={{
             display: "flex",
             justifyContent: "flex-end",
           }}
         >
+          {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
           <Button minimal loading intent="primary" />
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         </div>
+      {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
       </div>
+    {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
     </div>
   );
 };
 
-const ErrorLoading = ({ displayName, error, zebra }) => {
+const ErrorLoading = ({
+  displayName,
+  error,
+  zebra
+}: any) => {
   console.log(error); // log to console as this is unexpected
   return (
+    // @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message
     <div
       style={{
         padding: globals.leftSidebarSectionPadding,
         backgroundColor: zebra ? globals.lightestGrey : "white",
       }}
     >
+      {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
       <span>{`Failure loading ${displayName}`}</span>
+    {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
     </div>
   );
 };
@@ -96,8 +121,8 @@ const HistogramFooter = React.memo(
     rangeColorMin,
     rangeColorMax,
     logFoldChange,
-    pvalAdj,
-  }) => {
+    pvalAdj
+  }: any) => {
     /*
   Footer of each histogram.  Will render range, title, and optionally 
   differential expression info.
@@ -111,13 +136,16 @@ const HistogramFooter = React.memo(
     * pValue - pValue to display, optional.
   */
     return (
+      // @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message
       <div>
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         <div
           style={{
             display: "flex",
             justifyContent: hideRanges ? "center" : "space-between",
           }}
         >
+          {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
           <span
             style={{
               color: rangeColorMin,
@@ -125,16 +153,22 @@ const HistogramFooter = React.memo(
             }}
           >
             min {rangeMin.toPrecision(4)}
+          {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
           </span>
+          {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
           <span
             data-testclass="brushable-histogram-field-name"
             style={{ fontStyle: "italic" }}
           >
             {displayName}
+          {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
           </span>
+          {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
           <div style={{ display: hideRanges ? "block" : "none" }}>
             : {rangeMin}
+          {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
           </div>
+          {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
           <span
             style={{
               color: rangeColorMax,
@@ -142,10 +176,13 @@ const HistogramFooter = React.memo(
             }}
           >
             max {rangeMax.toPrecision(4)}
+          {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
           </span>
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         </div>
 
         {logFoldChange && pvalAdj ? (
+          // @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message
           <div
             style={{
               display: "flex",
@@ -153,21 +190,29 @@ const HistogramFooter = React.memo(
               alignItems: "baseline",
             }}
           >
+            {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
             <span>
+              {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
               <strong>log fold change:</strong>
               {` ${logFoldChange.toPrecision(4)}`}
+            {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
             </span>
+            {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
             <span
               style={{
                 marginLeft: 7,
                 padding: 2,
               }}
             >
+              {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
               <strong>p-value (adj):</strong>
               {pvalAdj < 0.0001 ? " < 0.0001" : ` ${pvalAdj.toFixed(4)}`}
+            {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
             </span>
+          {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
           </div>
         ) : null}
+      {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
       </div>
     );
   }
@@ -183,8 +228,8 @@ const HistogramHeader = React.memo(
     isScatterPlotY,
     onScatterPlotXClick,
     onScatterPlotYClick,
-    isObs,
-  }) => {
+    isObs
+  }: any) => {
     /*
       Render the toolbar for the histogram.  Props:
         * fieldId - field identifier, used for various IDs
@@ -205,6 +250,7 @@ const HistogramHeader = React.memo(
     );
 
     return (
+      // @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message
       <div
         style={{
           display: "flex",
@@ -213,12 +259,16 @@ const HistogramHeader = React.memo(
         }}
       >
         {onScatterPlotXClick && onScatterPlotYClick ? (
+          // @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message
           <span>
+            {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
             <span
               style={{ marginRight: 7 }}
               className="bp3-icon-standard bp3-icon-scatter-plot"
             />
+            {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
             <ButtonGroup style={{ marginRight: 7 }}>
+              {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
               <Button
                 data-testid={`plot-x-${fieldId}`}
                 onClick={onScatterPlotXClick}
@@ -227,6 +277,7 @@ const HistogramHeader = React.memo(
               >
                 plot x
               </Button>
+              {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
               <Button
                 data-testid={`plot-y-${fieldId}`}
                 onClick={onScatterPlotYClick}
@@ -236,9 +287,11 @@ const HistogramHeader = React.memo(
                 plot y
               </Button>
             </ButtonGroup>
+          {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
           </span>
         ) : null}
         {onRemoveClick ? (
+          // @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
           <Button
             minimal
             onClick={onRemoveClick}
@@ -251,11 +304,13 @@ const HistogramHeader = React.memo(
             remove
           </Button>
         ) : null}
+        {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
         <Tooltip
           content="Use as color scale"
           position="bottom"
           hoverOpenDelay={globals.tooltipHoverOpenDelay}
         >
+          {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
           <Button
             onClick={memoizedColorByCallback}
             active={isColorBy}
@@ -265,6 +320,7 @@ const HistogramHeader = React.memo(
             icon="tint"
           />
         </Tooltip>
+      {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
       </div>
     );
   }
@@ -281,8 +337,8 @@ const Histogram = ({
   onBrushEnd,
   margin,
   isColorBy,
-  selectionRange,
-}) => {
+  selectionRange
+}: any) => {
   const svgRef = useRef(null);
   const [brush, setBrush] = useState(null);
 
@@ -325,13 +381,13 @@ const Histogram = ({
         .data(bins)
         .enter()
         .append("rect")
-        .attr("x", (d, i) => x(binStart(i)) + 1)
-        .attr("y", (d) => y(d))
-        .attr("width", (d, i) => x(binEnd(i)) - x(binStart(i)) - 1)
-        .attr("height", (d) => y(0) - y(d))
+        .attr("x", (d: any, i: any) => x(binStart(i)) + 1)
+        .attr("y", (d: any) => y(d))
+        .attr("width", (d: any, i: any) => x(binEnd(i)) - x(binStart(i)) - 1)
+        .attr("height", (d: any) => y(0) - y(d))
         .style(
           "fill",
-          isColorBy ? (d, i) => colorScale(histogramScale(binStart(i))) : "#bbb"
+          isColorBy ? (d: any, i: any) => colorScale(histogramScale(binStart(i))) : "#bbb"
         );
     }
 
@@ -380,7 +436,7 @@ const Histogram = ({
           .ticks(3)
           .tickFormat(
             d3.format(
-              y.domain().some((n) => Math.abs(n) >= 10000) ? ".0e" : ","
+              y.domain().some((n: any) => Math.abs(n) >= 10000) ? ".0e" : ","
             )
           )
       );
@@ -428,6 +484,7 @@ const Histogram = ({
   }, [brush, selectionRange]);
 
   return (
+    // @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message
     <svg
       style={{ display }}
       width={width}
@@ -440,6 +497,7 @@ const Histogram = ({
   );
 };
 
+// @ts-expect-error ts-migrate(7006) FIXME: Parameter 'state' implicitly has an 'any' type.
 @connect((state, ownProps) => {
   const { isObs, isUserDefined, isDiffExp, field } = ownProps;
   const myName = makeContinuousDimensionName(
@@ -454,9 +512,14 @@ const Histogram = ({
     isColorAccessor: state.colors.colorAccessor === field,
   };
 })
+// @ts-expect-error ts-migrate(1219) FIXME: Experimental support for decorators is a feature t... Remove this comment to see the full error message
 class HistogramBrush extends React.PureComponent {
+  height: any;
+  margin: any;
+  props: any;
+  width: any;
   /* memoized closure to prevent HistogramHeader unecessary repaint */
-  handleColorAction = memoize((dispatch) => (field, isObs) => {
+  handleColorAction = memoize((dispatch) => (field: any, isObs: any) => {
     if (isObs) {
       dispatch({
         type: "color by continuous metadata",
@@ -467,7 +530,7 @@ class HistogramBrush extends React.PureComponent {
     }
   });
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
 
     const marginLeft = 10; // Space for 0 tick label on X axis
@@ -484,7 +547,7 @@ class HistogramBrush extends React.PureComponent {
     this.height = 135 - marginTop - marginBottom;
   }
 
-  onBrush = (selection, x, eventType) => {
+  onBrush = (selection: any, x: any, eventType: any) => {
     const type = `continuous metadata histogram ${eventType}`;
     return () => {
       const { dispatch, field, isObs, isUserDefined, isDiffExp } = this.props;
@@ -512,7 +575,7 @@ class HistogramBrush extends React.PureComponent {
     };
   };
 
-  onBrushEnd = (selection, x) => {
+  onBrushEnd = (selection: any, x: any) => {
     return () => {
       const { dispatch, field, isObs, isUserDefined, isDiffExp } = this.props;
       const minAllowedBrushSize = 10;
@@ -614,6 +677,7 @@ class HistogramBrush extends React.PureComponent {
     const { isClipped } = annoMatrix;
 
     const query = this.createQuery();
+    // @ts-expect-error ts-migrate(2569) FIXME: Type 'any[] | null' is not an array type or a stri... Remove this comment to see the full error message
     const df = await annoMatrix.fetch(...query);
     const column = df.icol(0);
 
@@ -624,6 +688,7 @@ class HistogramBrush extends React.PureComponent {
 
     let unclippedRange = [...range];
     if (isClipped) {
+      // @ts-expect-error ts-migrate(2569) FIXME: Type 'any[] | null' is not an array type or a stri... Remove this comment to see the full error message
       const parent = await annoMatrix.viewOf.fetch(...query);
       const { min, max } = parent.icol(0).summarize();
       unclippedRange = [min, max];
@@ -665,7 +730,7 @@ class HistogramBrush extends React.PureComponent {
   };
 
   // eslint-disable-next-line class-methods-use-this -- instance method allows for memoization per annotation
-  calcHistogramCache(col, margin, width, height) {
+  calcHistogramCache(col: any, margin: any, width: any, height: any) {
     /*
      recalculate expensive stuff, notably bins, summaries, etc.
     */
@@ -675,25 +740,32 @@ class HistogramBrush extends React.PureComponent {
     const numBins = 40;
     const { marginTop, marginLeft } = margin;
 
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'domain' does not exist on type '{}'.
     histogramCache.domain = [domainMin, domainMax];
 
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'x' does not exist on type '{}'.
     histogramCache.x = d3
       .scaleLinear()
       .domain([domainMin, domainMax])
       .range([marginLeft, marginLeft + width]);
 
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'bins' does not exist on type '{}'.
     histogramCache.bins = histogramContinuous(col, numBins, [
       domainMin,
       domainMax,
     ]);
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'binWidth' does not exist on type '{}'.
     histogramCache.binWidth = (domainMax - domainMin) / numBins;
 
-    histogramCache.binStart = (i) => domainMin + i * histogramCache.binWidth;
-    histogramCache.binEnd = (i) =>
-      domainMin + (i + 1) * histogramCache.binWidth;
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'binStart' does not exist on type '{}'.
+    histogramCache.binStart = (i: any) => domainMin + i * histogramCache.binWidth;
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'binEnd' does not exist on type '{}'.
+    histogramCache.binEnd = (i: any) => domainMin + (i + 1) * histogramCache.binWidth;
 
-    const yMax = histogramCache.bins.reduce((l, r) => (l > r ? l : r));
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'bins' does not exist on type '{}'.
+    const yMax = histogramCache.bins.reduce((l: any, r: any) => (l > r ? l : r));
 
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'y' does not exist on type '{}'.
     histogramCache.y = d3
       .scaleLinear()
       .domain([0, yMax])
@@ -740,73 +812,81 @@ class HistogramBrush extends React.PureComponent {
     const showScatterPlot = isDiffExp || isUserDefined;
 
     return (
+      // @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
       <Async watch={annoMatrix} promiseFn={this.fetchAsyncProps}>
+        {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
         <Async.Pending initial>
+          {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
           <StillLoading displayName={field} zebra={zebra} />
         </Async.Pending>
+        {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
         <Async.Rejected>
-          {(error) => (
-            <ErrorLoading zebra={zebra} error={error} displayName={field} />
-          )}
+          {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
+          {(error: any) => <ErrorLoading zebra={zebra} error={error} displayName={field} />}
         </Async.Rejected>
+        {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
         <Async.Fulfilled>
-          {(asyncProps) =>
-            asyncProps.OK2Render ? (
-              <div
-                id={`histogram_${fieldForId}`}
-                data-testid={`histogram-${field}`}
-                data-testclass={
-                  isDiffExp
-                    ? "histogram-diffexp"
-                    : isUserDefined
-                    ? "histogram-user-gene"
-                    : "histogram-continuous-metadata"
+          {(asyncProps: any) => asyncProps.OK2Render ? (
+            // @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message
+            <div
+              id={`histogram_${fieldForId}`}
+              data-testid={`histogram-${field}`}
+              data-testclass={
+                isDiffExp
+                  ? "histogram-diffexp"
+                  : isUserDefined
+                  ? "histogram-user-gene"
+                  : "histogram-continuous-metadata"
+              }
+              style={{
+                padding: globals.leftSidebarSectionPadding,
+                backgroundColor: zebra ? globals.lightestGrey : "white",
+              }}
+            >
+              {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
+              <HistogramHeader
+                fieldId={field}
+                isColorBy={isColorAccessor}
+                isObs={isObs}
+                onColorByClick={this.handleColorAction(dispatch)}
+                onRemoveClick={isUserDefined ? this.removeHistogram : null}
+                isScatterPlotX={isScatterplotXXaccessor}
+                isScatterPlotY={isScatterplotYYaccessor}
+                onScatterPlotXClick={
+                  showScatterPlot ? this.handleSetGeneAsScatterplotX : null
                 }
-                style={{
-                  padding: globals.leftSidebarSectionPadding,
-                  backgroundColor: zebra ? globals.lightestGrey : "white",
-                }}
-              >
-                <HistogramHeader
-                  fieldId={field}
-                  isColorBy={isColorAccessor}
-                  isObs={isObs}
-                  onColorByClick={this.handleColorAction(dispatch)}
-                  onRemoveClick={isUserDefined ? this.removeHistogram : null}
-                  isScatterPlotX={isScatterplotXXaccessor}
-                  isScatterPlotY={isScatterplotYYaccessor}
-                  onScatterPlotXClick={
-                    showScatterPlot ? this.handleSetGeneAsScatterplotX : null
-                  }
-                  onScatterPlotYClick={
-                    showScatterPlot ? this.handleSetGeneAsScatterplotY : null
-                  }
-                />
-                <Histogram
-                  field={field}
-                  fieldForId={fieldForId}
-                  display={asyncProps.isSingleValue ? "none" : "block"}
-                  histogram={asyncProps.histogram}
-                  width={this.width}
-                  height={this.height}
-                  onBrush={this.onBrush}
-                  onBrushEnd={this.onBrushEnd}
-                  margin={this.margin}
-                  isColorBy={isColorAccessor}
-                  selectionRange={continuousSelectionRange}
-                />
-                <HistogramFooter
-                  displayName={field}
-                  hideRanges={asyncProps.isSingleValue}
-                  rangeMin={asyncProps.unclippedRange[0]}
-                  rangeMax={asyncProps.unclippedRange[1]}
-                  rangeColorMin={asyncProps.unclippedRangeColor[0]}
-                  rangeColorMax={asyncProps.unclippedRangeColor[1]}
-                  logFoldChange={logFoldChange}
-                  pvalAdj={pvalAdj}
-                />
-              </div>
-            ) : null
+                onScatterPlotYClick={
+                  showScatterPlot ? this.handleSetGeneAsScatterplotY : null
+                }
+              />
+              {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
+              <Histogram
+                field={field}
+                fieldForId={fieldForId}
+                display={asyncProps.isSingleValue ? "none" : "block"}
+                histogram={asyncProps.histogram}
+                width={this.width}
+                height={this.height}
+                onBrush={this.onBrush}
+                onBrushEnd={this.onBrushEnd}
+                margin={this.margin}
+                isColorBy={isColorAccessor}
+                selectionRange={continuousSelectionRange}
+              />
+              {/* @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message */}
+              <HistogramFooter
+                displayName={field}
+                hideRanges={asyncProps.isSingleValue}
+                rangeMin={asyncProps.unclippedRange[0]}
+                rangeMax={asyncProps.unclippedRange[1]}
+                rangeColorMin={asyncProps.unclippedRangeColor[0]}
+                rangeColorMax={asyncProps.unclippedRangeColor[1]}
+                logFoldChange={logFoldChange}
+                pvalAdj={pvalAdj}
+              />
+            {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
+            </div>
+          ) : null
           }
         </Async.Fulfilled>
       </Async>

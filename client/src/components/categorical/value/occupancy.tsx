@@ -1,6 +1,9 @@
 // jshint esversion: 6
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/react` if it exists or add... Remove this comment to see the full error message
 import React from "react";
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/react-redux` if it exists ... Remove this comment to see the full error message
 import { connect } from "react-redux";
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/d3` if it exists or add a ... Remove this comment to see the full error message
 import * as d3 from "d3";
 import {
   Popover,
@@ -9,10 +12,14 @@ import {
   Classes,
 } from "@blueprintjs/core";
 
+// @ts-expect-error ts-migrate(7006) FIXME: Parameter 'state' implicitly has an 'any' type.
 @connect((state) => ({
   schema: state.annoMatrix?.schema,
 }))
+// @ts-expect-error ts-migrate(1219) FIXME: Experimental support for decorators is a feature t... Remove this comment to see the full error message
 class Occupancy extends React.PureComponent {
+  canvas: any;
+  props: any;
   _WIDTH = 100;
 
   _HEIGHT = 11;
@@ -140,6 +147,7 @@ class Occupancy extends React.PureComponent {
       canvas.getContext("2d").clearRect(0, 0, this._WIDTH, this._HEIGHT);
 
     return (
+      // @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
       <Popover
         interactionKind={PopoverInteractionKind.HOVER_TARGET_ONLY}
         hoverOpenDelay={1500}
@@ -154,6 +162,7 @@ class Occupancy extends React.PureComponent {
         disabled={colorByIsCategorical}
         popoverClassName={Classes.POPOVER_CONTENT_SIZING}
       >
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         <canvas
           className="bp3-popover-targer"
           style={{
@@ -166,23 +175,31 @@ class Occupancy extends React.PureComponent {
           }}
           width={this._WIDTH}
           height={this._HEIGHT}
-          ref={(ref) => {
+          ref={(ref: any) => {
             this.canvas = ref;
             if (colorByIsCategorical) this.createOccupancyStack();
             else this.createHistogram();
           }}
         />
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         <div key="text" style={{ fontSize: "14px" }}>
+          {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
           <p style={{ margin: "0" }}>
             This histograms shows the distribution of{" "}
+            {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
             <strong>{colorAccessor}</strong> within{" "}
+            {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
             <strong>{categoryValue}</strong>.
+            {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
             <br />
+            {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
             <br />
             The x axis is the same for each histogram, while the y axis is
             scaled to the largest bin within this histogram instead of the
             largest bin within the whole category.
+          {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
           </p>
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         </div>
       </Popover>
     );

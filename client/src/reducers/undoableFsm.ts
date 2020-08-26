@@ -19,12 +19,12 @@ b) compound actions that should be collapsed into a single history change.
 */
 
 const createFsmTransitions = (
-  stashPending,
-  cancelPending,
-  applyPending,
-  skip,
-  clear,
-  save
+  stashPending: any,
+  cancelPending: any,
+  applyPending: any,
+  skip: any,
+  clear: any,
+  save: any
 ) => {
   return [
     /* graph selection brushing */
@@ -45,7 +45,7 @@ const createFsmTransitions = (
       from: "graph brush in progress",
       to: "done",
       /* if current selection is all, cancelPending.  Else, applyPending */
-      action: (fsm, transition, data) =>
+      action: (fsm: any, transition: any, data: any) =>
         data.state.graphSelection.selection.mode === "all"
           ? cancelPending()
           : applyPending(),
@@ -75,7 +75,7 @@ const createFsmTransitions = (
       from: "graph lasso in progress",
       to: "done",
       /* if current selection is all, cancelPending.  Else, applyPending */
-      action: (fsm, transition, data) =>
+      action: (fsm: any, transition: any, data: any) =>
         data.state.graphSelection.selection.mode === "all"
           ? cancelPending()
           : applyPending(),

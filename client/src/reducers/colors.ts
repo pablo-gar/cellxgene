@@ -7,9 +7,9 @@ const ColorsReducer = (
     colorMode: null,
     colorAccessor: null,
   },
-  action,
-  nextSharedState,
-  prevSharedState
+  action: any,
+  nextSharedState: any,
+  prevSharedState: any
 ) => {
   switch (action.type) {
     case "universe: user color load success": {

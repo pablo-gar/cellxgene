@@ -1,14 +1,18 @@
 import * as Dataframe from "../../../src/util/dataframe";
 
-function float32Conversion(f) {
+function float32Conversion(f: any) {
   return new Float32Array([f])[0];
 }
 
+// @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe("Dataframe column summary", () => {
+  // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
   test("empty column test", () => {
     const df = Dataframe.Dataframe.create([0, 1], [[]]);
     const summary = df.icol(0).summarize();
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(summary).toEqual(
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect.objectContaining({
         categorical: true,
         categories: [],
@@ -18,6 +22,7 @@ describe("Dataframe column summary", () => {
     );
   });
 
+  // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
   test("simple test", () => {
     const df = new Dataframe.Dataframe(
       [1, 6],
@@ -30,6 +35,7 @@ describe("Dataframe column summary", () => {
         [1],
       ],
       null,
+      // @ts-expect-error ts-migrate(2345) FIXME: Type 'KeyIndex' is not assignable to type 'null'.
       new Dataframe.KeyIndex([
         "name",
         "nameString",
@@ -40,7 +46,9 @@ describe("Dataframe column summary", () => {
       ])
     );
 
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(df.icol(0).summarize()).toEqual(
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect.objectContaining({
         categorical: true,
         categories: ["n1"],
@@ -48,7 +56,9 @@ describe("Dataframe column summary", () => {
         numCategories: 1,
       })
     );
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(df.icol(1).summarize()).toEqual(
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect.objectContaining({
         categorical: true,
         categories: ["hi"],
@@ -56,7 +66,9 @@ describe("Dataframe column summary", () => {
         numCategories: 1,
       })
     );
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(df.icol(2).summarize()).toEqual(
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect.objectContaining({
         categorical: true,
         categories: [true],
@@ -64,7 +76,9 @@ describe("Dataframe column summary", () => {
         numCategories: 1,
       })
     );
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(df.icol(3).summarize()).toEqual(
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect.objectContaining({
         categorical: false,
         min: float32Conversion(39.3),
@@ -74,7 +88,9 @@ describe("Dataframe column summary", () => {
         pinf: 0,
       })
     );
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(df.icol(4).summarize()).toEqual(
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect.objectContaining({
         categorical: false,
         min: 99,
@@ -84,7 +100,9 @@ describe("Dataframe column summary", () => {
         pinf: 0,
       })
     );
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(df.icol(5).summarize()).toEqual(
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect.objectContaining({
         categorical: true,
         categories: [1],
@@ -94,6 +112,7 @@ describe("Dataframe column summary", () => {
     );
   });
 
+  // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
   test("multi test", () => {
     const df = new Dataframe.Dataframe(
       [3, 6],
@@ -106,6 +125,7 @@ describe("Dataframe column summary", () => {
         [1, false, "0"],
       ],
       null,
+      // @ts-expect-error ts-migrate(2345) FIXME: Type 'KeyIndex' is not assignable to type 'null'.
       new Dataframe.KeyIndex([
         "name",
         "nameString",
@@ -116,9 +136,12 @@ describe("Dataframe column summary", () => {
       ])
     );
 
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(df.icol(0).summarize()).toEqual(
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect.objectContaining({
         categorical: true,
+        // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
         categories: expect.arrayContaining(["n0", "n1", "n2"]),
         categoryCounts: new Map([
           ["n0", 1],
@@ -128,9 +151,12 @@ describe("Dataframe column summary", () => {
         numCategories: 3,
       })
     );
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(df.icol(1).summarize()).toEqual(
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect.objectContaining({
         categorical: true,
+        // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
         categories: expect.arrayContaining(["hi", "bye"]),
         categoryCounts: new Map([
           ["hi", 2],
@@ -139,9 +165,12 @@ describe("Dataframe column summary", () => {
         numCategories: 2,
       })
     );
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(df.icol(2).summarize()).toEqual(
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect.objectContaining({
         categorical: true,
+        // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
         categories: expect.arrayContaining([true, false]),
         categoryCounts: new Map([
           [true, 2],
@@ -150,7 +179,9 @@ describe("Dataframe column summary", () => {
         numCategories: 2,
       })
     );
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(df.icol(3).summarize()).toEqual(
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect.objectContaining({
         categorical: false,
         min: 0,
@@ -160,7 +191,9 @@ describe("Dataframe column summary", () => {
         pinf: 0,
       })
     );
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(df.icol(4).summarize()).toEqual(
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect.objectContaining({
         categorical: false,
         min: 99,
@@ -170,10 +203,14 @@ describe("Dataframe column summary", () => {
         pinf: 0,
       })
     );
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(df.icol(5).summarize()).toEqual(
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect.objectContaining({
         categorical: true,
+        // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
         categories: expect.arrayContaining([1, false, "0"]),
+        // @ts-expect-error ts-migrate(2769) FIXME: Type '(string | number)[]' is missing the followin... Remove this comment to see the full error message
         categoryCounts: new Map([
           [1, 1],
           [false, 1],
@@ -184,6 +221,7 @@ describe("Dataframe column summary", () => {
     );
   });
 
+  // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
   test("non-finite numbers", () => {
     const df = new Dataframe.Dataframe(
       [4, 6],
@@ -201,6 +239,7 @@ describe("Dataframe column summary", () => {
         [1, false, "0", "0"],
       ],
       null,
+      // @ts-expect-error ts-migrate(2345) FIXME: Type 'KeyIndex' is not assignable to type 'null'.
       new Dataframe.KeyIndex([
         "name",
         "nameString",
@@ -211,9 +250,12 @@ describe("Dataframe column summary", () => {
       ])
     );
 
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(df.icol(0).summarize()).toEqual(
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect.objectContaining({
         categorical: true,
+        // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
         categories: expect.arrayContaining(["n0", "n1", "n2"]),
         categoryCounts: new Map([
           ["n0", 1],
@@ -223,9 +265,12 @@ describe("Dataframe column summary", () => {
         numCategories: 3,
       })
     );
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(df.icol(1).summarize()).toEqual(
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect.objectContaining({
         categorical: true,
+        // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
         categories: expect.arrayContaining(["hi", "bye"]),
         categoryCounts: new Map([
           ["hi", 2],
@@ -234,9 +279,12 @@ describe("Dataframe column summary", () => {
         numCategories: 2,
       })
     );
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(df.icol(2).summarize()).toEqual(
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect.objectContaining({
         categorical: true,
+        // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
         categories: expect.arrayContaining([true, false]),
         categoryCounts: new Map([
           [true, 2],
@@ -245,7 +293,9 @@ describe("Dataframe column summary", () => {
         numCategories: 2,
       })
     );
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(df.icol(3).summarize()).toEqual(
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect.objectContaining({
         categorical: false,
         min: float32Conversion(39.3),
@@ -255,7 +305,9 @@ describe("Dataframe column summary", () => {
         pinf: 1,
       })
     );
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(df.icol(4).summarize()).toEqual(
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect.objectContaining({
         categorical: false,
         min: 99,
@@ -265,10 +317,14 @@ describe("Dataframe column summary", () => {
         pinf: 0,
       })
     );
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(df.icol(5).summarize()).toEqual(
+      // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
       expect.objectContaining({
         categorical: true,
+        // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
         categories: expect.arrayContaining([1, false, "0"]),
+        // @ts-expect-error ts-migrate(2769) FIXME: Argument of type '((string | number)[] | (number |... Remove this comment to see the full error message
         categoryCounts: new Map([
           [1, 1],
           [false, 1],

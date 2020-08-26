@@ -1,8 +1,13 @@
+// @ts-expect-error ts-migrate(6200) FIXME: Definitions of the following identifiers conflict ... Remove this comment to see the full error message
 const path = require("path");
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'webpack'.
 const webpack = require("webpack");
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'HtmlWebpac... Remove this comment to see the full error message
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'ScriptExtH... Remove this comment to see the full error message
 const ScriptExtHtmlWebpackPlugin = require("script-ext-html-webpack-plugin");
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'MiniCssExt... Remove this comment to see the full error message
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const { merge } = require("webpack-merge");
@@ -11,6 +16,7 @@ const sharedConfig = require("./webpack.config.shared");
 const babelOptions = require("../babel/babel.dev");
 
 const fonts = path.resolve("src/fonts");
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'nodeModule... Remove this comment to see the full error message
 const nodeModules = path.resolve("node_modules");
 
 const devConfig = {

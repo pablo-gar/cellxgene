@@ -11,7 +11,7 @@ Undoable metareducer and the AnnoMatrix private API.  It would be helpful
 to make the Undoable interface better factored.
 */
 
-const annoMatrixGC = (store) => (next) => (action) => {
+const annoMatrixGC = (store: any) => (next: any) => (action: any) => {
   if (_itIsTimeForGC()) {
     _doGC(store);
   }
@@ -34,7 +34,7 @@ function _itIsTimeForGC() {
   return false;
 }
 
-function _doGC(store) {
+function _doGC(store: any) {
   const state = store.getState();
 
   // these should probably be a function imported from undoable.js, etc, as
@@ -43,8 +43,7 @@ function _doGC(store) {
   const undoableFuture = state["@@undoable/future"];
   const undoableStack = undoablePast
     .concat(undoableFuture)
-    .flatMap((snapshot) =>
-      snapshot.filter((v) => v[0] === "annoMatrix").map((v) => v[1])
+    .flatMap((snapshot: any) => snapshot.filter((v: any) => v[0] === "annoMatrix").map((v: any) => v[1])
     );
   const currentAnnoMatrix = state.annoMatrix;
 
@@ -53,13 +52,14 @@ function _doGC(store) {
   as our current gc algo is more aggressive with those not hot.
   */
   const allAnnoMatrices = new Map(
-    undoableStack.map((m) => [m, { isHot: false }])
+    undoableStack.map((m: any) => [m, { isHot: false }])
   );
   let am = currentAnnoMatrix;
   while (am) {
     allAnnoMatrices.set(am, { isHot: true });
     am = am.viewOf;
   }
+  // @ts-expect-error ts-migrate(2571) FIXME: Object is of type 'unknown'.
   allAnnoMatrices.forEach((hints, annoMatrix) => annoMatrix._gc(hints));
 }
 

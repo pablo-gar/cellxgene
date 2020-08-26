@@ -1,3 +1,4 @@
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/react` if it exists or add... Remove this comment to see the full error message
 import React from "react";
 import {
   Popover,
@@ -7,7 +8,9 @@ import {
 } from "@blueprintjs/core";
 
 export default class MiniHistogram extends React.PureComponent {
-  constructor(props) {
+  canvasRef: any;
+  props: any;
+  constructor(props: any) {
     super(props);
     this.canvasRef = React.createRef();
   }
@@ -39,7 +42,7 @@ export default class MiniHistogram extends React.PureComponent {
     this.drawHistogram();
   };
 
-  componentDidUpdate = (prevProps) => {
+  componentDidUpdate = (prevProps: any) => {
     const { obsOrVarContinuousFieldDisplayName, bins } = this.props;
     if (
       prevProps.obsOrVarContinuousFieldDisplayName !==
@@ -58,6 +61,7 @@ export default class MiniHistogram extends React.PureComponent {
     } = this.props;
 
     return (
+      // @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
       <Popover
         interactionKind={PopoverInteractionKind.HOVER_TARGET_ONLY}
         hoverOpenDelay={1500}
@@ -71,6 +75,7 @@ export default class MiniHistogram extends React.PureComponent {
         usePortal
         popoverClassName={Classes.POPOVER_CONTENT_SIZING}
       >
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         <canvas
           className="bp3-popover-targer"
           style={{
@@ -83,17 +88,25 @@ export default class MiniHistogram extends React.PureComponent {
           height={height}
           ref={this.canvasRef}
         />
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         <div key="text" style={{ fontSize: "14px" }}>
+          {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
           <p style={{ margin: "0" }}>
             This histograms shows the distribution of{" "}
+            {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
             <strong>{obsOrVarContinuousFieldDisplayName}</strong> within{" "}
+            {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
             <strong>{domainLabel}</strong>.
+            {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
             <br />
+            {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
             <br />
             The x axis is the same for each histogram, while the y axis is
             scaled to the largest bin within this histogram instead of the
             largest bin within the whole category.
+          {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
           </p>
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         </div>
       </Popover>
     );

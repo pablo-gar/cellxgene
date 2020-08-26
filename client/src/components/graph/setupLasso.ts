@@ -1,20 +1,20 @@
 // https://bl.ocks.org/pbeshai/8008075f9ce771ee8be39e8c38907570
 
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/d3` if it exists or add a ... Remove this comment to see the full error message
 import * as d3 from "d3";
 import { Colors } from "@blueprintjs/core";
 
 const Lasso = () => {
   const dispatch = d3.dispatch("start", "end", "cancel");
 
-  const lasso = (svg) => {
-    let lassoPolygon;
-    let lassoPath;
-    let closePath;
+  const lasso = (svg: any) => {
+    let lassoPolygon: any;
+    let lassoPath: any;
+    let closePath: any;
 
-    const polygonToPath = (polygon) =>
-      `M${polygon.map((d) => d.join(",")).join("L")}`;
+    const polygonToPath = (polygon: any) => `M${polygon.map((d: any) => d.join(",")).join("L")}`;
 
-    const distance = (pt1, pt2) =>
+    const distance = (pt1: any, pt2: any) =>
       Math.sqrt((pt2[0] - pt1[0]) ** 2 + (pt2[1] - pt1[1]) ** 2);
 
     // distance last point has to be to first point before it auto closes when mouse is released
@@ -106,6 +106,7 @@ const Lasso = () => {
 
     area.call(drag);
 
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'reset' does not exist on type '{ (svg: a... Remove this comment to see the full error message
     lasso.reset = () => {
       if (lassoPath) {
         lassoPath.remove();
@@ -119,8 +120,10 @@ const Lasso = () => {
       }
     };
 
-    lasso.move = (polygon) => {
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'move' does not exist on type '{ (svg: an... Remove this comment to see the full error message
+    lasso.move = (polygon: any) => {
       if (polygon !== lassoPolygon || polygon.length !== lassoPolygon.length) {
+        // @ts-expect-error ts-migrate(2339) FIXME: Property 'reset' does not exist on type '{ (svg: a... Remove this comment to see the full error message
         lasso.reset();
 
         lassoPolygon = polygon;
@@ -137,7 +140,7 @@ const Lasso = () => {
     };
   };
 
-  lasso.on = (type, callback) => {
+  lasso.on = (type: any, callback: any) => {
     dispatch.on(type, callback);
     return lasso;
   };

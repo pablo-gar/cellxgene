@@ -4,6 +4,7 @@
  * and `page` objects
  */
 
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'ENV_DEFAUL... Remove this comment to see the full error message
 const ENV_DEFAULT = require("../environment.default.json");
 
 const jestEnv = process.env.JEST_ENV || ENV_DEFAULT.JEST_ENV;

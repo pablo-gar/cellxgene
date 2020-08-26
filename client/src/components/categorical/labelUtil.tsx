@@ -1,9 +1,10 @@
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/react` if it exists or add... Remove this comment to see the full error message
 import React from "react";
 import { Colors } from "@blueprintjs/core";
 
 import { AnnotationsHelpers } from "../../util/stateManager";
 
-export function isLabelErroneous(label, metadataField, ontology, schema) {
+export function isLabelErroneous(label: any, metadataField: any, ontology: any, schema: any) {
   /*
     return false if this is a LEGAL/acceptable category name or NULL/empty string,
     or return an error type.
@@ -36,12 +37,14 @@ const errorMessageMap = {
   "multi-space-run": "Multiple consecutive spaces not allowed",
 };
 
-export function labelPrompt(err, prolog, epilog) {
+export function labelPrompt(err: any, prolog: any, epilog: any) {
   let errPrompt = null;
   if (err) {
+    // @ts-expect-error ts-migrate(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     let errMsg = errorMessageMap[err] ?? "error";
     errMsg = errMsg[0].toLowerCase() + errMsg.slice(1);
     errPrompt = (
+      // @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message
       <span
         style={{
           marginTop: 7,
@@ -49,15 +52,18 @@ export function labelPrompt(err, prolog, epilog) {
         }}
       >
         {errMsg}
+      {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
       </span>
     );
   }
   return (
+    // @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message
     <span>
       {prolog}
       {err ? " - " : null}
       {errPrompt}
       {epilog}
+    {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
     </span>
   );
 }

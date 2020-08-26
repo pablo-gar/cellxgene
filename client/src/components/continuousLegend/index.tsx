@@ -1,7 +1,11 @@
 // jshint esversion: 6
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/react` if it exists or add... Remove this comment to see the full error message
 import React from "react";
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/react-redux` if it exists ... Remove this comment to see the full error message
 import { connect } from "react-redux";
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/d3` if it exists or add a ... Remove this comment to see the full error message
 import * as d3 from "d3";
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/d3-scale-chromatic` if it ... Remove this comment to see the full error message
 import { interpolateCool } from "d3-scale-chromatic";
 
 import {
@@ -11,7 +15,7 @@ import {
 
 // create continuous color legend
 // http://bl.ocks.org/syntagmatic/e8ccca52559796be775553b467593a9f
-const continuous = (selectorId, colorscale, colorAccessor) => {
+const continuous = (selectorId: any, colorscale: any, colorAccessor: any) => {
   const legendheight = 200;
   const legendwidth = 80;
   const margin = { top: 10, right: 60, bottom: 10, left: 2 };
@@ -47,7 +51,7 @@ const continuous = (selectorId, colorscale, colorAccessor) => {
 
   // image data hackery based on http://bl.ocks.org/mbostock/048d21cf747371b11884f75ad896e5a5
   const image = ctx.createImageData(1, legendheight);
-  d3.range(legendheight).forEach((i) => {
+  d3.range(legendheight).forEach((i: any) => {
     const c = d3.rgb(colorscale(legendscale.invert(i)));
     image.data[4 * i] = c.r;
     image.data[4 * i + 1] = c.g;
@@ -71,7 +75,7 @@ const continuous = (selectorId, colorscale, colorAccessor) => {
     .ticks(6)
     .tickFormat(
       d3.format(
-        legendscale.domain().some((n) => Math.abs(n) >= 10000) ? ".0e" : ","
+        legendscale.domain().some((n: any) => Math.abs(n) >= 10000) ? ".0e" : ","
       )
     );
 
@@ -105,12 +109,20 @@ const continuous = (selectorId, colorscale, colorAccessor) => {
     .text(colorAccessor);
 };
 
+type State = any;
+
+// @ts-expect-error ts-migrate(7006) FIXME: Parameter 'state' implicitly has an 'any' type.
 @connect((state) => ({
   annoMatrix: state.annoMatrix,
   colors: state.colors,
 }))
-class ContinuousLegend extends React.Component {
-  constructor(props) {
+// @ts-expect-error ts-migrate(1219) FIXME: Experimental support for decorators is a feature t... Remove this comment to see the full error message
+class ContinuousLegend extends React.Component<{}, State> {
+  props: any;
+  ref: any;
+  setState: any;
+  state: any;
+  constructor(props: {}) {
     super(props);
     this.ref = null;
     this.state = {
@@ -123,11 +135,11 @@ class ContinuousLegend extends React.Component {
     this.updateState(null);
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: {}) {
     this.updateState(prevProps);
   }
 
-  async updateState(prevProps) {
+  async updateState(prevProps: any) {
     const { annoMatrix, colors } = this.props;
     if (!colors || !annoMatrix) return;
 
@@ -179,9 +191,10 @@ class ContinuousLegend extends React.Component {
       return null;
     }
     return (
+      // @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message
       <div
         id="continuous_legend"
-        ref={(ref) => {
+        ref={(ref: any) => {
           this.ref = ref;
         }}
         style={{

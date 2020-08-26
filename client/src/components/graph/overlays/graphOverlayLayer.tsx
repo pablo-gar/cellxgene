@@ -1,22 +1,29 @@
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/react` if it exists or add... Remove this comment to see the full error message
 import React, { PureComponent, cloneElement } from "react";
 
+// @ts-expect-error ts-migrate(2307) FIXME: Cannot find module '../graph.css' or its correspon... Remove this comment to see the full error message
 import styles from "../graph.css";
 
-export default class GraphOverlayLayer extends PureComponent {
+type State = any;
+
+export default class GraphOverlayLayer extends PureComponent<{}, State> {
+  props: any;
+  setState: any;
+  state: any;
   /*
     This component takes its children (assumed in the data coordinate space ([0, 1] range, origin in bottom left corner))
     and transforms itself multiple times resulting in screen space ([0, screenWidth/Height] range, origin in top left corner)
 
     Children are assigned in the graph component and must implement onDisplayChange()
    */
-  constructor(props) {
+  constructor(props: {}) {
     super(props);
     this.state = {
       display: {},
     };
   }
 
-  matrixToTransformString = (m) => {
+  matrixToTransformString = (m: any) => {
     /* 
       Translates the gl-matrix mat3 to SVG matrix transform style
 
@@ -28,13 +35,13 @@ export default class GraphOverlayLayer extends PureComponent {
     return `matrix(${m[0]} ${m[1]} ${m[3]} ${m[4]} ${m[6]} ${m[7]})`;
   };
 
-  reverseMatrixScaleTransformString = (m) => {
+  reverseMatrixScaleTransformString = (m: any) => {
     return `matrix(${1 / m[0]} 0 0 ${1 / m[4]} 0 0)`;
   };
 
   // This is passed to all children, should be called when an overlay's display state is toggled along with the overlay name and its new display state in boolean form
-  overlaySetShowing = (overlay, displaying) => {
-    this.setState((state) => {
+  overlaySetShowing = (overlay: any, displaying: any) => {
+    this.setState((state: any) => {
       return { ...state, display: { ...state.display, [overlay]: displaying } };
     });
   };
@@ -64,14 +71,14 @@ export default class GraphOverlayLayer extends PureComponent {
     )} scale(1 2) scale(1 ${1 / -height}) scale(2 1) scale(${1 / width} 1)`;
 
     // Copy the children passed with the overlay and add the inverse transform and onDisplayChange props
-    const newChildren = React.Children.map(children, (child) =>
-      cloneElement(child, {
-        inverseTransform,
-        overlaySetShowing: this.overlaySetShowing,
-      })
+    const newChildren = React.Children.map(children, (child: any) => cloneElement(child, {
+      inverseTransform,
+      overlaySetShowing: this.overlaySetShowing,
+    })
     );
 
     return (
+      // @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message
       <svg
         className={styles.graphSVG}
         width={width}
@@ -87,32 +94,43 @@ export default class GraphOverlayLayer extends PureComponent {
         onMouseMove={handleCanvasEvent}
         onWheel={handleCanvasEvent}
       >
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         <g
           id="canvas-transformation-group-x"
           transform={`scale(${width} 1) scale(.5 1) translate(1 0)`}
         >
+          {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
           <g
             id="canvas-transformation-group-y"
             transform={`scale(1 ${-height}) translate(0 -1) scale(1 .5) translate(0 1)`}
           >
+            {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
             <g
               id="projection-transformation-group"
               transform={this.matrixToTransformString(projectionTF)}
             >
+              {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
               <g
                 id="camera-transformation-group"
                 transform={this.matrixToTransformString(cameraTF)}
               >
+                {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
                 <g
                   id="model-transformation-group"
                   transform={this.matrixToTransformString(modelTF)}
                 >
                   {newChildren}
+                {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
                 </g>
+              {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
               </g>
+            {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
             </g>
+          {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
           </g>
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         </g>
+      {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
       </svg>
     );
   }

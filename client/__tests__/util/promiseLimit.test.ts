@@ -1,9 +1,11 @@
 import PromiseLimit from "../../src/util/promiseLimit";
 import { range } from "../../src/util/range";
 
-const delay = (t) => new Promise((resolve) => setTimeout(resolve, t));
+const delay = (t: any) => new Promise((resolve) => setTimeout(resolve, t));
 
+// @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe("PromiseLimit", () => {
+  // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
   test("simple evaluation, concurrency 1", async () => {
     const plimit = new PromiseLimit(1);
     const result = await Promise.all([
@@ -12,9 +14,11 @@ describe("PromiseLimit", () => {
       plimit.add(() => Promise.resolve(3)),
       plimit.add(() => Promise.resolve(4)),
     ]);
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(result).toEqual([1, 2, 3, 4]);
   });
 
+  // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
   test("simple evaluation, concurrency > 1", async () => {
     const plimit = new PromiseLimit(100);
     const result = await Promise.all([
@@ -23,9 +27,11 @@ describe("PromiseLimit", () => {
       plimit.add(() => Promise.resolve(3)),
       plimit.add(() => Promise.resolve(4)),
     ]);
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(result).toEqual([1, 2, 3, 4]);
   });
 
+  // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
   test("eval in order of insertion", async () => {
     const plimit = new PromiseLimit(100);
 
@@ -36,9 +42,11 @@ describe("PromiseLimit", () => {
       plimit.add(() => Promise.resolve(4)),
     ]);
 
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(result).toEqual([1, 2, 3, 4]);
   });
 
+  // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
   test("obeys concurrency limit", async () => {
     const plimit = new PromiseLimit(2);
     let running = 0;
@@ -51,11 +59,14 @@ describe("PromiseLimit", () => {
       running -= 1;
     };
 
-    await Promise.all(range(10).map((i) => plimit.add(() => callback(i))));
+    // @ts-expect-error ts-migrate(2554) FIXME: Expected 3 arguments, but got 1.
+    await Promise.all(range(10).map((i: any) => plimit.add(() => callback(i))));
 
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(maxRunning).toEqual(2);
   });
 
+  // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
   test("rejection", async () => {
     const plimit = new PromiseLimit(2);
     const result = await Promise.all([
@@ -69,9 +80,11 @@ describe("PromiseLimit", () => {
         })
         .catch((e) => e.message),
     ]);
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(result).toEqual(["OK", "not OK", "OK", "not OK"]);
   });
 
+  // @ts-expect-error ts-migrate(2582) FIXME: Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
   test("priority queue", async () => {
     const plimit = new PromiseLimit(1);
 
@@ -91,6 +104,7 @@ describe("PromiseLimit", () => {
       plimit.priorityAdd(-1, callback()),
     ]);
 
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'expect'.
     expect(result).toEqual([0, 4, 2, 3, 1]);
   });
 });

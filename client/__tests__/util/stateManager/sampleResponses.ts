@@ -1,4 +1,6 @@
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/lodash` if it exists or ad... Remove this comment to see the full error message
 import _ from "lodash";
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/flatbuffers` if it exists ... Remove this comment to see the full error message
 import { flatbuffers } from "flatbuffers";
 import { NetEncoding } from "../../../src/util/stateManager/matrix_generated";
 
@@ -73,7 +75,7 @@ const anAnnotationsObsJSONResponse = {
   names: ["name", "field1", "field2", "field3", "field4"],
   data: _()
     .range(nObs)
-    .map((idx) => [
+    .map((idx: any) => [
       idx,
       `obs${idx}`,
       2 * idx,
@@ -89,7 +91,7 @@ const anAnnotationsVarJSONResponse = {
   names: ["fieldA", "fieldB", "fieldC", "fieldD", "name"],
   data: _()
     .range(nVar)
-    .map((idx) => [
+    .map((idx: any) => [
       idx,
       10 * idx,
       idx + 2.90143,
@@ -101,7 +103,7 @@ const anAnnotationsVarJSONResponse = {
     .value(),
 };
 
-function encodeTypedArray(builder, uType, uData) {
+function encodeTypedArray(builder: any, uType: any, uData: any) {
   const uTypeName = NetEncoding.TypedArray[uType];
   const ArrayType = NetEncoding[uTypeName];
   const dv = ArrayType.createDataVector(builder, uData);
@@ -110,7 +112,7 @@ function encodeTypedArray(builder, uType, uData) {
   return builder.endObject();
 }
 
-function encodeMatrix(columns, colIndex = undefined) {
+function encodeMatrix(columns: any, colIndex = undefined) {
   /*
   IMPORTANT: this is not a general purpose encoder.  in particular,
   it doesn't correctly handle all column index types, nor does it
@@ -119,9 +121,10 @@ function encodeMatrix(columns, colIndex = undefined) {
   encodeMatrixFBS in matrix.py is more general.  This is used only
   as a testing santity check (alt implementation).
   */
+  // @ts-expect-error ts-migrate(2554) FIXME: Expected 0 arguments, but got 1.
   const utf8Encoder = new TextEncoder("utf-8");
   const builder = new flatbuffers.Builder(1024);
-  const cols = _.map(columns, (carr) => {
+  const cols = _.map(columns, (carr: any) => {
     let uType;
     let tarr;
     if (_.every(carr, _.isNumber)) {
@@ -168,11 +171,13 @@ function encodeMatrix(columns, colIndex = undefined) {
 
 const anAnnotationsObsFBSResponse = (() => {
   const columns = _.zip(...anAnnotationsObsJSONResponse.data).slice(1);
+  // @ts-expect-error ts-migrate(2345) FIXME: Argument of type 'string[]' is not assignable to p... Remove this comment to see the full error message
   return encodeMatrix(columns, anAnnotationsObsJSONResponse.names);
 })();
 
 const anAnnotationsVarFBSResponse = (() => {
   const columns = _.zip(...anAnnotationsVarJSONResponse.data).slice(1);
+  // @ts-expect-error ts-migrate(2345) FIXME: Argument of type 'string[]' is not assignable to p... Remove this comment to see the full error message
   return encodeMatrix(columns, anAnnotationsVarJSONResponse.names);
 })();
 
@@ -181,6 +186,7 @@ const aLayoutFBSResponse = (() => {
     new Float32Array(nObs).fill(Math.random()),
     new Float32Array(nObs).fill(Math.random()),
   ];
+  // @ts-expect-error ts-migrate(2345) FIXME: Argument of type 'string[]' is not assignable to p... Remove this comment to see the full error message
   return encodeMatrix(coords, ["umap_0", "umap_1"]);
 })();
 
@@ -188,7 +194,7 @@ const aDataObsResponse = {
   var: [2, 4, 29],
   obs: _()
     .range(nObs)
-    .map((idx) => [idx, Math.random(), Math.random(), Math.random()])
+    .map((idx: any) => [idx, Math.random(), Math.random(), Math.random()])
     .value(),
 };
 

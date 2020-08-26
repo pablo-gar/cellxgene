@@ -1,3 +1,4 @@
+// @ts-expect-error ts-migrate(7016) FIXME: Try `npm install @types/react` if it exists or add... Remove this comment to see the full error message
 import React, { cloneElement } from "react";
 import { Tooltip, Position } from "@blueprintjs/core";
 
@@ -30,7 +31,7 @@ const SECOND_HALF_INNER_STYLE = {
   right: 0,
 };
 
-export default (props) => {
+export default (props: any) => {
   const { children } = props;
   // Truncate only support a single child with a text child
 
@@ -67,23 +68,30 @@ export default (props) => {
   };
 
   const truncatedJSX = (
+    // @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message
     <span style={splitStyle}>
+      {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
       <span style={FIRST_HALF_STYLE}>{firstString}</span>
+      {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
       <span style={SECOND_HALF_STYLE}>
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         <span style={SECOND_HALF_SPACING_STYLE}>{secondString}</span>
+        {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
         <span style={secondHalfContentStyle}>{secondString}</span>
+      {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
       </span>
+    {/* @ts-expect-error ts-migrate(7026) FIXME: JSX element implicitly has type 'any' because no i... Remove this comment to see the full error message */}
     </span>
   );
 
   // clone children, changing the children(text) to the truncated string
-  const newChildren = React.Children.map(children, (child) =>
-    cloneElement(child, {
-      children: truncatedJSX,
-      "aria-label": originalString,
-    })
+  const newChildren = React.Children.map(children, (child: any) => cloneElement(child, {
+    children: truncatedJSX,
+    "aria-label": originalString,
+  })
   );
   return (
+    // @ts-expect-error ts-migrate(17004) FIXME: Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
     <Tooltip
       content={originalString}
       hoverOpenDelay={tooltipHoverOpenDelayQuick}

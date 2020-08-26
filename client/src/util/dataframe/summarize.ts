@@ -12,7 +12,7 @@ import { sortArray } from "../typedCrossfilter/sort";
 // [ 0, 0.01, 0.02, ..., 1.0]
 const centileNames = new Array(101).fill(0).map((v, idx) => idx / 100);
 
-export function summarizeContinuous(col) {
+export function summarizeContinuous(col: any) {
   let min;
   let max;
   let nan = 0;
@@ -63,7 +63,7 @@ export function summarizeContinuous(col) {
   };
 }
 
-export function summarizeCategorical(col) {
+export function summarizeCategorical(col: any) {
   const categoryCounts = new Map();
   if (col) {
     for (let r = 0, l = col.length; r < l; r += 1) {
@@ -75,6 +75,7 @@ export function summarizeCategorical(col) {
   }
   return {
     categorical: true,
+    // @ts-expect-error ts-migrate(2569) FIXME: Type 'IterableIterator<any>' is not an array type ... Remove this comment to see the full error message
     categories: [...categoryCounts.keys()],
     categoryCounts,
     numCategories: categoryCounts.size,

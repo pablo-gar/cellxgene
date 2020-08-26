@@ -4,7 +4,7 @@ const Autosave = (
     error: false,
     lastSavedAnnoMatrix: null,
   },
-  action
+  action: any
 ) => {
   switch (action.type) {
     case "annoMatrix: init complete": {
