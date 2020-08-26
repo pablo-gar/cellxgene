@@ -6,7 +6,6 @@ import { categoryLabelDisplayStringLongLength } from "../../../globals";
 import calcCentroid from "../../../util/centroid";
 import { createColorQuery } from "../../../util/stateManager/colorHelpers";
 
-export default
 @connect((state) => ({
   annoMatrix: state.annoMatrix,
   colors: state.colors,
@@ -215,3 +214,4 @@ const Label = ({
     </g>
   );
 };
+export default CentroidLabels;
