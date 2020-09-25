@@ -7,46 +7,58 @@ description: Roadmap
 # Roadmap
 
 cellxgene makes it easier for biologists to collaboratively explore and understand their single-cell RNA-seq data.
-In the near term, we are focused on continuing to enable fast, interactive exploration of single-cell data, supporting collaborative workflows in single-cell analysis, and improving user support.
+In the near term, we have two foci: continuing to enable fast, interactive exploration of single-cell data, and creating a free public data hosting service that will provide data download and exploration for single cell publications.
+
 If you have questions or feedback about this roadmap, please submit an issue on GitHub.
+
 Please note: this roadmap is subject to change.
 
-Last updated: June 25, 2019
+Last updated: Sep 25, 2020
 
-## Fast, interactive exploration of single-cell data
+## Prioritized Themes
 
-### Exposing Relationships Between Metadata and Data
-Biologists need to understand how variables (stored in metadata) are associated with one another and how they relate to changes in gene expression.
-Building upon visualization features that reveal categorical metadata relationships (cluster occupancy) and gene expression relationships (scatterplot), we plan to add exploratory visualization components that enable investigation of relationships between metadata and gene expression.
-See [issue #616](https://github.com/chanzuckerberg/cellxgene/issues/616) for more details.
+### Cellxgene support for gene sets
+Biology is modular, and single cell data is sparse. 
+As a result, it is often beneficial to examine datasets using groups of genes which are known to be co-expressed towards a common purpose. 
+We will add support for creation, import, and export, and display of gene sets. For more details see [chanzuckerberg/single-cell#15](https://github.com/chanzuckerberg/single-cell/issues/15) 
 
-### Contextualizing Genes
-While exploring a transcriptomics dataset, scientists need to understand the biological context of genes.
-This context may be provided by user-defined gene metadata or publicly available gene databases.
-We plan to support augmenting gene names with additional information that is useful to biologists.
-See [issue #96](https://github.com/chanzuckerberg/cellxgene/issues/96) for more detail.
+### Improve marker gene discovery
+When searching for genes that differentiate populations of cells, the key genes may not always be one of the 15 most 
+differentially expressed. In addition, scientists need to be able to identify genes that are present _and absent_ in a
+given population, and to be able to store and export the genes they discover. We plan to adjust differential expression 
+to optionally return a larger number of genes, return genes that have higher and lower expression, and return 
+differential expression results as a gene set. See [Signe#TBD]() for more details.
 
-## Support collaborative workflows in single-cell analysis
+### Explore gene sets by categorical metadata (Heatmap, Dotplot) 
+cellxgene enables scientists to switch back and forth between contextualizing cells by the expression of genes and the metadata of cells. 
+However, it is often useful to be able to examine the expression of specific sets of genes across _all_ the cells of a category, for example, across clusters, donors, or replicates. We will implement a new primary heatmap/dotplot view that displays the average expression of set(s) of genes against the values of a category. See [chanzuckerberg/cellxgene#632](https://github.com/chanzuckerberg/cellxgene/issues/632) for more details.  
 
-### Manual Annotations
-cellxgene offers exploratory visualizations that are critical for manual annotation workflows, especially in collaborative environments.
-We plan to support manually annotating cells with labels (i.e., cell type or QC flags), and their easy export for downstream analysis.
-See [issue #524](https://github.com/chanzuckerberg/cellxgene/issues/524) for more details.
+### Hosted cellxgene
+Cellxgene is commonly deployed on web servers to create explorable interfaces to data published in journal articles. 
+We've decided to support this use case by creating a hosted cellxgene deployment that CZI will operate. 
+The hosted cellxgene platform will operate with an identical feature set to the desktop platform, and both desktop and hosted versions will be maintained. 
+We will enable self-publication in the future. For now, if you have a dataset you would like us to host, please contact us at [cellxgene@chanzuckerberg.com](mailto:cellxgene@chanzuckerberg.com). To view the current prototype, see [cziscience.cellxgene.com](https://cellxgene.cziscience.com) 
 
-### Simple Click to Launch [Paused]
+### cellxgene schema
+To enable datasets hosted by cellxgene to be easily discovered and to enable datasets that share characteristics to be integrated, we will establish a common schema that data on the platform must adhere to. 
+Recognizing that metadata that are critical to some studies, but irrelevant to others, cellxgene's schema is designed to be minimal and will only contain features that are needed to enable datasets to be combined or enable core features of cellxgene.
+We are very interested in feedback on [the schema](https://github.com/chanzuckerberg/corpora-data-portal/blob/main/backend/schema/corpora_schema.md). 
+The feedback we have already received has greatly improved it. 
+If you have suggestions, please submit an issue on Github. 
 
-Many biologists prefer not to interact with the command line and need an OS-native experience when using cellxgene.
-We plan to implement a point-and-click installation and launch experience so that users can easily load data into cellxgene.
-See [issue #687](https://github.com/chanzuckerberg/cellxgene/issues/687) for details.
+## Explorations
 
-### Python API [Paused]
-For computational biologists, saving h5ad files then loading them into cellxgene is a point of friction.
-We plan to support importing cellxgene as a Python package so that users can launch cellxgene directly from an interactive environment (such as Jupyter, IPython, or Spyder), and pass data to and from the cellxgene UI.
-
-## Improving user support
+### Publication pages
+Scientists are increasingly generating companion websites for their publications. They provide links to more data, and 
+enable a rich description and contextualization of how data should be thought about and can provide tips on re-use. 
+We are exploring whether it would be possible to offer custom publication pages on hosted cellxgene. 
 
 ### Improved documentation
-cellxgene has some specific expectations about how data is stored.
-We want to ensure that new users can get started easily and learn how to use cellxgene with their own data.
-We plan to improve documentation on getting started, installation, data, and contributing.
-See [issue #533](https://github.com/chanzuckerberg/cellxgene/issues/533) for more details.
+As cellxgene is increasingly being used to host published datasets, we will exploring whether there are different 
+features that cellxgene could to support to import the _reusability_ of data, or if there are key tutorials that we could 
+ generate that would help reviewers or other scientists to understand how cellxgene should be used to assess data. 
+ 
+## Fine prioritization
+The cellxgene team sprint backlog is publicly viewable on [zenhub](https://app.zenhub.com/workspaces/single-cell-5e2a191dad828d52cc78b028/board?labels=epic&repos=105615409,228681195,245246384,280546849&showPipelineDescriptions=false&showReleases=false). 
+The Epic column, read top to bottom, shows the order that work will be completed. 
+You will need to log in with your github account to gain access. 
