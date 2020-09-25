@@ -17,7 +17,7 @@ Last updated: Sep 25, 2020
 
 ## Prioritized Themes
 
-### Cellxgene support for gene sets
+### cellxgene support for gene sets
 Biology is modular, and single cell data is sparse. 
 As a result, it is often beneficial to examine datasets using groups of genes which are known to be co-expressed towards a common purpose. 
 We will add support for creation, import, and export, and display of gene sets. For more details see [chanzuckerberg/single-cell#15](https://github.com/chanzuckerberg/single-cell/issues/15) 
@@ -34,7 +34,7 @@ cellxgene enables scientists to switch back and forth between contextualizing ce
 However, it is often useful to be able to examine the expression of specific sets of genes across _all_ the cells of a category, for example, across clusters, donors, or replicates. We will implement a new primary heatmap/dotplot view that displays the average expression of set(s) of genes against the values of a category. See [chanzuckerberg/cellxgene#632](https://github.com/chanzuckerberg/cellxgene/issues/632) for more details.  
 
 ### Hosted cellxgene
-Cellxgene is commonly deployed on web servers to create explorable interfaces to data published in journal articles. 
+cellxgene is commonly deployed on web servers to create explorable interfaces to data published in journal articles. 
 We've decided to support this use case by creating a hosted cellxgene deployment that CZI will operate. 
 The hosted cellxgene platform will operate with an identical feature set to the desktop platform, and both desktop and hosted versions will be maintained. 
 We will enable self-publication in the future. For now, if you have a dataset you would like us to host, please contact us at [cellxgene@chanzuckerberg.com](mailto:cellxgene@chanzuckerberg.com). To view the current prototype, see [cziscience.cellxgene.com](https://cellxgene.cziscience.com) 
@@ -55,7 +55,7 @@ We are exploring whether it would be possible to offer custom publication pages 
 
 ### Improved documentation
 As cellxgene is increasingly being used to host published datasets, we will exploring whether there are different 
-features that cellxgene could to support to import the _reusability_ of data, or if there are key tutorials that we could 
+features that cellxgene could to support to improve the _reusability_ of data, or if there are key tutorials that we could 
  generate that would help reviewers or other scientists to understand how cellxgene should be used to assess data. 
  
 ## Fine prioritization
