@@ -15,7 +15,7 @@ Please note: this roadmap is subject to change.
 
 Last updated: Sep 25, 2020
 
-## Prioritized Themes
+## Prioritized Work
 
 ### cellxgene support for gene sets
 Biology is modular, and single cell data is sparse. 
@@ -58,7 +58,7 @@ As cellxgene is increasingly being used to host published datasets, we will expl
 features that cellxgene could to support to improve the _reusability_ of data, or if there are key tutorials that we could 
  generate that would help reviewers or other scientists to understand how cellxgene should be used to assess data. 
  
-## Fine prioritization
+## Backlog
 The cellxgene team sprint backlog is publicly viewable on [zenhub](https://app.zenhub.com/workspaces/single-cell-5e2a191dad828d52cc78b028/board?labels=epic&repos=105615409,228681195,245246384,280546849&showPipelineDescriptions=false&showReleases=false). 
 The Epic column, read top to bottom, shows the order that work will be completed. 
 You will need to log in with your github account to gain access. 
