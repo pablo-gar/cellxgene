@@ -16,10 +16,10 @@
 <meta property="og:url" content="https://chanzuckerberg.github.io/cellxgene/posts/roadmap.html" />
 <meta property="og:site_name" content="cellxgene" />
 <script type="application/ld+json">
-{"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://chanzuckerberg.github.io/cellxgene/cellxgene-logo.png"}},"description":"Roadmap","@type":"WebPage","headline":"roadmap","url":"https://chanzuckerberg.github.io/cellxgene/posts/roadmap.html","@context":"https://schema.org"}</script>
+{"@type":"WebPage","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://chanzuckerberg.github.io/cellxgene/cellxgene-logo.png"}},"headline":"roadmap","description":"Roadmap","url":"https://chanzuckerberg.github.io/cellxgene/posts/roadmap.html","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
-    <link rel="stylesheet" href="/cellxgene/assets/css/style.css?v=6bda27f5542fb7f469425e1cd99f2f37268b095f">
+    <link rel="stylesheet" href="/cellxgene/assets/css/style.css?v=8fb292c6f13ef581cfb0c38c8ad0f12f80978596">
     <!--[if lt IE 9]>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
     <![endif]-->
@@ -98,49 +98,62 @@
       <h1 id="roadmap">Roadmap</h1>
 
 <p>cellxgene makes it easier for biologists to collaboratively explore and understand their single-cell RNA-seq data.
-In the near term, we are focused on continuing to enable fast, interactive exploration of single-cell data, supporting collaborative workflows in single-cell analysis, and improving user support.
-If you have questions or feedback about this roadmap, please submit an issue on GitHub.
-Please note: this roadmap is subject to change.</p>
+In the near term, we have two foci: continuing to enable fast, interactive exploration of single-cell data, and creating a free public data hosting service that will provide data download and exploration for single cell publications.</p>
 
-<p>Last updated: June 25, 2019</p>
+<p>If you have questions or feedback about this roadmap, please submit an issue on GitHub.</p>
 
-<h2 id="fast-interactive-exploration-of-single-cell-data">Fast, interactive exploration of single-cell data</h2>
+<p>Please note: this roadmap is subject to change.</p>
 
-<h3 id="exposing-relationships-between-metadata-and-data">Exposing Relationships Between Metadata and Data</h3>
-<p>Biologists need to understand how variables (stored in metadata) are associated with one another and how they relate to changes in gene expression.
-Building upon visualization features that reveal categorical metadata relationships (cluster occupancy) and gene expression relationships (scatterplot), we plan to add exploratory visualization components that enable investigation of relationships between metadata and gene expression.
-See <a href="https://github.com/chanzuckerberg/cellxgene/issues/616">issue #616</a> for more details.</p>
+<p>Last updated: Sep 25, 2020</p>
 
-<h3 id="contextualizing-genes">Contextualizing Genes</h3>
-<p>While exploring a transcriptomics dataset, scientists need to understand the biological context of genes.
-This context may be provided by user-defined gene metadata or publicly available gene databases.
-We plan to support augmenting gene names with additional information that is useful to biologists.
-See <a href="https://github.com/chanzuckerberg/cellxgene/issues/96">issue #96</a> for more detail.</p>
+<h2 id="prioritized-work">Prioritized Work</h2>
 
-<h2 id="support-collaborative-workflows-in-single-cell-analysis">Support collaborative workflows in single-cell analysis</h2>
+<h3 id="cellxgene-support-for-gene-sets">cellxgene support for gene sets</h3>
+<p>Biology is modular, and single cell data is sparse. 
+As a result, it is often beneficial to examine datasets using groups of genes which are known to be co-expressed towards a common purpose. 
+We will add support for creation, import, and export, and display of gene sets. For more details see <a href="https://github.com/chanzuckerberg/single-cell/issues/15">chanzuckerberg/single-cell#15</a></p>
 
-<h3 id="manual-annotations">Manual Annotations</h3>
-<p>cellxgene offers exploratory visualizations that are critical for manual annotation workflows, especially in collaborative environments.
-We plan to support manually annotating cells with labels (i.e., cell type or QC flags), and their easy export for downstream analysis.
-See <a href="https://github.com/chanzuckerberg/cellxgene/issues/524">issue #524</a> for more details.</p>
+<h3 id="improve-marker-gene-discovery">Improve marker gene discovery</h3>
+<p>When searching for genes that differentiate populations of cells, the key genes may not always be one of the 15 most 
+differentially expressed. In addition, scientists need to be able to identify genes that are present <em>and absent</em> in a
+given population, and to be able to store and export the genes they discover. We plan to adjust differential expression 
+to optionally return a larger number of genes, return genes that have higher and lower expression, and return 
+differential expression results as a gene set. See <a href="">Signe#TBD</a> for more details.</p>
 
-<h3 id="simple-click-to-launch-paused">Simple Click to Launch [Paused]</h3>
+<h3 id="explore-gene-sets-by-categorical-metadata-heatmap-dotplot">Explore gene sets by categorical metadata (Heatmap, Dotplot)</h3>
+<p>cellxgene enables scientists to switch back and forth between contextualizing cells by the expression of genes and the metadata of cells. 
+However, it is often useful to be able to examine the expression of specific sets of genes across <em>all</em> the cells of a category, for example, across clusters, donors, or replicates. We will implement a new primary heatmap/dotplot view that displays the average expression of set(s) of genes against the values of a category. See <a href="https://github.com/chanzuckerberg/cellxgene/issues/632">chanzuckerberg/cellxgene#632</a> for more details.</p>
 
-<p>Many biologists prefer not to interact with the command line and need an OS-native experience when using cellxgene.
-We plan to implement a point-and-click installation and launch experience so that users can easily load data into cellxgene.
-See <a href="https://github.com/chanzuckerberg/cellxgene/issues/687">issue #687</a> for details.</p>
+<h3 id="hosted-cellxgene">Hosted cellxgene</h3>
+<p>cellxgene is commonly deployed on web servers to create explorable interfaces to data published in journal articles. 
+We’ve decided to support this use case by creating a hosted cellxgene deployment that CZI will operate. 
+The hosted cellxgene platform will operate with an identical feature set to the desktop platform, and both desktop and hosted versions will be maintained. 
+We will enable self-publication in the future. For now, if you have a dataset you would like us to host, please contact us at <a href="mailto:cellxgene@chanzuckerberg.com">cellxgene@chanzuckerberg.com</a>. To view the current prototype, see <a href="https://cellxgene.cziscience.com">cziscience.cellxgene.com</a></p>
 
-<h3 id="python-api-paused">Python API [Paused]</h3>
-<p>For computational biologists, saving h5ad files then loading them into cellxgene is a point of friction.
-We plan to support importing cellxgene as a Python package so that users can launch cellxgene directly from an interactive environment (such as Jupyter, IPython, or Spyder), and pass data to and from the cellxgene UI.</p>
+<h3 id="cellxgene-schema">cellxgene schema</h3>
+<p>To enable datasets hosted by cellxgene to be easily discovered and to enable datasets that share characteristics to be integrated, we will establish a common schema that data on the platform must adhere to. 
+Recognizing that metadata that are critical to some studies, but irrelevant to others, cellxgene’s schema is designed to be minimal and will only contain features that are needed to enable datasets to be combined or enable core features of cellxgene.
+We are very interested in feedback on <a href="https://github.com/chanzuckerberg/corpora-data-portal/blob/main/backend/schema/corpora_schema.md">the schema</a>. 
+The feedback we have already received has greatly improved it. 
+If you have suggestions, please submit an issue on Github.</p>
 
-<h2 id="improving-user-support">Improving user support</h2>
+<h2 id="explorations">Explorations</h2>
+
+<h3 id="publication-pages">Publication pages</h3>
+<p>Scientists are increasingly generating companion websites for their publications. These websites provide links to more 
+data, and provide a rich description and contextualization of how data should be reused. 
+We are exploring whether it would be possible to offer custom publication pages for datasets hosted by cellxgene.</p>
 
 <h3 id="improved-documentation">Improved documentation</h3>
-<p>cellxgene has some specific expectations about how data is stored.
-We want to ensure that new users can get started easily and learn how to use cellxgene with their own data.
-We plan to improve documentation on getting started, installation, data, and contributing.
-See <a href="https://github.com/chanzuckerberg/cellxgene/issues/533">issue #533</a> for more details.</p>
+<p>cellxgene is increasingly being used to host published datasets. We will explore whether there are different 
+features that cellxgene could to support to improve the <em>reusability</em> of data, or if there are key tutorials that we could 
+generate that would help reviewers or other scientists to understand how cellxgene should be used to assess data 
+generated by others.</p>
+
+<h2 id="backlog">Backlog</h2>
+<p>The cellxgene team sprint backlog is publicly viewable on <a href="https://app.zenhub.com/workspaces/single-cell-5e2a191dad828d52cc78b028/board?labels=epic&amp;repos=105615409,228681195,245246384,280546849&amp;showPipelineDescriptions=false&amp;showReleases=false">zenhub</a>. 
+The Epic column, read top to bottom, shows the order that work will be completed. 
+You will need to log in with your github account to gain access.</p>
 
       </section>
       <footer>
