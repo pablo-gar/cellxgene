@@ -312,4 +312,56 @@ export async function assertCategoryDoesNotExist(categoryName) {
 
   await expect(result).toBe(false);
 }
+
+async function waitUntilFormField(field) {
+  const MAX_RETRY = 10;
+  const WAIT_FOR_MS = 200;
+
+  const EXPECTED_VALUE = "aaa";
+
+  let retry = 0;
+
+  while (retry < MAX_RETRY) {
+    try {
+      await expect(page).toFill(field, EXPECTED_VALUE);
+
+      const fieldHandle = await expect(page).toMatchElement(field);
+
+      const fieldValue = await page.evaluate(
+        (input) => input.value,
+        fieldHandle
+      );
+
+      expect(fieldValue).toBe(EXPECTED_VALUE);
+
+      break;
+    } catch (error) {
+      retry += 1;
+
+      await page.waitFor(WAIT_FOR_MS);
+    }
+  }
+
+  if (retry === MAX_RETRY) {
+    throw Error("clickOnUntil() assertion failed!");
+  }
+}
+
+export async function login() {
+  const email = `cellxgene-smoke-test+${process.env.DEPLOYMENT_STAGE}@chanzuckerberg.com`;
+  const password = "Test1111";
+
+  // (thuang): Auth0 form is unstable and unsafe for input until verified
+  await waitUntilFormField('[name="email"]');
+
+  await expect(page).toFillForm("form", {
+    email,
+    password,
+  });
+
+  await Promise.all([
+    expect(page).toMatchElement(getTestId("visualization-settings")),
+    expect(page).toClick('[name="submit"]'),
+  ]);
+}
 /* eslint-enable no-await-in-loop -- await in loop is needed to emulate sequential user actions */
