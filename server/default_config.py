@@ -182,6 +182,7 @@ dataset:
   presentation:
     max_categories: 1000
     custom_colors: true
+    hidden_annotations: []
 
   user_annotations:
     enable: true

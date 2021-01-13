@@ -25,6 +25,7 @@ class DatasetConfig(BaseConfig):
 
             self.presentation__max_categories = default_config["presentation"]["max_categories"]
             self.presentation__custom_colors = default_config["presentation"]["custom_colors"]
+            self.presentation__hidden_annotations = default_config["presentation"]["hidden_annotations"]
 
             self.user_annotations__enable = default_config["user_annotations"]["enable"]
             self.user_annotations__type = default_config["user_annotations"]["type"]
@@ -88,6 +89,7 @@ class DatasetConfig(BaseConfig):
     def handle_presentation(self):
         self.validate_correct_type_of_configuration_attribute("presentation__max_categories", int)
         self.validate_correct_type_of_configuration_attribute("presentation__custom_colors", bool)
+        self.validate_correct_type_of_configuration_attribute("presentation__hidden_annotations", list)
 
     def handle_user_annotations(self, context):
         self.validate_correct_type_of_configuration_attribute("user_annotations__enable", bool)

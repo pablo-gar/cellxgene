@@ -154,6 +154,13 @@ def dataset_args(func):
         metavar="<URL>",
         help="URL providing more information about the dataset (hint: must be a fully specified absolute URL).",
     )
+    @click.option(
+        "--drop-obs-field",
+        "-drop",
+        multiple=True,
+        metavar="<text>",
+        help="Annotation field to drop from display in cellxgene.",
+    )
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
         return func(*args, **kwargs)
@@ -322,6 +329,7 @@ def launch(
     title,
     scripts,
     about,
+    drop_obs_field,
     disable_annotations,
     annotations_file,
     annotations_dir,
@@ -393,6 +401,7 @@ def launch(
             user_annotations__ontology__obo_location=experimental_annotations_ontology_obo,
             presentation__max_categories=max_category_items,
             presentation__custom_colors=not disable_custom_colors,
+            presentation__hidden_annotations=drop_obs_field,
             embeddings__names=embedding,
             embeddings__enable_reembedding=experimental_enable_reembedding,
             diffexp__enable=not disable_diffexp,

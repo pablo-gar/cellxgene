@@ -110,6 +110,12 @@ def schema_get_helper(data_adaptor):
         label_schema = annotations.get_schema(data_adaptor)
         schema["annotations"]["obs"]["columns"].extend(label_schema)
 
+    schema["annotations"]["obs"]["columns"] = [
+        c
+        for c in schema["annotations"]["obs"]["columns"]
+        if c["name"] not in data_adaptor.dataset_config.presentation__hidden_annotations
+    ]
+
     return schema
 
 
